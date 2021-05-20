@@ -50,6 +50,7 @@ public  final class Movimiento  implements
                 }
             }
         });
+	robot.addOnLoadMapStatusChangedListener(this);
     }
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) {
