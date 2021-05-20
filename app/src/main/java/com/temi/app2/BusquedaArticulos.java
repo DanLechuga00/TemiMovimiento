@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 public class BusquedaArticulos extends AppCompatActivity {
 
     TTSManager ttsManager = null;
+    Movimiento movimiento = null;
 
     private ImageButton btnRefresco, btnVinosLicores, btnDulceria, btnBack1;
 
@@ -21,6 +22,8 @@ public class BusquedaArticulos extends AppCompatActivity {
         ttsManager = new TTSManager();
         ttsManager.init(this);
 
+        movimiento = new Movimiento(this, BusquedaArticulos.this);
+
         btnRefresco = findViewById(R.id.btnRefresco);
         btnVinosLicores = findViewById(R.id.btnVinosLicores);
         btnDulceria = findViewById(R.id.btnDulceria);
@@ -30,6 +33,7 @@ public class BusquedaArticulos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ttsManager.initQueue("Los refrescos se encuentran en el pasillo 1; sígame y le muestro su ubicación");
+                movimiento.goTo("uno");
             }
         });
 
@@ -37,6 +41,7 @@ public class BusquedaArticulos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ttsManager.initQueue("Los vinos y licores se encuentran en el pasillo 2; sígame y le muestro su ubicación");
+                movimiento.goTo("dos");
             }
         });
 
@@ -44,6 +49,7 @@ public class BusquedaArticulos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ttsManager.initQueue("La dulceria se encuentra en el pasillo 3; sígame y le muestro su ubicación");
+                movimiento.goTo("tres");
             }
         });
 
