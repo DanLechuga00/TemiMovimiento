@@ -34,7 +34,7 @@ public  final class Movimiento  implements
     public TextToSpeech textToSpeech;
     public  Context context;
     public  MainActivity main;
-    public  Movimiento(Context context, MainActivity main){
+    public  Movimiento(Context context, BusquedaArticulos busquedaArticulos){
         this.context = context;
         this.main = main;
         robot = Robot.getInstance();
