@@ -22,7 +22,7 @@ public class BusquedaArticulos extends AppCompatActivity {
         ttsManager = new TTSManager();
         ttsManager.init(this);
 
-        movimiento = new Movimiento(this, BusquedaArticulos.this);
+        movimiento = new Movimiento(this, BusquedaArticulos.this,ttsManager);
 
         btnRefresco = findViewById(R.id.btnRefresco);
         btnVinosLicores = findViewById(R.id.btnVinosLicores);

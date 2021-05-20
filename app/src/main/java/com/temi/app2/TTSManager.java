@@ -42,7 +42,7 @@ public class TTSManager {
 
     public void addQueue(String text){
         if (isLoaded){
-            aTts.speak(text,TextToSpeech.QUEUE_ADD, null);
+            aTts.speak(text,TextToSpeech.QUEUE_ADD, null,"");
         }else {
             Log.e("error", "El TTS no se esta utilizando");
         }
@@ -50,7 +50,7 @@ public class TTSManager {
 
     public void initQueue(String text){
         if (isLoaded){
-            aTts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            aTts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"");
         }else {
             Log.e("error", "El TTS no se esta utilizando");
         }
