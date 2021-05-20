@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App2">
+        <activity android:name=".Option_Recomendation"></activity>
+        <activity android:name=".BusquedaArticulos" />
+        <activity android:name=".Option_Accion" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
