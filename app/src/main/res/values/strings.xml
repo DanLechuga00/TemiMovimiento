@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">App2</string>
+    <string name="txt_bnv">Esta pantalla no se ve</string>
+    <string name="txt_location">Ingresa la ubicacion</string>
+    <string name="btn_ubicacion">Ir a la ubicacion</string>
+
+</resources>
