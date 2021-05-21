@@ -112,4 +112,11 @@ public  final class Movimiento  implements
             }
         }
     }
+    public void bailar(){
+        long t = System.currentTimeMillis();
+        long end = t + 5000;
+        while (end < System.currentTimeMillis()){
+            robot.skidJoy(0F,1F);
+        }
+    }
 }
