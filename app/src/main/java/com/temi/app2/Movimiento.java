@@ -31,45 +31,35 @@ public  final class Movimiento  implements
         OnLoadMapStatusChangedListener,
         OnRobotReadyListener {
     public Robot robot;
-    public TextToSpeech textToSpeech;
+
+    public  TTSManager ttsManager;
     public  Context context;
-    public  MainActivity main;
-    public  Movimiento(Context context, BusquedaArticulos busquedaArticulos){
+    public  BusquedaArticulos main;
+    public  Movimiento(Context context, BusquedaArticulos busquedaArticulos, TTSManager ttsManager){
         this.context = context;
-        this.main = main;
+        this.main = busquedaArticulos;
         robot = Robot.getInstance();
-        textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status == TextToSpeech.SUCCESS){
-                   int result = textToSpeech.setLanguage(new Locale("es","US"));
-                   if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
-                       System.out.println("Idioma no soportado");
-                       Log.d("Lenguaje","Idioma no soportado");
-                   }
-                }
-            }
-        });
-	robot.addOnLoadMapStatusChangedListener(this);
+        this.ttsManager = ttsManager;
+       	robot.addOnLoadMapStatusChangedListener(this);
     }
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) {
-        textToSpeech.speak(description, TextToSpeech.QUEUE_FLUSH, null, "");
+        ttsManager.addQueue(description);
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
-                textToSpeech.speak("Iniciando", TextToSpeech.QUEUE_FLUSH, null, "");
+                ttsManager.addQueue("Iniciando");
                 break;
             case OnGoToLocationStatusChangedListener.CALCULATING:
-                textToSpeech.speak("Calculando", TextToSpeech.QUEUE_FLUSH, null, "");
+                ttsManager.addQueue("Calculando");
                 break;
             case OnGoToLocationStatusChangedListener.GOING:
-                textToSpeech.speak("Caminando", TextToSpeech.QUEUE_FLUSH, null, "");
+                ttsManager.addQueue("Caminando");
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
-                textToSpeech.speak("Completado", TextToSpeech.QUEUE_FLUSH, null, "");
+                ttsManager.addQueue("Completado");
                 break;
             case OnGoToLocationStatusChangedListener.ABORT:
-                textToSpeech.speak("Abortando", TextToSpeech.QUEUE_FLUSH, null, "");
+                ttsManager.addQueue("Abortando");
                 break;
 
         }

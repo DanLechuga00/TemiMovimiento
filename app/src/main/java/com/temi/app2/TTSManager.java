@@ -18,20 +18,17 @@ public class TTSManager {
         }
     }
 
-    private TextToSpeech.OnInitListener onInitListener = new TextToSpeech.OnInitListener() {
-        @Override
-        public void onInit(int status) {
-            Locale spanish = new Locale("es", "MX");
-            if (status == TextToSpeech.SUCCESS){
-                int result = aTts.setLanguage(spanish);
-                isLoaded = true;
+    private TextToSpeech.OnInitListener onInitListener = status -> {
+        Locale spanish = new Locale("es", "MX");
+        if (status == TextToSpeech.SUCCESS){
+            int result = aTts.setLanguage(spanish);
+            isLoaded = true;
 
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
-                    Log.e("error", "Este leguaje no esta permitido");
-                }
-                else {
-                    Log.e("error", "Fallo al Inicializar");
-                }
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("error", "Este leguaje no esta permitido");
+            }
+            else {
+                Log.e("error", "Fallo al Inicializar");
             }
         }
     };
@@ -42,7 +39,7 @@ public class TTSManager {
 
     public void addQueue(String text){
         if (isLoaded){
-            aTts.speak(text,TextToSpeech.QUEUE_ADD, null);
+            aTts.speak(text,TextToSpeech.QUEUE_ADD, null,"");
         }else {
             Log.e("error", "El TTS no se esta utilizando");
         }
@@ -50,7 +47,7 @@ public class TTSManager {
 
     public void initQueue(String text){
         if (isLoaded){
-            aTts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            aTts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"");
         }else {
             Log.e("error", "El TTS no se esta utilizando");
         }
