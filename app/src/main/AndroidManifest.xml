@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <meta-data
+          android:name="com.robotemi.sdk.metadata.SKILL"
+            android:value="@string/app_name"
+            />
         <activity android:name=".Option_Recomendation"></activity>
         <activity android:name=".BusquedaArticulos" />
         <activity android:name=".Option_Accion" />
