@@ -51,7 +51,7 @@ public class BusquedaArticulos extends AppCompatActivity {
                         //ttsManager.addQueue("Caminando");
                         break;
                     case OnGoToLocationStatusChangedListener.COMPLETE:
-                        ttsManager.addQueue("En este pasillo se encuentra su artículo");
+                        ttsManager.initQueue("En este pasillo se encuentra su artículo");
                         break;
                     case OnGoToLocationStatusChangedListener.ABORT:
                         //ttsManager.addQueue("Abortando");
