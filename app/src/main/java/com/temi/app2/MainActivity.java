@@ -23,13 +23,11 @@ public class MainActivity extends AppCompatActivity {
         ttsManager.init(this);
 
         btnHelp = findViewById(R.id.help);
-        btnHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("Buen día ¿En qué le puedo ayudar?");
-                Intent sig = new Intent(MainActivity.this, Option_Accion.class);
-                startActivity(sig);
-            }
+        btnHelp.setOnClickListener(v -> {
+            ttsManager.initQueue("Buen día ¿En qué le puedo ayudar?");
+            Intent sig = new Intent(MainActivity.this, Option_Accion.class);
+            startActivity(sig);
         });
     }
+
 }
