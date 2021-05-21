@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
@@ -30,18 +32,22 @@ public  final class Movimiento  implements
         OnReposeStatusChangedListener,
         OnLoadMapStatusChangedListener,
         OnRobotReadyListener {
-    public Robot robot;
 
+    public Robot robot;
     public  TTSManager ttsManager;
     public  Context context;
-    public  BusquedaArticulos main;
-    public  Movimiento(Context context, BusquedaArticulos busquedaArticulos, TTSManager ttsManager){
+    public  AppCompatActivity main;
+
+    public  Movimiento(Context context, AppCompatActivity main , TTSManager ttsManager){
         this.context = context;
-        this.main = busquedaArticulos;
+        this.main = main;
         robot = Robot.getInstance();
         this.ttsManager = ttsManager;
        	robot.addOnLoadMapStatusChangedListener(this);
     }
+
+
+
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) {
         ttsManager.addQueue(description);
