@@ -21,6 +21,7 @@ public class Option_Recomendation extends AppCompatActivity {
         ttsManager = new TTSManager();
         ttsManager.init(this);
 
+
         btnPareja = findViewById(R.id.btnPareja);
         btnAmigos = findViewById(R.id.btnAmigos);
         btnBack2 = findViewById(R.id.btnBack2);
