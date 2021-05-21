@@ -11,7 +11,7 @@ public class Option_Accion extends AppCompatActivity {
 
     TTSManager ttsManager = null;
 
-    private ImageButton btnDonde, btnRecomendacion, btnHome;
+    private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class Option_Accion extends AppCompatActivity {
         btnDonde = findViewById(R.id.btnDonde);
         btnRecomendacion = findViewById(R.id.btnRecomendacion);
         btnHome = findViewById(R.id.btnHome);
+        btnCosto = findViewById(R.id.btnCosto);
 
         btnDonde.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +32,16 @@ public class Option_Accion extends AppCompatActivity {
                 ttsManager.initQueue("¿Qué articulo deseas encontrar?");
                 Intent search = new Intent(Option_Accion.this, BusquedaArticulos.class);
                 startActivity(search);
+            }
+        });
+
+        btnCosto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.codigo2");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);//null pointer check in case package name was not found
+                }
             }
         });
 
