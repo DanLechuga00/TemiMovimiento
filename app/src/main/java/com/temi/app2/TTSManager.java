@@ -27,9 +27,6 @@ public class TTSManager {
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
                 Log.e("error", "Este leguaje no esta permitido");
             }
-            else {
-                Log.e("error", "Fallo al Inicializar");
-            }
         }
     };
 
