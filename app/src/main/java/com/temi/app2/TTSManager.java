@@ -1,10 +1,12 @@
 package com.temi.app2;
 
 import android.content.Context;
+import android.net.Uri;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class TTSManager {
     private TextToSpeech aTts = null;
@@ -32,6 +34,11 @@ public class TTSManager {
 
     public void shutDown(){
         aTts.shutdown();
+    }
+
+
+    public  boolean isSpeach(){
+        return aTts.isSpeaking();
     }
 
     public void addQueue(String text){

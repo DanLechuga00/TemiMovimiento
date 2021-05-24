@@ -3,11 +3,10 @@ package com.temi.app2;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.robotemi.sdk.BatteryData;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
@@ -17,11 +16,11 @@ import com.robotemi.sdk.navigation.listener.OnCurrentPositionChangedListener;
 import com.robotemi.sdk.navigation.listener.OnDistanceToLocationChangedListener;
 import com.robotemi.sdk.navigation.listener.OnReposeStatusChangedListener;
 import com.robotemi.sdk.navigation.model.Position;
+import com.robotemi.sdk.navigation.model.SpeedLevel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public  final class Movimiento  implements
@@ -118,11 +117,10 @@ public  final class Movimiento  implements
             }
         }
     }
-    public void bailar(){
-        long t = System.currentTimeMillis();
-        long end = t + 5000;
-        while (end < System.currentTimeMillis()){
-            robot.skidJoy(0F,1F);
-        }
+
+    public void bailar() {
+        robot.setGoToSpeed(SpeedLevel.HIGH);
+        robot.turnBy(360);
     }
+
 }

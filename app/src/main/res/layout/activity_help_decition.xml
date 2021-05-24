@@ -13,18 +13,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="383dp"
-        android:layout_marginBottom="350dp"
-        android:background="@mipmap/si_out" />
+        android:layout_marginStart="363dp"
+        android:layout_marginBottom="358dp"
+        android:background="@mipmap/si_out"
+        android:contentDescription="TODO" />
 
     <ImageButton
         android:id="@+id/btnNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="162dp"
-        android:layout_marginBottom="350dp"
+        android:layout_marginStart="282dp"
+        android:layout_marginBottom="348dp"
         android:layout_toEndOf="@+id/btnSi"
-        android:background="@mipmap/no_out" />
+        android:background="@mipmap/no_out"
+        android:contentDescription="TODO" />
 
 </RelativeLayout>

@@ -40,6 +40,7 @@ public class BusquedaArticulos extends AppCompatActivity {
             @Override
             public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
                 //ttsManager.addQueue(description);
+                System.out.println(description);
                 switch (status) {
                     case OnGoToLocationStatusChangedListener.START:
                         //ttsManager.addQueue("Iniciando");
@@ -51,6 +52,9 @@ public class BusquedaArticulos extends AppCompatActivity {
                         //ttsManager.addQueue("Caminando");
                         break;
                     case OnGoToLocationStatusChangedListener.COMPLETE:
+                        if(ttsManager.isSpeach()){
+                            ttsManager.shutDown();
+                        }
                         ttsManager.initQueue("En este pasillo se encuentra su artículo");
                         ttsManager.initQueue("¿Le puedo ayudar en algo más?");
                         Intent help = new Intent(BusquedaArticulos.this, Help_Decition.class);
@@ -62,10 +66,20 @@ public class BusquedaArticulos extends AppCompatActivity {
                 }
             }
         });
-        /*movimiento.robot.addOnDistanceToLocationChangedListener(onDistanceToLocationChangedListener);
-        movimiento.robot.addOnCurrentPositionChangedListener(onCurrentPositionChangedListener);
-        movimiento.robot.addOnReposeStatusChangedListener(onReposeStatusChangedListener);
-        movimiento.robot.addOnLoadMapStatusChangedListener(onLoadMapStatusChangedListener);*/
+        //movimiento.robot.addOnDistanceToLocationChangedListener(onDistanceToLocationChangedListener);
+       // movimiento.robot.addOnCurrentPositionChangedListener(onCurrentPositionChangedListener);
+        movimiento.robot.addOnReposeStatusChangedListener(new OnReposeStatusChangedListener() {
+            @Override
+            public void onReposeStatusChanged(int status, @NotNull String description) {
+                switch (status){
+                    case OnReposeStatusChangedListener.REPOSING_OBSTACLE_DETECTED:
+                        ttsManager.initQueue("Humano puedes moverte por favor");
+                        break;
+
+                }
+            }
+        });
+        //movimiento.robot.addOnLoadMapStatusChangedListener(onLoadMapStatusChangedListener);
         //movimiento.robot.addOnRobotReadyListener(movimiento.robot.addOnRobotReadyListener((OnRobotReadyListener) this));
     }
 
@@ -88,6 +102,7 @@ public class BusquedaArticulos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ttsManager.initQueue("Los refrescos se encuentran en el pasillo 1; sígame y le muestro su ubicación");
+                //movimiento.bailar();
                 movimiento.goTo("uno");
             }
         });
