@@ -33,8 +33,8 @@ public final class Bateria implements OnRobotReadyListener {
         boolean result = false;
           BatteryData  batteryData = robot.getBatteryData();
           if(batteryData != null){
-              if (!batteryData.isCharging() && batteryData.getBatteryPercentage() <= 20) {
-                  ttsManager.addQueue("Me regreso a casa para recargar bateria");
+              if (!batteryData.isCharging() && batteryData.getBatteryPercentage() <= 50) {
+                  ttsManager.initQueue("Me regreso a casa para recargar bateria");
                   movimiento.goTo("home base");
                   result = true;
               }
