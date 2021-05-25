@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         bateria = new Bateria(ttsManager,movimiento,this,MainActivity.this);
         if(!bateria.EsBateriaBaja()){
             vV = findViewById(R.id.vV);
-            vV.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.maps));
+            vV.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cocacola));
             vV.start();
             btnHelp = findViewById(R.id.btnHelp);
             btnHelp.setOnClickListener(v -> {
