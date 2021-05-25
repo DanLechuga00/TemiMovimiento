@@ -21,6 +21,7 @@ public class BusquedaArticulos extends AppCompatActivity {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
+    static String orden = "";
 
     private ImageButton btnRefresco, btnVinosLicores, btnDulceria, btnBack1;
 
@@ -36,34 +37,31 @@ public class BusquedaArticulos extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 //        movimiento.robot.addOnLocationsUpdatedListener(new onLocationsUpdatedListener);
-        movimiento.robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
-            @Override
-            public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
-                //ttsManager.addQueue(description);
-                System.out.println(description);
-                switch (status) {
-                    case OnGoToLocationStatusChangedListener.START:
-                        //ttsManager.addQueue("Iniciando");
-                        break;
-                    case OnGoToLocationStatusChangedListener.CALCULATING:
-                        //ttsManager.addQueue("Calculando");
-                        break;
-                    case OnGoToLocationStatusChangedListener.GOING:
-                        //ttsManager.addQueue("Caminando");
-                        break;
-                    case OnGoToLocationStatusChangedListener.COMPLETE:
-                        if(ttsManager.isSpeach()){
-                            ttsManager.shutDown();
-                        }
-                        ttsManager.initQueue("En este pasillo se encuentra su artículo");
-                        ttsManager.initQueue("¿Le puedo ayudar en algo más?");
-                        Intent help = new Intent(BusquedaArticulos.this, Help_Decition.class);
-                        startActivity(help);
-                        break;
-                    case OnGoToLocationStatusChangedListener.ABORT:
-                        //ttsManager.addQueue("Abortando");
-                        break;
-                }
+        movimiento.robot.addOnGoToLocationStatusChangedListener((location, status, descriptionId, description) -> {
+            //ttsManager.addQueue(description);
+            System.out.println(description);
+            switch (status) {
+                case OnGoToLocationStatusChangedListener.START:
+                    //ttsManager.addQueue("Iniciando");
+                    break;
+                case OnGoToLocationStatusChangedListener.CALCULATING:
+                    //ttsManager.addQueue("Calculando");
+                    break;
+                case OnGoToLocationStatusChangedListener.GOING:
+                    //ttsManager.addQueue("Caminando");
+                    break;
+                case OnGoToLocationStatusChangedListener.COMPLETE:
+                    if(ttsManager.isSpeach()){
+                        ttsManager.shutDown();
+                    }
+                    ttsManager.initQueue("En este pasillo se encuentra su artículo");
+                    ttsManager.initQueue("¿Le puedo ayudar en algo más?");
+                    Intent help = new Intent(BusquedaArticulos.this, Help_Decition.class);
+                    startActivity(help);
+                    break;
+                case OnGoToLocationStatusChangedListener.ABORT:
+                    //ttsManager.addQueue("Abortando");
+                    break;
             }
         });
         //movimiento.robot.addOnDistanceToLocationChangedListener(onDistanceToLocationChangedListener);
@@ -102,6 +100,7 @@ public class BusquedaArticulos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ttsManager.initQueue("Los refrescos se encuentran en el pasillo 1; sígame y le muestro su ubicación");
+
                 //movimiento.bailar();
                 movimiento.goTo("uno");
             }

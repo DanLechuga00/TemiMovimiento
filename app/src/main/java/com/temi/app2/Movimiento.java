@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.robotemi.sdk.BatteryData;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
@@ -22,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public  final class Movimiento  implements
         OnLocationsUpdatedListener,
@@ -119,6 +120,7 @@ public  final class Movimiento  implements
     }
 
     public void bailar() {
+        ttsManager.initQueue("Baíla conmigo");
         robot.setGoToSpeed(SpeedLevel.HIGH);
         robot.turnBy(360);
     }
