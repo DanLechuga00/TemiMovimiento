@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         ttsManager = new TTSManager();
         ttsManager.init(this);
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
-        bateria = new Bateria(ttsManager,movimiento,this,MainActivity.this);
+        bateria = new Bateria(movimiento,this,MainActivity.this);
         if(!bateria.EsBateriaBaja()){
             vV = findViewById(R.id.vV);
             vV.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cocacola));

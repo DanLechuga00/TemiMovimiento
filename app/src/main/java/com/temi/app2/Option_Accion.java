@@ -23,12 +23,12 @@ public class Option_Accion extends AppCompatActivity {
         ttsManager = new TTSManager();
         ttsManager.init(this);
         movimiento = new Movimiento(this, Option_Accion.this, ttsManager);
-        bateria = new Bateria(ttsManager, movimiento, this, Option_Accion.this);
+        bateria = new Bateria(movimiento, this, Option_Accion.this);
         btnDonde = findViewById(R.id.btnDonde);
         btnRecomendacion = findViewById(R.id.btnRecomendacion);
         btnHome = findViewById(R.id.btnHome);
         btnCosto = findViewById(R.id.btnCosto);
-        if (!bateria.EsBateriaBaja()) {
+
             btnDonde.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -65,7 +65,7 @@ public class Option_Accion extends AppCompatActivity {
                     startActivity(home);
                 }
             });
-        }
+
 
     }
 }

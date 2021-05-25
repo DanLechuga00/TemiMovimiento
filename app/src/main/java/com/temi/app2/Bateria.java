@@ -20,10 +20,11 @@ public final class Bateria implements OnRobotReadyListener {
     public Context context;
     public  AppCompatActivity main;
 
-    public Bateria(TTSManager ttsManager, Movimiento movimiento, Context context, AppCompatActivity main) {
+    public Bateria(Movimiento movimiento, Context context, AppCompatActivity main) {
         this.robot = Robot.getInstance();
         if (robot == null) throw new NullPointerException("robot = null");
-        this.ttsManager = ttsManager;
+        this.ttsManager = new TTSManager();
+        this.ttsManager.init(main);
         this.movimiento = movimiento;
         this.context = context;
         this.main = main;
@@ -34,8 +35,9 @@ public final class Bateria implements OnRobotReadyListener {
           BatteryData  batteryData = robot.getBatteryData();
           if(batteryData != null){
               if (!batteryData.isCharging() && batteryData.getBatteryPercentage() <= 50) {
-                  ttsManager.initQueue("Me regreso a casa para recargar bateria");
+                  ttsManager.initQueue("Se detecto bateria baja; Voya recargar bateria");
                   movimiento.goTo("home base");
+
                   result = true;
               }
           }
