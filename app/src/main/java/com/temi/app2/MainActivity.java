@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         if(!bateria.EsBateriaBaja()){
             vV = findViewById(R.id.vV);
             vV.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cocacola));
+           vV.setOnPreparedListener(mp -> mp.setLooping(true));
+
             vV.start();
             btnHelp = findViewById(R.id.btnHelp);
             btnHelp.setOnClickListener(v -> {
