@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HelpTemi</string>
+    <string name="app_name">Make.it</string>
     <string name="txt_bnv">Esta pantalla no se ve</string>
     <string name="txt_location">Ingresa la ubicacion</string>
     <string name="btn_ubicacion">Ir a la ubicacion</string>
