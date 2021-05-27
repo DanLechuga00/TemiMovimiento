@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
     Bateria bateria = null;
+
+    private int cont = 1;
     //private ImageButton btnHelp;
     private Button btnHelp;
     private VideoView vV;
@@ -45,12 +47,16 @@ public class MainActivity extends AppCompatActivity {
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
         if(!bateria.EsBateriaBaja()){
-            vV = findViewById(R.id.vV);
-            vV.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cocacola));
-           vV.setOnPreparedListener(mp -> mp.setLooping(true));
-
-            vV.start();
             btnHelp = findViewById(R.id.btnHelp);
+            vV = findViewById(R.id.vV);
+            for (int i = 0; i<2; i++){
+                switch (i){
+                    case 0:
+                        SigVideo("cocacola");
+                        break;
+                }
+            }
+            vV.setOnPreparedListener(mp -> mp.setLooping(true));
             btnHelp.setOnClickListener(v -> {
                 ttsManager.initQueue("Buen día ¿En qué le puedo ayudar?");
                 Intent sig = new Intent(MainActivity.this, Option_Accion.class);
@@ -72,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
         }
+    }
+
+    private void SigVideo(String nombre){
+        vV.stopPlayback();
+        vV.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + "R.raw." + nombre ));
+        vV.start();
     }
 
 }
