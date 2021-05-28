@@ -6,10 +6,13 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
+import kotlin.jvm.Throws;
+
 public class DeteccionPersonas {
-    private Robot robot;
+    private final Robot robot;
     public  DeteccionPersonas(){
         this.robot = Robot.getInstance();
+
         if(robot == null) throw new NullPointerException("robot = null");
 
     }

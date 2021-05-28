@@ -44,7 +44,9 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
             });
 
             btnCosto.setOnClickListener(v -> {
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.codigo2");
+                ttsManager.initQueue("Necesito tu apoyo por favor; Me puedes permitir el codigo de barras del producto");
+                deteccionPersonas.DetenerMovimiento();
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.elbyte.development.retailme");
                 if (launchIntent != null) {
                     startActivity(launchIntent);//null pointer check in case package name was not found
                 }
@@ -68,8 +70,9 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
     @Override
     public void onDetectionStateChanged(int state) {
         if(state == OnDetectionStateChangedListener.DETECTED){
-            //if(ttsManager.isSpeach()) ttsManager.shutDown();
+
             ttsManager.addQueue("Si quieres te puedo ayudar; Si seleccionas en ¿Dónde Esta?; Me ire contigo a buscar el articulo deseado; Si seleccionas ¿Cual es mi precio?; necesitare que escanees la botella de tu preferencia; Si seleccionas recomendaciones te puedo decir que botella te conviene mejor para tu evento");
+            if(ttsManager.isSpeach()) ttsManager.shutDown();
         }
         if (state == OnDetectionStateChangedListener.IDLE) {
             ttsManager.addQueue("Antes de que te vayas mira esto");
