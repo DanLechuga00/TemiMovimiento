@@ -66,8 +66,10 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
                         break;
                 }
             }*/
-            vV.stopPlayback();
-            vV.setOnPreparedListener(mp -> mp.setLooping(true));
+            vV.setOnCompletionListener(v->{
+                StartNextVideo();
+            });
+            //vV.setOnPreparedListener(mp -> mp.setLooping(true));
 
           /*    btnHelp.setOnClickListener(v -> {
                 ttsManager.initQueue("Buen día ¿En qué le puedo ayudar?");
@@ -84,6 +86,13 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         }
 
     }
+
+    private void StartNextVideo() {
+        vV.stopPlayback();
+        vV.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.herederos);
+        vV.start();
+    }
+
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
