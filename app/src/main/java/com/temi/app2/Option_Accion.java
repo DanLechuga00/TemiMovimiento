@@ -37,41 +37,29 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         btnCosto = findViewById(R.id.btnCosto);
         deteccionPersonas = new DeteccionPersonas();
 
-            btnDonde.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ttsManager.initQueue("¿Qué articulo deseas encontrar?");
-                    Intent search = new Intent(Option_Accion.this, BusquedaArticulos.class);
-                    startActivity(search);
+            btnDonde.setOnClickListener(v -> {
+                ttsManager.initQueue("¿Qué articulo deseas encontrar?");
+                Intent search = new Intent(Option_Accion.this, BusquedaArticulos.class);
+                startActivity(search);
+            });
+
+            btnCosto.setOnClickListener(v -> {
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.codigo2");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);//null pointer check in case package name was not found
                 }
             });
 
-            btnCosto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.codigo2");
-                    if (launchIntent != null) {
-                        startActivity(launchIntent);//null pointer check in case package name was not found
-                    }
-                }
+            btnRecomendacion.setOnClickListener(v -> {
+                ttsManager.initQueue("Escoja para que tipo de eventos busca");
+                Intent recomendation = new Intent(Option_Accion.this, Option_Recomendation.class);
+                startActivity(recomendation);
             });
 
-            btnRecomendacion.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ttsManager.initQueue("Escoja para que tipo de eventos busca");
-                    Intent recomendation = new Intent(Option_Accion.this, Option_Recomendation.class);
-                    startActivity(recomendation);
-                }
-            });
-
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ttsManager.initQueue("Recuerde que estoy a su servicio en cualquier momento");
-                    Intent home = new Intent(Option_Accion.this, MainActivity.class);
-                    startActivity(home);
-                }
+            btnHome.setOnClickListener(v -> {
+                ttsManager.initQueue("Recuerde que estoy a su servicio en cualquier momento");
+                Intent home = new Intent(Option_Accion.this, MainActivity.class);
+                startActivity(home);
             });
 
 
@@ -88,8 +76,8 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
             movimiento.MoonWalk();
             deteccionPersonas.DetenerMovimiento();
             ttsManager.initQueue("Esta bien que tenga un excelente día; hasta luego");
-            //Intent main = new Intent(Option_Accion.this,MainActivity.class);
-            //startActivity(main);
+            Intent main = new Intent(Option_Accion.this,MainActivity.class);
+            startActivity(main);
         }
 
     }

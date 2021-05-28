@@ -73,15 +73,12 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
         });
         //movimiento.robot.addOnDistanceToLocationChangedListener(onDistanceToLocationChangedListener);
        // movimiento.robot.addOnCurrentPositionChangedListener(onCurrentPositionChangedListener);
-        movimiento.robot.addOnReposeStatusChangedListener(new OnReposeStatusChangedListener() {
-            @Override
-            public void onReposeStatusChanged(int status, @NotNull String description) {
-                switch (status){
-                    case OnReposeStatusChangedListener.REPOSING_OBSTACLE_DETECTED:
-                        ttsManager.initQueue("Humano puedes moverte por favor");
-                        break;
+        movimiento.robot.addOnReposeStatusChangedListener((status, description) -> {
+            switch (status){
+                case OnReposeStatusChangedListener.REPOSING_OBSTACLE_DETECTED:
+                    ttsManager.initQueue("Humano puedes moverte por favor");
+                    break;
 
-                }
             }
         });
         deteccionPersonas.addListener(this,this);
