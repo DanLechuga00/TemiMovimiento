@@ -4,24 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
+import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 import com.robotemi.sdk.map.OnLoadMapStatusChangedListener;
+import com.robotemi.sdk.model.DetectionData;
 import com.robotemi.sdk.navigation.listener.OnCurrentPositionChangedListener;
 import com.robotemi.sdk.navigation.listener.OnDistanceToLocationChangedListener;
 import com.robotemi.sdk.navigation.listener.OnReposeStatusChangedListener;
 
 import org.jetbrains.annotations.NotNull;
 
-public class BusquedaArticulos extends AppCompatActivity {
+public class BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedListener, OnDetectionDataChangedListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
     static String orden = "";
+    DeteccionPersonas deteccionPersonas = null;
 
     private ImageButton btnRefresco, btnVinosLicores, btnDulceria, btnBack1;
 
@@ -36,6 +41,8 @@ public class BusquedaArticulos extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        System.out.println("Onstart_Busqueda");
+        deteccionPersonas.addListener(this,this);
 //        movimiento.robot.addOnLocationsUpdatedListener(new onLocationsUpdatedListener);
         movimiento.robot.addOnGoToLocationStatusChangedListener((location, status, descriptionId, description) -> {
             //ttsManager.addQueue(description);
@@ -77,12 +84,14 @@ public class BusquedaArticulos extends AppCompatActivity {
                 }
             }
         });
+        deteccionPersonas.addListener(this,this);
         //movimiento.robot.addOnLoadMapStatusChangedListener(onLoadMapStatusChangedListener);
         //movimiento.robot.addOnRobotReadyListener(movimiento.robot.addOnRobotReadyListener((OnRobotReadyListener) this));
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda_articulos);
 
@@ -95,40 +104,43 @@ public class BusquedaArticulos extends AppCompatActivity {
         btnVinosLicores = findViewById(R.id.btnVinosLicores);
         btnDulceria = findViewById(R.id.btnDulceria);
         btnBack1 = findViewById(R.id.btnBack1);
+        deteccionPersonas = new DeteccionPersonas();
 
-        btnRefresco.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("Los refrescos se encuentran en el pasillo 1; sígame y le muestro su ubicación");
+        System.out.println("OnCreate_Busqueda");
+        btnRefresco.setOnClickListener(v -> {
+            ttsManager.initQueue("Los refrescos se encuentran en el pasillo 1; sígame y le muestro su ubicación");
 
-                //movimiento.bailar();
-                movimiento.goTo("uno");
-            }
+            //movimiento.bailar();
+            movimiento.goTo("uno");
         });
 
-        btnVinosLicores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("Los vinos y licores se encuentran en el pasillo 2; sígame y le muestro su ubicación");
-                movimiento.goTo("dos");
-                //movimiento.bailar();
-            }
+        btnVinosLicores.setOnClickListener(v -> {
+            ttsManager.initQueue("Los vinos y licores se encuentran en el pasillo 2; sígame y le muestro su ubicación");
+            movimiento.goTo("dos");
+            //movimiento.bailar();
         });
 
-        btnDulceria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("La dulceria se encuentra en el pasillo 3; sígame y le muestro su ubicación");
-                movimiento.goTo("tres");
-            }
+        btnDulceria.setOnClickListener(v -> {
+            ttsManager.initQueue("La dulceria se encuentra en el pasillo 3; sígame y le muestro su ubicación");
+            movimiento.goTo("tres");
         });
 
-        btnBack1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent regresar = new Intent(BusquedaArticulos.this, Option_Accion.class);
-                startActivity(regresar);
-            }
+        btnBack1.setOnClickListener(v -> {
+            Intent regresar = new Intent(BusquedaArticulos.this, Option_Accion.class);
+            startActivity(regresar);
         });
     }
+
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        System.out.println("onDetectionDataChanged : Detection"+detectionData.toString());
+        Log.d("Busqueda_OnChange","onDetectionDataChanged: state : "+detectionData.toString());
+    }
+
+    @Override
+    public void onDetectionStateChanged(int state) {
+
+    }
+
+
 }

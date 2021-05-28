@@ -26,22 +26,16 @@ public class Help_Decition extends AppCompatActivity {
 
 
 
-        btnSi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("Indicame en que te puedo ayudar");
-                Intent sig = new Intent(Help_Decition.this, Option_Accion.class);
-                startActivity(sig);
-            }
+        btnSi.setOnClickListener(v -> {
+            ttsManager.initQueue("Indícame en que te puedo ayudar");
+            Intent sig = new Intent(Help_Decition.this, Option_Accion.class);
+            startActivity(sig);
         });
 
-        btnNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
-                Intent back = new Intent(Help_Decition.this, MainActivity.class);
-                startActivity(back);
-            }
+        btnNo.setOnClickListener(v -> {
+            ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
+            Intent back = new Intent(Help_Decition.this, MainActivity.class);
+            startActivity(back);
         });
     }
 }

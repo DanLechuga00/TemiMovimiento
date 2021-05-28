@@ -7,11 +7,18 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Option_Accion extends AppCompatActivity {
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
+import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
+import com.robotemi.sdk.model.DetectionData;
+
+import org.jetbrains.annotations.NotNull;
+
+public class Option_Accion extends AppCompatActivity implements OnDetectionStateChangedListener, OnDetectionDataChangedListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
     Bateria bateria = null;
+    DeteccionPersonas deteccionPersonas = null;
 
     private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto;
 
@@ -28,6 +35,7 @@ public class Option_Accion extends AppCompatActivity {
         btnRecomendacion = findViewById(R.id.btnRecomendacion);
         btnHome = findViewById(R.id.btnHome);
         btnCosto = findViewById(R.id.btnCosto);
+        deteccionPersonas = new DeteccionPersonas();
 
             btnDonde.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,5 +75,39 @@ public class Option_Accion extends AppCompatActivity {
             });
 
 
+    }
+
+    @Override
+    public void onDetectionStateChanged(int state) {
+        if(state == OnDetectionStateChangedListener.DETECTED){
+            //if(ttsManager.isSpeach()) ttsManager.shutDown();
+            ttsManager.addQueue("Si quieres te puedo ayudar; Si seleccionas en ¿Dónde Esta?; Me ire contigo a buscar el articulo deseado; Si seleccionas ¿Cual es mi precio?; necesitare que escanees la botella de tu preferencia; Si seleccionas recomendaciones te puedo decir que botella te conviene mejor para tu evento");
+        }
+        if (state == OnDetectionStateChangedListener.IDLE) {
+            ttsManager.addQueue("Antes de que te vayas mira esto");
+            movimiento.MoonWalk();
+            deteccionPersonas.DetenerMovimiento();
+            ttsManager.initQueue("Esta bien que tenga un excelente día; hasta luego");
+            //Intent main = new Intent(Option_Accion.this,MainActivity.class);
+            //startActivity(main);
+        }
+
+    }
+
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+System.out.println("onDetectionDataChanged = detection: "+detectionData.toString());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        deteccionPersonas.addListener(this,this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        deteccionPersonas.removeListener(this,this);
     }
 }

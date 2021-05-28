@@ -120,9 +120,15 @@ public  final class Movimiento  implements
     }
 
     public void bailar() {
-        ttsManager.initQueue("Baíla conmigo");
-        robot.setGoToSpeed(SpeedLevel.HIGH);
+        ttsManager.initQueue("Solo fijate en esto");
         robot.turnBy(360);
+    }
+    public  void MoonWalk(){
+        long t = System.currentTimeMillis();
+        long end = t + 700;
+        while (System.currentTimeMillis() < end){
+            robot.skidJoy(-1F,1F);
+        }
     }
 
 }
