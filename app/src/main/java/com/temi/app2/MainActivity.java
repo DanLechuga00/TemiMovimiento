@@ -5,13 +5,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -21,6 +25,8 @@ import com.robotemi.sdk.model.DetectionData;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnDetectionStateChangedListener, OnDetectionDataChangedListener {
@@ -29,8 +35,11 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     Movimiento movimiento = null;
     Bateria bateria = null;
     DeteccionPersonas deteccionPersonas = null;
+    private int contador = 0;
+    private int contadorActual = 0;
+    private int i = 1;
 
-    private int cont = 1;
+
     //private ImageButton btnHelp;
     private Button btnHelp;
     private VideoView vV;
@@ -39,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,41 +66,59 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         deteccionPersonas.startDetectionModeWithDistance();
         btnHelp = findViewById(R.id.btnHelp);
         vV = findViewById(R.id.vV);
-        vV.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.cocacola);
-        vV.start();
+        List<String> videos = new ArrayList<>();
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.cocacola);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.herederos);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.heineken);
+            try {
+                startVideo(vV,videos);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.w("Error_Videos","No se puede reproducir el video: "+e.getMessage());
+            }
 
-            /*for (int i = 0; i<2; i++){
-                switch (i){
-                    case 0:
-                        SigVideo("cocacola");
-                        break;
-                }
-            }*/
-            vV.setOnCompletionListener(v->{
-                StartNextVideo();
-            });
-            //vV.setOnPreparedListener(mp -> mp.setLooping(true));
-
-          /*    btnHelp.setOnClickListener(v -> {
-                ttsManager.initQueue("Buen día ¿En qué le puedo ayudar?");
-                Intent sig = new Intent(MainActivity.this, Option_Accion.class);
-                startActivity(sig);
-            });*/
-
-            //btnHelp = findViewById(R.id.help);
-            /*btnHelp.setOnClickListener(v -> {
-                ttsManager.initQueue("Buen día ¿En qué le puedo ayudar?");
-                Intent sig = new Intent(MainActivity.this, Option_Accion.class);
-                startActivity(sig);
-            });*/
         }
 
     }
+    private void startVideo(VideoView video, List<String> listaVideos) throws Exception {
+        if(listaVideos.isEmpty()) throw new Exception("No contiene videos a reproducir");
+        contador = listaVideos.size();
+        video.setVideoPath(listaVideos.get(0));
+        video.start();
+        video.setOnCompletionListener(mp -> {
+            try {
+                startNextVideo(contador,listaVideos);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.w("Videos_onPrepared","Error:"+e.getMessage());
+            }
+        });
 
-    private void StartNextVideo() {
+
+    }
+
+    private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
         vV.stopPlayback();
-        vV.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.herederos);
-        vV.start();
+        if(contador == 0) throw  new Exception("contador de videos vacio");
+        if(contador == i){
+            i = 0;
+            contadorActual = 0;
+        }
+
+        while (i<= contador) {
+            if (contadorActual == 0) {
+                vV.setVideoPath(listaVideos.get(i));
+                vV.start();
+                contadorActual = i;
+                i++;
+                break;
+            }
+            vV.setVideoPath(listaVideos.get(i));
+            vV.start();
+            i++;
+            break;
+        }
+
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -100,12 +128,6 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
         }
-    }
-
-    private void SigVideo(String nombre){
-        vV.stopPlayback();
-        vV.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + "R.raw." + nombre ));
-        vV.start();
     }
 
     @Override
