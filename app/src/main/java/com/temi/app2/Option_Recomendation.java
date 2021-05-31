@@ -30,6 +30,9 @@ public class Option_Recomendation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ttsManager.initQueue("Para una ocación con la pareja se le recomienda etiqueta Dorada");
+                ttsManager.initQueue("Le puedo ayudar en algo más");
+                Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
+                startActivity(opcion);
             }
         });
 
@@ -37,6 +40,9 @@ public class Option_Recomendation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ttsManager.initQueue("Para una ocación con amigos se le recomienda etiqueta roja");
+                ttsManager.initQueue("Le puedo ayudar en algo más");
+                Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
+                startActivity(opcion);
             }
         });
 

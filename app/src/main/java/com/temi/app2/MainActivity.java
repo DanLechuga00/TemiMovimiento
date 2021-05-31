@@ -4,6 +4,7 @@ package com.temi.app2;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         verifyStoragePermissions(this);
         ttsManager = new TTSManager();
         ttsManager.init(this);
