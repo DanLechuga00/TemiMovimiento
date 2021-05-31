@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     private int contador = 0;
     private int contadorActual = 0;
     private int i = 1;
+    SecuenciaDeMovimiento secuenciaDeMovimiento = null;
 
 
     //private ImageButton btnHelp;
@@ -63,15 +64,18 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         if(ttsManager.isSpeach()) ttsManager.shutDown();
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
+        secuenciaDeMovimiento = new SecuenciaDeMovimiento();
         if(!bateria.EsBateriaBaja()){
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.startDetectionModeWithDistance();
+        secuenciaDeMovimiento.playSequence(true);
         btnHelp = findViewById(R.id.btnHelp);
         vV = findViewById(R.id.vV);
         List<String> videos = new ArrayList<>();
         videos.add("android.resource://" + getPackageName() + "/" +R.raw.cocacola);
         videos.add("android.resource://" + getPackageName() + "/" +R.raw.herederos);
         videos.add("android.resource://" + getPackageName() + "/" +R.raw.heineken);
+
             try {
                 startVideo(vV,videos);
             } catch (Exception e) {

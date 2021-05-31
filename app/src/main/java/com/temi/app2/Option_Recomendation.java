@@ -26,32 +26,23 @@ public class Option_Recomendation extends AppCompatActivity {
         btnAmigos = findViewById(R.id.btnAmigos);
         btnBack2 = findViewById(R.id.btnBack2);
 
-        btnPareja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("Para una ocación con la pareja se le recomienda etiqueta Dorada");
-                ttsManager.initQueue("Le puedo ayudar en algo más");
-                Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
-                startActivity(opcion);
-            }
+        btnPareja.setOnClickListener(v -> {
+            ttsManager.initQueue("Para una ocación con la pareja se le recomienda etiqueta Dorada");
+            ttsManager.initQueue("Le puedo ayudar en algo más");
+            Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
+            startActivity(opcion);
         });
 
-        btnAmigos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ttsManager.initQueue("Para una ocación con amigos se le recomienda etiqueta roja");
-                ttsManager.initQueue("Le puedo ayudar en algo más");
-                Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
-                startActivity(opcion);
-            }
+        btnAmigos.setOnClickListener(v -> {
+            ttsManager.initQueue("Para una ocación con amigos se le recomienda etiqueta roja");
+            ttsManager.initQueue("Le puedo ayudar en algo más");
+            Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
+            startActivity(opcion);
         });
 
-        btnBack2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent regresar = new Intent(Option_Recomendation.this, Option_Accion.class);
-                startActivity(regresar);
-            }
+        btnBack2.setOnClickListener(v -> {
+            Intent regresar = new Intent(Option_Recomendation.this, Option_Accion.class);
+            startActivity(regresar);
         });
     }
 }
