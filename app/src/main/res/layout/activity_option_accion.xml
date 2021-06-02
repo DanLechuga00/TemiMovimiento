@@ -45,4 +45,22 @@
         android:layout_marginEnd="425dp"
         android:background="@mipmap/recom_out" />
 
+    <ImageView
+        android:id="@+id/microfono"
+        android:layout_width="103dp"
+        android:layout_height="99dp"
+        android:layout_below="@+id/sordera"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="124dp"
+        android:layout_marginBottom="282dp"
+        android:background="@mipmap/Microfono" />
+
+    <ImageView
+        android:id="@+id/sordera"
+        android:layout_width="103dp"
+        android:layout_height="99dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="296dp"
+        android:background="@mipmap/sordera" />
+
 </RelativeLayout>
