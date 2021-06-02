@@ -139,5 +139,9 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
 
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        deteccionPersonas.removeListener(this,this);
+    }
 }
