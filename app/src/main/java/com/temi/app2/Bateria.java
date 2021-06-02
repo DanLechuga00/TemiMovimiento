@@ -19,7 +19,7 @@ public final class Bateria implements OnRobotReadyListener {
     public Movimiento movimiento;
     public Context context;
     public  AppCompatActivity main;
-
+private final String TAG = "Bateria";
     public Bateria(Movimiento movimiento, Context context, AppCompatActivity main) {
         this.robot = Robot.getInstance();
         if (robot == null) throw new NullPointerException("robot = null");
@@ -37,11 +37,27 @@ public final class Bateria implements OnRobotReadyListener {
               if (!batteryData.isCharging() && batteryData.getBatteryPercentage() <= 50) {
                   ttsManager.initQueue("Se detecto bateria baja; Voy a recargar bateria");
                   movimiento.goTo("home base");
-
+Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
                   result = true;
               }
           }
         return result;
+    }
+    public  boolean EstaCargando(){
+        BatteryData batteryData = robot.getBatteryData();
+        if(batteryData != null){
+            Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
+            return  batteryData.isCharging();
+        }
+        return false;
+    }
+    public  boolean EsBateriaCompleta(){
+        BatteryData batteryData = robot.getBatteryData();
+        if(batteryData != null){
+            Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
+            return batteryData.getBatteryPercentage() <= 100 && batteryData.getBatteryPercentage()>= 80;
+        }
+        return false;
     }
 
     @Override

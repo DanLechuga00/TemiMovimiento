@@ -65,10 +65,9 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
         secuenciaDeMovimiento = new SecuenciaDeMovimiento();
-        if(!bateria.EsBateriaBaja()){
+        if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.startDetectionModeWithDistance();
-        secuenciaDeMovimiento.playSequence(true);
         btnHelp = findViewById(R.id.btnHelp);
         vV = findViewById(R.id.vV);
         List<String> videos = new ArrayList<>();
@@ -78,9 +77,11 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
 
             try {
                 startVideo(vV,videos);
+                Log.d("Movimiento","Aqui inicia la secuencia");
+                secuenciaDeMovimiento.Secuencia();
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.w("Error_Videos","No se puede reproducir el video: "+e.getMessage());
+                Log.w("Error",e.getMessage());
             }
 
         }
@@ -104,27 +105,52 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     }
 
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
-        vV.stopPlayback();
-        if(contador == 0) throw  new Exception("contador de videos vacio");
-        if(contador == i){
-            i = 0;
-            contadorActual = 0;
-        }
+        if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
+            vV.stopPlayback();
+            Log.d("Movimiento_next","Aqui sigue la secuencia");
+            secuenciaDeMovimiento.Secuencia();
+            if(contador == 0) throw  new Exception("contador de videos vacio");
+            if(contador == i){
+                i = 0;
+                contadorActual = 0;
+            }
 
-        while (i<= contador) {
-            if (contadorActual == 0) {
+            while (i<= contador) {
+                if (contadorActual == 0) {
+                    vV.setVideoPath(listaVideos.get(i));
+                    vV.start();
+                    contadorActual = i;
+                    i++;
+                    break;
+                }
                 vV.setVideoPath(listaVideos.get(i));
                 vV.start();
-                contadorActual = i;
                 i++;
                 break;
             }
-            vV.setVideoPath(listaVideos.get(i));
-            vV.start();
-            i++;
-            break;
-        }
+        }else{
+            vV.stopPlayback();
+            Log.d("Movimiento_next","Aqui sigue la secuencia de videos pero temi esta cargando");
+            if(contador == 0) throw  new Exception("contador de videos vacio");
+            if(contador == i){
+                i = 0;
+                contadorActual = 0;
+            }
 
+            while (i<= contador) {
+                if (contadorActual == 0) {
+                    vV.setVideoPath(listaVideos.get(i));
+                    vV.start();
+                    contadorActual = i;
+                    i++;
+                    break;
+                }
+                vV.setVideoPath(listaVideos.get(i));
+                vV.start();
+                i++;
+                break;
+            }
+        }
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -157,13 +183,15 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     protected void onStart() {
         super.onStart();
         System.out.println("OnStart");
-        deteccionPersonas.addListener(this, this);
+        deteccionPersonas.addListener(MainActivity.this, MainActivity.this);
+        secuenciaDeMovimiento.addListener();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         System.out.println("OnStop");
-        deteccionPersonas.removeListener(this,this);
+        deteccionPersonas.removeListener(MainActivity.this,MainActivity.this);
+        secuenciaDeMovimiento.removeListener();
     }
 }
