@@ -45,14 +45,12 @@
         android:layout_marginEnd="425dp"
         android:background="@mipmap/recom_out" />
 
-    <ImageView
-        android:id="@+id/microfono"
+    <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="103dp"
         android:layout_height="99dp"
         android:layout_below="@+id/sordera"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="124dp"
-        android:layout_marginBottom="282dp"
+        android:layout_marginTop="90dp"
         android:background="@mipmap/Microfono" />
 
     <ImageView
