@@ -37,7 +37,7 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
     OnReposeStatusChangedListener onReposeStatusChangedListener = null;
     OnLoadMapStatusChangedListener onLoadMapStatusChangedListener = null;
     OnRobotReadyListener onRobotReadyListener = null;*/
-
+//TODO: REvisar el oyente en cambio canstante de actividad
     @Override
     protected void onStart() {
         super.onStart();
@@ -74,11 +74,8 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
         //movimiento.robot.addOnDistanceToLocationChangedListener(onDistanceToLocationChangedListener);
        // movimiento.robot.addOnCurrentPositionChangedListener(onCurrentPositionChangedListener);
         movimiento.robot.addOnReposeStatusChangedListener((status, description) -> {
-            switch (status){
-                case OnReposeStatusChangedListener.REPOSING_OBSTACLE_DETECTED:
-                    ttsManager.initQueue("Humano puedes moverte por favor");
-                    break;
-
+            if (status == OnReposeStatusChangedListener.REPOSING_OBSTACLE_DETECTED) {
+                ttsManager.initQueue("Humano puedes moverte por favor");
             }
         });
         deteccionPersonas.addListener(this,this);
@@ -139,5 +136,9 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
 
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        deteccionPersonas.removeListener(this,this);
+    }
 }

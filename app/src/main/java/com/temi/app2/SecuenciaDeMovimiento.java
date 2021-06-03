@@ -5,38 +5,65 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.robotemi.sdk.Robot;
-import com.robotemi.sdk.sequence.SequenceModel;
+import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class SecuenciaDeMovimiento extends AppCompatActivity {
+public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLocationStatusChangedListener {
     private final Robot robot;
-    private volatile List<SequenceModel> allSequence;
+    private String PositionActual = "";
+    private int ContadorPositiones = 0;
+    private int ContadorPositionesTotales = 0;
+    private final String TAG = "SecuenciaDeMovimiento";
 
     public SecuenciaDeMovimiento() {
         this.robot = Robot.getInstance();
-
-
     }
 
-    public void playSequence(boolean withPlayer) {
-        getAllSequence();
-        if (allSequence != null && !allSequence.isEmpty()) {
-            robot.playSequence(allSequence.get(0).getId(), withPlayer);
+
+    @Override
+    public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
+        Log.d(TAG, "onGoToLocationStatusChanged= location:" + location + "\n" + "status: " + status + "\n" + "descriptionId: " + descriptionId + "\n" + "description: " + description);
+        switch (status) {
+            case OnGoToLocationStatusChangedListener.START:
+                this.PositionActual = location;
+                break;
+            case OnGoToLocationStatusChangedListener.COMPLETE:
+                Log.d(TAG,"Contador:"+ContadorPositiones);
+                Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
+                if(ContadorPositiones >= ContadorPositionesTotales) {
+                    ContadorPositiones = 0;
+                }
+                else{
+                    ContadorPositiones++;
+                }
+                break;
         }
     }
-
-    private void getAllSequence() {
-        new Thread(() -> {
-            allSequence = robot.getAllSequences();
-runOnUiThread(() ->{
-    for (SequenceModel sequenceModel : allSequence) {
-        if (sequenceModel == null) {
-            continue;
-        }
-        Log.d("Sequence","The sequence: "+sequenceModel.toString());
+    public  List<String> getLocations(){
+        ContadorPositionesTotales = robot.getLocations().size()-1;
+        return robot.getLocations();
     }
-});
-        }).start();
+
+    public void Secuencia() {
+        List<String> ubicaciones = getLocations();
+        if(!ubicaciones.isEmpty()){
+            ubicaciones.remove("home base".toLowerCase());
+                System.out.println("Ubicacion:"+PositionActual);
+                if(ContadorPositiones >= ContadorPositionesTotales) ContadorPositiones = 0;
+                while (ContadorPositiones <= ContadorPositionesTotales) {
+                    robot.goTo(ubicaciones.get(ContadorPositiones));
+                    break;
+                }
+
+        }
+    }
+    public void addListener(){
+        robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
+    }
+    public  void removeListener(){
+        robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
     }
 }

@@ -1,17 +1,25 @@
 package com.temi.app2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageButton;
 
-public class Help_Decition extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
+import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
+import com.robotemi.sdk.model.DetectionData;
+
+import org.jetbrains.annotations.NotNull;
+
+public class Help_Decition extends AppCompatActivity implements OnDetectionDataChangedListener, OnDetectionStateChangedListener {
 
     TTSManager ttsManager = null;
-
+private final String TAG = "Help";
     private ImageButton btnSi, btnNo;
+    DeteccionPersonas deteccionPersonas = null;
+    SecuenciaDeMovimiento secuenciaDeMovimiento = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +28,9 @@ public class Help_Decition extends AppCompatActivity {
 
         ttsManager = new TTSManager();
         ttsManager.init(this);
+        deteccionPersonas = new DeteccionPersonas();
+        deteccionPersonas.DetenerMovimiento();
+        secuenciaDeMovimiento = new SecuenciaDeMovimiento();
 
         btnSi = findViewById(R.id.btnSi);
         btnNo = findViewById(R.id.btnNo);
@@ -37,5 +48,34 @@ public class Help_Decition extends AppCompatActivity {
             Intent back = new Intent(Help_Decition.this, MainActivity.class);
             startActivity(back);
         });
+    }
+
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        Log.d(TAG,"onDetectionDataChanged:DetectionData"+detectionData.toString());
+    }
+
+    @Override
+    public void onDetectionStateChanged(int state) {
+        if (OnDetectionStateChangedListener.IDLE == state) {
+            deteccionPersonas.DetenerMovimiento();
+            ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
+            Intent back = new Intent(Help_Decition.this, MainActivity.class);
+            startActivity(back);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        deteccionPersonas.addListener(Help_Decition.this,Help_Decition.this);
+        secuenciaDeMovimiento.addListener();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        deteccionPersonas.removeListener(Help_Decition.this,Help_Decition.this);
+        secuenciaDeMovimiento.removeListener();
     }
 }

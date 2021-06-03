@@ -36,7 +36,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         btnHome = findViewById(R.id.btnHome);
         btnCosto = findViewById(R.id.btnCosto);
         deteccionPersonas = new DeteccionPersonas();
-
+        deteccionPersonas.DetenerMovimiento();
             btnDonde.setOnClickListener(v -> {
                 ttsManager.initQueue("¿Qué articulo deseas encontrar?");
                 Intent search = new Intent(Option_Accion.this, BusquedaArticulos.class);
@@ -87,18 +87,18 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
-System.out.println("onDetectionDataChanged = detection: "+detectionData.toString());
+    System.out.println("onDetectionDataChanged = detection: "+detectionData.toString());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        deteccionPersonas.addListener(this,this);
+        deteccionPersonas.addListener(Option_Accion.this,Option_Accion.this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        deteccionPersonas.removeListener(this,this);
+        deteccionPersonas.removeListener(Option_Accion.this,Option_Accion.this);
     }
 }
