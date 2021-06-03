@@ -51,7 +51,7 @@
         android:layout_height="99dp"
         android:layout_below="@+id/sordera"
         android:layout_marginTop="90dp"
-        android:background="@mipmap/Microfono" />
+        android:background="@mipmap/microfono" />
 
     <ImageView
         android:id="@+id/sordera"
