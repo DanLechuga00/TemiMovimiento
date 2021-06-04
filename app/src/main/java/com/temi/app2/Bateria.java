@@ -37,7 +37,7 @@ private final String TAG = "Bateria";
               if (!batteryData.isCharging() && batteryData.getBatteryPercentage() <= 50) {
                   ttsManager.initQueue("Se detecto bateria baja; Voy a recargar bateria");
                   movimiento.goTo("home base");
-Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
+                  Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
                   result = true;
               }
           }

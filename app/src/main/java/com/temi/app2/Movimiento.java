@@ -1,6 +1,7 @@
 package com.temi.app2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 
@@ -50,24 +51,29 @@ public  final class Movimiento  implements
 
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, String status, int descriptionId, @NotNull String description) {
-        ttsManager.addQueue(description);
+        System.out.println(description);
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
-                ttsManager.addQueue("Iniciando");
+                //ttsManager.addQueue("Iniciando");
                 break;
             case OnGoToLocationStatusChangedListener.CALCULATING:
-                ttsManager.addQueue("Calculando");
+                //ttsManager.addQueue("Calculando");
                 break;
             case OnGoToLocationStatusChangedListener.GOING:
-                ttsManager.addQueue("Caminando");
+                //ttsManager.addQueue("Caminando");
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
-                ttsManager.addQueue("Completado");
+                if(ttsManager.isSpeach()){
+                    ttsManager.shutDown();
+                }
+                ttsManager.initQueue("En este pasillo se encuentra su artículo");
+                ttsManager.initQueue("¿Le puedo ayudar en algo más?");
+                Intent help = new Intent(main, Help_Decition.class);
+                main.startActivity(help);
                 break;
             case OnGoToLocationStatusChangedListener.ABORT:
-                ttsManager.addQueue("Abortando");
+                //ttsManager.addQueue("Abortando");
                 break;
-
         }
     }
 
@@ -130,5 +136,15 @@ public  final class Movimiento  implements
             robot.skidJoy(-1F,1F);
         }
     }
+    public void addListener(){
+        robot.addOnGoToLocationStatusChangedListener(this);
+
+    }
+    public  void removeListener(){
+        robot.removeOnGoToLocationStatusChangedListener(this);
+    }
+public  void MediaVuelta(){
+        robot.turnBy(180);
+}
 
 }

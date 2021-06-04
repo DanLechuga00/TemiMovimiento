@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
         secuenciaDeMovimiento = new SecuenciaDeMovimiento();
-        if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
         deteccionPersonas = new DeteccionPersonas();
+        if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
         deteccionPersonas.startDetectionModeWithDistance();
         btnHelp = findViewById(R.id.btnHelp);
         vV = findViewById(R.id.vV);
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     }
 
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
-        if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
+        if(!bateria.EsBateriaBaja()&&!bateria.EstaCargando()&&bateria.EsBateriaCompleta()){
             vV.stopPlayback();
             Log.d("Movimiento_next","Aqui sigue la secuencia");
             secuenciaDeMovimiento.Secuencia();
