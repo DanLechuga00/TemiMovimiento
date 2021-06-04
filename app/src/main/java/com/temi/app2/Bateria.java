@@ -34,7 +34,7 @@ private final String TAG = "Bateria";
         boolean result = false;
           BatteryData  batteryData = robot.getBatteryData();
           if(batteryData != null){
-              if (!batteryData.isCharging() && batteryData.getBatteryPercentage() <= 50) {
+              if (!batteryData.isCharging() && batteryData.getBatteryPercentage() <= 20) {
                   ttsManager.initQueue("Se detecto bateria baja; Voy a recargar bateria");
                   movimiento.goTo("home base");
                   Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
