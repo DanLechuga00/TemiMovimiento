@@ -20,6 +20,7 @@ private final String TAG = "Help";
     private ImageButton btnSi, btnNo;
     DeteccionPersonas deteccionPersonas = null;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
+    Movimiento movimiento = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ private final String TAG = "Help";
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
         secuenciaDeMovimiento = new SecuenciaDeMovimiento();
+        movimiento = new Movimiento(this,this,ttsManager);
 
         btnSi = findViewById(R.id.btnSi);
         btnNo = findViewById(R.id.btnNo);
@@ -57,6 +59,7 @@ private final String TAG = "Help";
 
     @Override
     public void onDetectionStateChanged(int state) {
+
         if (OnDetectionStateChangedListener.IDLE == state) {
             deteccionPersonas.DetenerMovimiento();
             ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");

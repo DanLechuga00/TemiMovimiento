@@ -30,57 +30,14 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
 
     private ImageButton btnRefresco, btnVinosLicores, btnDulceria, btnBack1;
 
-    /*OnLocationsUpdatedListener onLocationsUpdatedListener = null;
-    OnGoToLocationStatusChangedListener onGoToLocationStatusChangedListener = null;
-    OnDistanceToLocationChangedListener onDistanceToLocationChangedListener = null;
-    OnCurrentPositionChangedListener onCurrentPositionChangedListener = null;
-    OnReposeStatusChangedListener onReposeStatusChangedListener = null;
-    OnLoadMapStatusChangedListener onLoadMapStatusChangedListener = null;
-    OnRobotReadyListener onRobotReadyListener = null;*/
 //TODO: REvisar el oyente en cambio canstante de actividad
     @Override
     protected void onStart() {
         super.onStart();
         System.out.println("Onstart_Busqueda");
         deteccionPersonas.addListener(this,this);
-//        movimiento.robot.addOnLocationsUpdatedListener(new onLocationsUpdatedListener);
-        movimiento.robot.addOnGoToLocationStatusChangedListener((location, status, descriptionId, description) -> {
-            //ttsManager.addQueue(description);
-            System.out.println(description);
-            switch (status) {
-                case OnGoToLocationStatusChangedListener.START:
-                    //ttsManager.addQueue("Iniciando");
-                    break;
-                case OnGoToLocationStatusChangedListener.CALCULATING:
-                    //ttsManager.addQueue("Calculando");
-                    break;
-                case OnGoToLocationStatusChangedListener.GOING:
-                    //ttsManager.addQueue("Caminando");
-                    break;
-                case OnGoToLocationStatusChangedListener.COMPLETE:
-                    if(ttsManager.isSpeach()){
-                        ttsManager.shutDown();
-                    }
-                    ttsManager.initQueue("En este pasillo se encuentra su artículo");
-                    ttsManager.initQueue("¿Le puedo ayudar en algo más?");
-                    Intent help = new Intent(BusquedaArticulos.this, Help_Decition.class);
-                    startActivity(help);
-                    break;
-                case OnGoToLocationStatusChangedListener.ABORT:
-                    //ttsManager.addQueue("Abortando");
-                    break;
-            }
-        });
-        //movimiento.robot.addOnDistanceToLocationChangedListener(onDistanceToLocationChangedListener);
-       // movimiento.robot.addOnCurrentPositionChangedListener(onCurrentPositionChangedListener);
-        movimiento.robot.addOnReposeStatusChangedListener((status, description) -> {
-            if (status == OnReposeStatusChangedListener.REPOSING_OBSTACLE_DETECTED) {
-                ttsManager.initQueue("Humano puedes moverte por favor");
-            }
-        });
         deteccionPersonas.addListener(this,this);
-        //movimiento.robot.addOnLoadMapStatusChangedListener(onLoadMapStatusChangedListener);
-        //movimiento.robot.addOnRobotReadyListener(movimiento.robot.addOnRobotReadyListener((OnRobotReadyListener) this));
+        movimiento.addListener();
     }
 
     @Override
@@ -140,5 +97,6 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
     protected void onStop() {
         super.onStop();
         deteccionPersonas.removeListener(this,this);
+        movimiento.removeListener();
     }
 }
