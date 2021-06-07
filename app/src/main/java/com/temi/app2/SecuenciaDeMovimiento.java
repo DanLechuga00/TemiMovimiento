@@ -17,9 +17,10 @@ public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLo
     private int ContadorPositiones = 0;
     private int ContadorPositionesTotales = 0;
     private final String TAG = "SecuenciaDeMovimiento";
+    private TTSManager ttsManager;
 
-    public SecuenciaDeMovimiento() {
-        this.robot = Robot.getInstance();
+    public SecuenciaDeMovimiento(TTSManager ttsManager) {
+        this.robot = Robot.getInstance(); this.ttsManager = ttsManager;
     }
 
 
@@ -39,6 +40,10 @@ public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLo
                 else{
                     ContadorPositiones++;
                 }
+                break;
+            case "obstacle detected":
+            if(ttsManager.isSpeach()) ttsManager.shutDown();
+                ttsManager.initQueue("Se detecto un obstaculo; Por favor retirate ");
                 break;
         }
     }

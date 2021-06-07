@@ -55,7 +55,7 @@ private final String TAG = "Bateria";
         BatteryData batteryData = robot.getBatteryData();
         if(batteryData != null){
             Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
-            return batteryData.getBatteryPercentage() <= 100 && batteryData.getBatteryPercentage()>= 80;
+            return batteryData.getBatteryPercentage() <= 100 && batteryData.getBatteryPercentage()>= 20;
         }
         return false;
     }

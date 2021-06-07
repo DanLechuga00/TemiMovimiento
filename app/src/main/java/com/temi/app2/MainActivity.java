@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-
+    List<String> videos = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +64,15 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         if(ttsManager.isSpeach()) ttsManager.shutDown();
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
-        secuenciaDeMovimiento = new SecuenciaDeMovimiento();
+        secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager);
         deteccionPersonas = new DeteccionPersonas();
         if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
         deteccionPersonas.startDetectionModeWithDistance();
         btnHelp = findViewById(R.id.btnHelp);
         vV = findViewById(R.id.vV);
-        List<String> videos = new ArrayList<>();
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.cocacola);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.herederos);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.heineken);
+
+        videos = RecolectorDeVideos();
+
 
             try {
                 startVideo(vV,videos);
@@ -87,6 +86,15 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         }
 
     }
+
+    private List<String> RecolectorDeVideos() {
+        videos = new ArrayList<>();
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.cocacola);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.herederos);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.heineken);
+        return  videos;
+    }
+
     private void startVideo(VideoView video, List<String> listaVideos) throws Exception {
         if(listaVideos.isEmpty()) throw new Exception("No contiene videos a reproducir");
         contador = listaVideos.size();

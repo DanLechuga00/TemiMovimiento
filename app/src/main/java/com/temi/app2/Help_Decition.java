@@ -31,7 +31,7 @@ private final String TAG = "Help";
         ttsManager.init(this);
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
-        secuenciaDeMovimiento = new SecuenciaDeMovimiento();
+        secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager);
         movimiento = new Movimiento(this,this,ttsManager);
 
         btnSi = findViewById(R.id.btnSi);
