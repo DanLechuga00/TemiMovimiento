@@ -31,7 +31,13 @@ public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLo
             case OnGoToLocationStatusChangedListener.START:
                 this.PositionActual = location;
                 break;
-            case OnGoToLocationStatusChangedListener.COMPLETE:
+
+            case "obstacle detected":
+                if(ttsManager.isSpeach()) ttsManager.shutDown();
+                ttsManager.initQueue("Se detecto un obstaculo; Por favor retirate ");
+                break;
+
+                case OnGoToLocationStatusChangedListener.COMPLETE:
                 Log.d(TAG,"Contador:"+ContadorPositiones);
                 Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
                 if(ContadorPositiones >= ContadorPositionesTotales) {
@@ -41,10 +47,7 @@ public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLo
                     ContadorPositiones++;
                 }
                 break;
-            case "obstacle detected":
-            if(ttsManager.isSpeach()) ttsManager.shutDown();
-                ttsManager.initQueue("Se detecto un obstaculo; Por favor retirate ");
-                break;
+
         }
     }
     public  List<String> getLocations(){

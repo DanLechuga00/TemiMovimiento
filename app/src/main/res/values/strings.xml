@@ -3,5 +3,14 @@
     <string name="txt_bnv">Esta pantalla no se ve</string>
     <string name="txt_location">Ingresa la ubicacion</string>
     <string name="btn_ubicacion">Ir a la ubicacion</string>
+    <string name="txv_oido">Puedes oprimir si no escuchas</string>
+    <string name="contentDescrp"></string>
+    <string name="Area_bebes">Bebes</string>
+    <string name="Area_familiar">Para toda la familia</string>
+    <string name="Area_Cereales">Cereales</string>
+    <string name="Area_Chocolate">Chocolate</string>
+    <string name="Area_Coffe">Nescafe</string>
+    <string name="Area_Nutricion">Nutricion</string>
+
 
 </resources>

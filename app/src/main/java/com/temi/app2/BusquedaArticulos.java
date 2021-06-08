@@ -3,21 +3,15 @@ package com.temi.app2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
+import android.widget.VideoView;
 
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
-import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
-import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
-import com.robotemi.sdk.listeners.OnRobotReadyListener;
-import com.robotemi.sdk.map.OnLoadMapStatusChangedListener;
 import com.robotemi.sdk.model.DetectionData;
-import com.robotemi.sdk.navigation.listener.OnCurrentPositionChangedListener;
-import com.robotemi.sdk.navigation.listener.OnDistanceToLocationChangedListener;
-import com.robotemi.sdk.navigation.listener.OnReposeStatusChangedListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +22,8 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
     static String orden = "";
     DeteccionPersonas deteccionPersonas = null;
 
-    private ImageButton btnRefresco, btnVinosLicores, btnDulceria, btnBack1;
+    private ImageButton btn1A, btn2A, btn3A, btnBack1, btn4A;
+    private VideoView videoBusqueda;
 
 //TODO: REvisar el oyente en cambio canstante de actividad
     @Override
@@ -51,29 +46,44 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
 
         movimiento = new Movimiento(this, BusquedaArticulos.this,ttsManager);
 
-        btnRefresco = findViewById(R.id.btnRefresco);
-        btnVinosLicores = findViewById(R.id.btnVinosLicores);
-        btnDulceria = findViewById(R.id.btnDulceria);
+        btn1A = findViewById(R.id.button1A);
+        btn2A = findViewById(R.id.button2A);
+        btn3A = findViewById(R.id.button3A);
+        btn4A = findViewById(R.id.button4A);
+        videoBusqueda = findViewById(R.id.VideoBusqueda);
         btnBack1 = findViewById(R.id.btnBack1);
         deteccionPersonas = new DeteccionPersonas();
 
         System.out.println("OnCreate_Busqueda");
-        btnRefresco.setOnClickListener(v -> {
-            ttsManager.initQueue("Los refrescos se encuentran en el pasillo 1; sígame y le muestro su ubicación");
 
-            //movimiento.bailar();
-            movimiento.goTo("uno");
+        btn1A.setOnClickListener(v -> {
+            videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.Carlos_V);
+            videoBusqueda.start();
+            videoBusqueda.setOnCompletionListener(mp -> {
+            videoBusqueda.stopPlayback();
+                videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.KITKAT);
+                videoBusqueda.start();
+            });
+            videoBusqueda.stopPlayback();
+            ttsManager.initQueue("Sígame y le muestro su ubicación; En el area de Chocolates se encuentra en diferentes sabores como chocolate oscuro;blanco;¿Cual es tu favorito?;");
+            movimiento.goTo("chocolates");
+
         });
 
-        btnVinosLicores.setOnClickListener(v -> {
-            ttsManager.initQueue("Los vinos y licores se encuentran en el pasillo 2; sígame y le muestro su ubicación");
-            movimiento.goTo("dos");
-            //movimiento.bailar();
+        btn2A.setOnClickListener(v -> {
+            ttsManager.initQueue("Sígame y le muestro su ubicación; sabías que el cereales es rica hierro y en vitamina;¿Cual es tu sabor favorito?; ");
+            movimiento.goTo("cereales");
+
         });
 
-        btnDulceria.setOnClickListener(v -> {
-            ttsManager.initQueue("La dulceria se encuentra en el pasillo 3; sígame y le muestro su ubicación");
-            movimiento.goTo("tres");
+        btn3A.setOnClickListener(v -> {
+            ttsManager.initQueue("Sígame y le muestro su ubicación;café rico para iniciar el día ¿no crees?; ¿Cafeinado o Descafeinado?");
+            movimiento.goTo("nescafe");
+        });
+        btn4A.setOnClickListener(v ->{
+            ttsManager.initQueue("Sígame y le muestro su ubicación;Algo rico y nutritivo;¿Buscabas algó en especial?;");
+            movimiento.goTo("nutricion");
+
         });
 
         btnBack1.setOnClickListener(v -> {
@@ -84,13 +94,13 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
-        System.out.println("onDetectionDataChanged : Detection"+detectionData.toString());
-        Log.d("Busqueda_OnChange","onDetectionDataChanged: state : "+detectionData.toString());
+     Log.d("onDetectionDataChanged","onDetectionDataChanged: state : "+detectionData.toString());
     }
 
     @Override
     public void onDetectionStateChanged(int state) {
-
+    Log.d("onDetectionStateChanged","onDetectionStateChanged : state::"+state);
+    
     }
 
     @Override

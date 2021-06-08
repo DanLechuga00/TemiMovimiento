@@ -71,6 +71,7 @@ private final String TAG = "Help";
     @Override
     protected void onStart() {
         super.onStart();
+        movimiento.MediaVuelta();
         deteccionPersonas.addListener(Help_Decition.this,Help_Decition.this);
         secuenciaDeMovimiento.addListener();
     }

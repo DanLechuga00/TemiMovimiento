@@ -22,19 +22,19 @@ public class Option_Recomendation extends AppCompatActivity {
         ttsManager.init(this);
 
 
-        btnPareja = findViewById(R.id.btnPareja);
-        btnAmigos = findViewById(R.id.btnAmigos);
+        btnPareja = findViewById(R.id.button1);
+        btnAmigos = findViewById(R.id.button2);
         btnBack2 = findViewById(R.id.btnBack2);
 
         btnPareja.setOnClickListener(v -> {
-            ttsManager.initQueue("Para una ocación con la pareja se le recomienda etiqueta Dorada");
-            ttsManager.initQueue("Le puedo ayudar en algo más");
+            ttsManager.initQueue("Buscamos leche para nido");
+            ttsManager.initQueue("Puedo apoyarlo en algo más");
             Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
             startActivity(opcion);
         });
 
         btnAmigos.setOnClickListener(v -> {
-            ttsManager.initQueue("Para una ocación con amigos se le recomienda etiqueta roja");
+            ttsManager.initQueue("Un buen cereal siempre es algo que tu y los tuyos disfrutan");
             ttsManager.initQueue("Le puedo ayudar en algo más");
             Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
             startActivity(opcion);
