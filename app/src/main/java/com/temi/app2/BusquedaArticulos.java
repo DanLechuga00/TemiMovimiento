@@ -57,11 +57,12 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
         System.out.println("OnCreate_Busqueda");
 
         btn1A.setOnClickListener(v -> {
-            videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.Carlos_V);
+            videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.carlos_v);
             videoBusqueda.start();
             videoBusqueda.setOnCompletionListener(mp -> {
             videoBusqueda.stopPlayback();
-                videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.KITKAT);
+                videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.kitkat
+                );
                 videoBusqueda.start();
             });
             videoBusqueda.stopPlayback();
