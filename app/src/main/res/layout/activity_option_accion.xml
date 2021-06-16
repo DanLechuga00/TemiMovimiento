@@ -45,8 +45,8 @@
         android:layout_height="104dp"
         android:layout_below="@+id/btnDonde"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="129dp"
-        android:layout_marginEnd="417dp"
+        android:layout_marginTop="141dp"
+        android:layout_marginEnd="379dp"
         android:background="@mipmap/recom_out"
         android:backgroundTint="#573005"
         android:tint="@color/black" />

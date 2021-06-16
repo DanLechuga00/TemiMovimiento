@@ -47,6 +47,11 @@ private final String TAG = "Bateria";
         BatteryData batteryData = robot.getBatteryData();
         if(batteryData != null){
             Log.d(TAG,"Nivel de bateria:"+batteryData.getBatteryPercentage());
+            if(batteryData.isCharging() && EsBateriaCompleta()){
+                Log.d(TAG,"Carga completa");
+                return false;
+            }
+
             return  batteryData.isCharging();
         }
         return false;

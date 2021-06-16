@@ -64,13 +64,12 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         if(ttsManager.isSpeach()) ttsManager.shutDown();
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
-        secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager);
+        secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager,this,bateria);
         deteccionPersonas = new DeteccionPersonas();
         if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
         deteccionPersonas.startDetectionModeWithDistance();
         btnHelp = findViewById(R.id.btnHelp);
         vV = findViewById(R.id.vV);
-
         videos = RecolectorDeVideos();
 
 
@@ -89,9 +88,11 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
 
     private List<String> RecolectorDeVideos() {
         videos = new ArrayList<>();
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.cocacola);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.herederos);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.heineken);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.familia_nestle);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.ahorra);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.cereales);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.coffee_mate);
+        videos.add("android.resource://" + getPackageName() + "/" +R.raw.nido_etapas);
         return  videos;
     }
 
@@ -115,8 +116,8 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
         if(!bateria.EsBateriaBaja()&&!bateria.EstaCargando()&&bateria.EsBateriaCompleta()){
             vV.stopPlayback();
-            Log.d("Movimiento_next","Aqui sigue la secuencia");
-            secuenciaDeMovimiento.Secuencia();
+            //Log.d("Movimiento_next","Aqui sigue la secuencia");
+            //secuenciaDeMovimiento.Secuencia();
             if(contador == 0) throw  new Exception("contador de videos vacio");
             if(contador == i){
                 i = 0;
@@ -181,7 +182,8 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         System.out.println("onDetectionStateChanged : state " + state);
         if (state == OnDetectionStateChangedListener.DETECTED) {
             deteccionPersonas.ConstanteJuntoAMi();
-            ttsManager.initQueue("Buen día ¿En qué le puedo ayudar?");
+            ttsManager.initQueue("Soy su robot asistente personal");
+            ttsManager.initQueue("¿En qué le puedo ayudar?");
             Intent sig = new Intent(MainActivity.this, Option_Accion.class);
             startActivity(sig);
         }
@@ -190,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("OnStart");
+        System.out.println("OnStart_Main");
         deteccionPersonas.addListener(MainActivity.this, MainActivity.this);
         secuenciaDeMovimiento.addListener();
     }
@@ -198,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("OnStop");
+        System.out.println("OnStop_Main");
         deteccionPersonas.removeListener(MainActivity.this,MainActivity.this);
         secuenciaDeMovimiento.removeListener();
     }

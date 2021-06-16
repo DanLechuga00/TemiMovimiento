@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,11 +64,11 @@ public  final class Movimiento  implements
                 //ttsManager.addQueue("Caminando");
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
-                if(ttsManager.isSpeach()){
-                    ttsManager.shutDown();
-                }
                 ttsManager.initQueue("En este pasillo se encuentra su artículo");
                 ttsManager.initQueue("¿Le puedo ayudar en algo más?");
+                if(ttsManager.isSpeach()){
+                    ttsManager.Stop();
+                }
                 Intent help = new Intent(main, Help_Decition.class);
                 main.startActivity(help);
                 break;
@@ -127,7 +128,7 @@ public  final class Movimiento  implements
 
     public void bailar() {
         ttsManager.initQueue("Solo fijate en esto");
-        robot.turnBy(360);
+        robot.turnBy(360,1F);
     }
     public  void MoonWalk(){
         long t = System.currentTimeMillis();
@@ -144,7 +145,12 @@ public  final class Movimiento  implements
         robot.removeOnGoToLocationStatusChangedListener(this);
     }
 public  void MediaVuelta(){
-        robot.turnBy(180);
+        Log.d("Movimiento","Girar el robot a 180°");
+        robot.turnBy(180,1F);
 }
+public  void LevantaCabeza(){
+        Log.d("Movimiemto","Levantar la cabeza del robot");
+        robot.tiltBy(30);
+    }
 
 }

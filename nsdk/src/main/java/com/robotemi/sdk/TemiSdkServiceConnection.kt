@@ -48,7 +48,7 @@ internal class TemiSdkServiceConnection {
     @SuppressLint("LongLogTag")
     @UiThread
     internal fun startConnection(context: Context) {
-        Log.d(TAG, "startConnection(Context)")
+        Log.d(TAG, "startConnection(Context = ${context})")
         when {
             context.bindService(
                 getSdkServiceIntent(SdkConstants.TEMI_USA),

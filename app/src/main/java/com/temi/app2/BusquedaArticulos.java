@@ -15,7 +15,8 @@ import com.robotemi.sdk.model.DetectionData;
 
 import org.jetbrains.annotations.NotNull;
 
-public class BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedListener, OnDetectionDataChangedListener {
+public class
+BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedListener, OnDetectionDataChangedListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
@@ -30,7 +31,6 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
     protected void onStart() {
         super.onStart();
         System.out.println("Onstart_Busqueda");
-        deteccionPersonas.addListener(this,this);
         deteccionPersonas.addListener(this,this);
         movimiento.addListener();
     }
@@ -61,12 +61,11 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
             videoBusqueda.start();
             videoBusqueda.setOnCompletionListener(mp -> {
             videoBusqueda.stopPlayback();
-                videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.kitkat
-                );
+                videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.kitkat);
                 videoBusqueda.start();
             });
             videoBusqueda.stopPlayback();
-            ttsManager.initQueue("Sígame y le muestro su ubicación; En el area de Chocolates se encuentra en diferentes sabores como chocolate oscuro;blanco;¿Cual es tu favorito?;");
+            ttsManager.initQueue("Sígame y le muestro su ubicación; En el área de Chocolates se encuentra en diferentes sabores como chocolate oscuro;blanco;¿Cual es tu favorito?;");
             movimiento.goTo("chocolates");
 
         });
@@ -96,12 +95,17 @@ public class BusquedaArticulos extends AppCompatActivity implements OnDetectionS
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
      Log.d("onDetectionDataChanged","onDetectionDataChanged: state : "+detectionData.toString());
+
     }
 
     @Override
     public void onDetectionStateChanged(int state) {
     Log.d("onDetectionStateChanged","onDetectionStateChanged : state::"+state);
-    
+    if(OnDetectionStateChangedListener.IDLE == state){
+        ttsManager.initQueue("Esta bien que tenga un gran día");
+        Intent regresar = new Intent(BusquedaArticulos.this, MainActivity.class);
+        startActivity(regresar);
+    }
     }
 
     @Override
