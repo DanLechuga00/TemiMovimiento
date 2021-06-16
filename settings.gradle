@@ -1,3 +1,4 @@
 rootProject.name = "App2"
 include ':app'
 include ':nsdk'
+include ':msdk'

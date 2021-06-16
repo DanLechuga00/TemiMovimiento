@@ -21,6 +21,7 @@ private final String TAG = "Help";
     DeteccionPersonas deteccionPersonas = null;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
     Movimiento movimiento = null;
+    Bateria bateria = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,8 @@ private final String TAG = "Help";
         ttsManager.init(this);
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
-        secuenciaDeMovimiento = new SecuenciaDeMovimiento();
+        bateria = new Bateria(movimiento,this,Help_Decition.this);
+        secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager,this,bateria);
         movimiento = new Movimiento(this,this,ttsManager);
 
         btnSi = findViewById(R.id.btnSi);
@@ -71,6 +73,8 @@ private final String TAG = "Help";
     @Override
     protected void onStart() {
         super.onStart();
+        movimiento.MediaVuelta();
+        movimiento.LevantaCabeza();
         deteccionPersonas.addListener(Help_Decition.this,Help_Decition.this);
         secuenciaDeMovimiento.addListener();
     }

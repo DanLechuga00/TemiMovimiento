@@ -4,49 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_temi"
+    android:background="@mipmap/bg_nestle"
     tools:context=".BusquedaArticulos">
+
+    <VideoView
+        android:id="@+id/VideoBusqueda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="@mipmap/bg_nestle" />
 
     <ImageButton
         android:id="@+id/btnBack1"
         android:layout_width="94dp"
         android:layout_height="106dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="92dp"
-        android:background="@mipmap/atras_out" />
+        android:layout_marginEnd="8dp"
+        android:background="@mipmap/logo_regreso"
+        android:contentDescription="@string/contentDescrp" />
 
-    <ImageButton
-        android:id="@+id/btnRefresco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="244dp"
-        android:layout_marginBottom="317dp"
-        android:background="@mipmap/refrescos_out">
-
-    </ImageButton>
-
-    <ImageButton
-        android:id="@+id/btnDulceria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="281dp"
+        android:layout_height="66dp"
+        android:layout_above="@id/button1A"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="243dp"
-        android:layout_marginBottom="317dp"
-        android:layout_toEndOf="@+id/btnVinosLicores"
-        android:background="@mipmap/dulceria_out" />
+        android:layout_marginTop="334dp"
+        android:layout_marginEnd="681dp"
+        android:layout_marginBottom="9dp"
+        android:text="@string/Area_Cereales"
+        android:textSize="42dp"
+        tools:ignore="SpUsage" />
 
     <ImageButton
-        android:id="@+id/btnVinosLicores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="65dp"
-        android:layout_marginBottom="317dp"
-        android:layout_toEndOf="@+id/btnRefresco"
-        android:background="@mipmap/vinos_out" />
+        android:id="@+id/button2A"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="631dp"
+        android:layout_marginTop="373dp"
+        android:layout_toEndOf="@+id/button1A"
+        android:background="@mipmap/cereal" />
+
+    <ImageButton
+        android:id="@+id/button3A"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="382dp"
+        android:layout_toEndOf="@+id/button1A"
+        android:background="@mipmap/coffee" />
+
+    <ImageButton
+        android:id="@+id/button4A"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="382dp"
+        android:layout_toEndOf="@+id/button3A"
+        android:background="@mipmap/nutricion" />
+
+    <ImageButton
+        android:id="@+id/button1A"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="382dp"
+        android:background="@mipmap/chocolate" />
+
 
 </RelativeLayout>

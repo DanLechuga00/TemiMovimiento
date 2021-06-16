@@ -5,6 +5,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY
 
@@ -16,6 +17,7 @@ internal class TemiSdkContentProvider : ContentProvider() {
         if (context == null) {
             throw NullPointerException("context=null")
         }
+        
         TemiSdkServiceConnection().startConnection(context!!)
         return true
     }

@@ -1,35 +1,55 @@
 package com.temi.app2;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
+import com.robotemi.sdk.model.DetectionData;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLocationStatusChangedListener {
+public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener, OnDetectionDataChangedListener {
     private final Robot robot;
     private String PositionActual = "";
     private int ContadorPositiones = 0;
     private int ContadorPositionesTotales = 0;
     private final String TAG = "SecuenciaDeMovimiento";
+    private TTSManager ttsManager;
+    private AppCompatActivity main;
+    private Bateria bateria;
+    private  boolean isDetect = false;
 
-    public SecuenciaDeMovimiento() {
-        this.robot = Robot.getInstance();
+
+    public SecuenciaDeMovimiento(TTSManager ttsManager, AppCompatActivity main, Bateria bateria) {
+        this.robot = Robot.getInstance(); this.ttsManager = ttsManager;
+        this.main = main;
+        this.bateria = bateria;
     }
 
 
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
-        Log.d(TAG, "onGoToLocationStatusChanged= location:" + location + "\n" + "status: " + status + "\n" + "descriptionId: " + descriptionId + "\n" + "description: " + description);
+        Log.d(TAG, "onGoToLocationStatusChanged:"+"\n"+ "location:" + location + "\n" + "status: " + status + "\n" + "descriptionId: " + descriptionId + "\n" + "description: " + description);
+        //TODO: Agregar Actividad inesperada, mas tiempo de espera
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
                 this.PositionActual = location;
                 break;
+            case "obstacle detected":
+                if(descriptionId == 2002 || descriptionId == 2001 && isDetect ){
+                Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
+                robot.stopMovement();
+                Intent vistaInesperada = new Intent(main,Help_Inesperada.class);
+                main.startActivity(vistaInesperada);
+            }
+                break;
+
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 Log.d(TAG,"Contador:"+ContadorPositiones);
                 Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
@@ -39,6 +59,7 @@ public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLo
                 else{
                     ContadorPositiones++;
                 }
+                if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando())Secuencia();
                 break;
         }
     }
@@ -61,9 +82,27 @@ public class SecuenciaDeMovimiento extends AppCompatActivity implements OnGoToLo
         }
     }
     public void addListener(){
+        Log.d("SecuenciaMovimiento","AddListener");
         robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
+        robot.addOnDetectionDataChangedListener(SecuenciaDeMovimiento.this);
     }
     public  void removeListener(){
+        Log.d("SecuenciaMovimiento","removeListener");
+        robot.removeOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
+        robot.removeOnDetectionDataChangedListener(SecuenciaDeMovimiento.this);
         robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
+    }
+
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        Log.d("SecuenciaMovimiento","Entro en la deteccion");
+        isDetect = detectionData.isDetected();
+        if(detectionData.isDetected()){
+            Log.d(TAG,"Entra en espera");
+            robot.stopMovement();
+            Log.d(TAG,"Deten movimiento");
+            Intent inesperado = new Intent(main,Help_Inesperada.class);
+            main.startActivity(inesperado);
+        }
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_temi"
+    android:background="@mipmap/bg_nestle"
     tools:context=".Option_Recomendation">
 
     <ImageButton
@@ -13,26 +13,55 @@
         android:layout_height="106dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="92dp"
-        android:background="@mipmap/atras_out" />
+        android:background="@mipmap/logo_regreso"
+        android:backgroundTint="@color/black"
+        android:tint="@color/black" />
+    <ImageButton
+        android:id="@+id/button2"
+        android:layout_width="294dp"
+        android:layout_height="299dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="286dp"
+        android:layout_marginBottom="272dp"
+        android:background="@mipmap/recomendacion_1" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="136dp"
+        android:layout_height="74dp"
+        android:layout_above="@id/button2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="433dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/Area_bebes"
+        android:textSize="42dp"
+        tools:ignore="SpUsage" />
 
     <ImageButton
-        android:id="@+id/btnPareja"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:id="@+id/button1"
+        android:layout_width="294dp"
+        android:layout_height="299dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="362dp"
-        android:layout_marginBottom="318dp"
-        android:background="@mipmap/pareja_out" />
+        android:layout_marginEnd="756dp"
+        android:layout_marginBottom="276dp"
+        android:background="@mipmap/recomendacion_2" />
 
-    <ImageButton
-        android:id="@+id/btnAmigos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="133dp"
-        android:layout_marginBottom="318dp"
-        android:layout_toEndOf="@+id/btnPareja"
-        android:background="@mipmap/amigos_out" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="366dp"
+        android:layout_height="66dp"
+        android:layout_above="@id/button2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="236dp"
+        android:layout_marginEnd="683dp"
+        android:layout_marginBottom="27dp"
+        android:text="@string/Area_familiar"
+        android:textSize="38dp"
+        tools:ignore="SpUsage" />
 
 </RelativeLayout>

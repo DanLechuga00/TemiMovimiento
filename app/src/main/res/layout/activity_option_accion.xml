@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_temi"
+    android:background="@mipmap/bg_nestle"
     tools:context=".Option_Accion">
 
     <ImageButton
@@ -13,7 +13,7 @@
         android:layout_height="106dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="92dp"
-        android:background="@mipmap/home_out" />
+        android:background="@mipmap/logo_inicio" />
 
     <ImageButton
         android:id="@+id/btnDonde"
@@ -22,43 +22,55 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="221dp"
-        android:layout_marginTop="211dp"
-        android:background="@mipmap/donde_out" />
+        android:layout_marginTop="289dp"
+        android:background="@mipmap/donde_out"
+        android:backgroundTint="#573005"
+        android:tint="@color/black" />
 
     <ImageButton
         android:id="@+id/btnCosto"
         android:layout_width="409dp"
         android:layout_height="104dp"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="211dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="294dp"
         android:layout_toEndOf="@+id/btnDonde"
-        android:background="@mipmap/precio_out" />
+        android:background="@mipmap/precio_out"
+        android:backgroundTint="#573005"
+        android:tint="@color/black" />
 
     <ImageButton
         android:id="@+id/btnRecomendacion"
         android:layout_width="409dp"
         android:layout_height="104dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/btnDonde"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="485dp"
-        android:layout_marginEnd="425dp"
-        android:background="@mipmap/recom_out" />
+        android:layout_marginTop="141dp"
+        android:layout_marginEnd="379dp"
+        android:background="@mipmap/recom_out"
+        android:backgroundTint="#573005"
+        android:tint="@color/black" />
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="103dp"
-        android:layout_height="99dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_below="@+id/sordera"
-        android:layout_marginTop="90dp"
-        android:background="@mipmap/microfono" />
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="65dp"
+        android:background="@mipmap/micro"
+        android:backgroundTint="#573005" />
 
     <ImageView
         android:id="@+id/sordera"
-        android:layout_width="103dp"
-        android:layout_height="99dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="296dp"
-        android:background="@mipmap/sordera" />
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="379dp"
+        android:background="@mipmap/sordera"
+        android:backgroundTint="#573005" />
 
 </RelativeLayout>
