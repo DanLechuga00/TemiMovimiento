@@ -39,11 +39,13 @@ public class DeteccionPersonas {
     }
 
     public void addListener(OnDetectionDataChangedListener dataChangedListener, OnDetectionStateChangedListener stateChangedListener) {
+        Log.d("DeteccionPersonas","AddListener");
         if(dataChangedListener != null)robot.addOnDetectionDataChangedListener(dataChangedListener);
         robot.addOnDetectionStateChangedListener(stateChangedListener);
     }
 
     public void removeListener(OnDetectionDataChangedListener dataChangedListener, OnDetectionStateChangedListener stateChangedListener) {
+        Log.d("DeteccionDePersonas","RemoveListener");
         if(dataChangedListener != null)robot.removeOnDetectionDataChangedListener(dataChangedListener);
         robot.removeOnDetectionStateChangedListener(stateChangedListener);
     }

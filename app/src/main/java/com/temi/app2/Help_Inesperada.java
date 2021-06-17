@@ -66,12 +66,12 @@ private DeteccionPersonas deteccionPersonas = null;
     }
 
     public  void addListener(){
+        Log.d(TAG,"AddListener");
         robot.addOnDetectionStateChangedListener(this);
-
     }
     public  void removeListener(){
+        Log.d(TAG,"RemoveListener");
      robot.removeOnDetectionStateChangedListener(this);
-
     }
 
     @Override

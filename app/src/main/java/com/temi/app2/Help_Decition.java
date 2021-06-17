@@ -73,6 +73,7 @@ private final String TAG = "Help";
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("Help_Inseperada","OnStart_help");
         movimiento.MediaVuelta();
         movimiento.LevantaCabeza();
         deteccionPersonas.addListener(Help_Decition.this,Help_Decition.this);
@@ -82,6 +83,7 @@ private final String TAG = "Help";
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d("HelpDeteccion","OnStop_help");
         deteccionPersonas.removeListener(Help_Decition.this,Help_Decition.this);
         secuenciaDeMovimiento.removeListener();
     }

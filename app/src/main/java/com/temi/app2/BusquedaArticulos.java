@@ -30,7 +30,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("Onstart_Busqueda");
+        Log.d("BusquedaArticulos","Onstart_Busqueda");
         deteccionPersonas.addListener(this,this);
         movimiento.addListener();
     }
@@ -111,6 +111,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d("BusquedaArticulos","OnStop_Busqueda");
         deteccionPersonas.removeListener(this,this);
         movimiento.removeListener();
     }

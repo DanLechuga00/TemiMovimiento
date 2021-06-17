@@ -41,8 +41,11 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
             case OnGoToLocationStatusChangedListener.START:
                 this.PositionActual = location;
                 break;
+
             case "obstacle detected":
+
                 if(descriptionId == 2002 || descriptionId == 2001 && isDetect ){
+
                 Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
                 robot.stopMovement();
                 Intent vistaInesperada = new Intent(main,Help_Inesperada.class);
@@ -90,6 +93,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
         Log.d("SecuenciaMovimiento","removeListener");
         robot.removeOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
         robot.removeOnDetectionDataChangedListener(SecuenciaDeMovimiento.this);
+        Log.d("SecuenciaMovimiento","AddListener_Continuando con la secuencia");
         robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
     }
 
@@ -97,12 +101,5 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
         Log.d("SecuenciaMovimiento","Entro en la deteccion");
         isDetect = detectionData.isDetected();
-        if(detectionData.isDetected()){
-            Log.d(TAG,"Entra en espera");
-            robot.stopMovement();
-            Log.d(TAG,"Deten movimiento");
-            Intent inesperado = new Intent(main,Help_Inesperada.class);
-            main.startActivity(inesperado);
-        }
     }
 }

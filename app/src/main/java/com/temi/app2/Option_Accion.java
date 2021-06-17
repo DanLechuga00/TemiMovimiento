@@ -2,6 +2,7 @@ package com.temi.app2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -97,12 +98,14 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("OptionAccion","OnStart_Option");
         deteccionPersonas.addListener(null,Option_Accion.this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d("OptionAccion","OnStop_Option");
         deteccionPersonas.removeListener(null,Option_Accion.this);
     }
 }

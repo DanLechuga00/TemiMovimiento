@@ -147,10 +147,14 @@ public  final class Movimiento  implements
 public  void MediaVuelta(){
         Log.d("Movimiento","Girar el robot a 180°");
         robot.turnBy(180,1F);
+        NombreRobot();
 }
 public  void LevantaCabeza(){
         Log.d("Movimiemto","Levantar la cabeza del robot");
         robot.tiltBy(30);
+    }
+    public void NombreRobot (){
+        Log.d("Info_Robot","Nombre del robot:"+robot.getNickName()+"\n"+"Numero de serie del robot:"+robot.getSerialNumber()+"\n"+"Version de robox:"+robot.getRoboxVersion()+"\n"+"Version del Launcher:"+robot.getLauncherVersion());
     }
 
 }

@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("OnStart_Main");
+        Log.d("Main_Activity","OnStart_Main");
         deteccionPersonas.addListener(MainActivity.this, MainActivity.this);
         secuenciaDeMovimiento.addListener();
     }
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("OnStop_Main");
+        Log.d("Main_Activity","OnStop_Main");
         deteccionPersonas.removeListener(MainActivity.this,MainActivity.this);
         secuenciaDeMovimiento.removeListener();
     }
