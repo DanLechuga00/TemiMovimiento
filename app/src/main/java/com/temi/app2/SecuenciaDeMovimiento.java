@@ -45,14 +45,10 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
             case "obstacle detected":
 
                 if(descriptionId == 2002 || descriptionId == 2001 && isDetect ){
-
                 Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
                 robot.stopMovement();
-                Intent vistaInesperada = new Intent(main,Help_Inesperada.class);
-                main.startActivity(vistaInesperada);
             }
                 break;
-
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 Log.d(TAG,"Contador:"+ContadorPositiones);
                 Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
@@ -93,13 +89,19 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
         Log.d("SecuenciaMovimiento","removeListener");
         robot.removeOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
         robot.removeOnDetectionDataChangedListener(SecuenciaDeMovimiento.this);
-        Log.d("SecuenciaMovimiento","AddListener_Continuando con la secuencia");
-        robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
+
     }
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
         Log.d("SecuenciaMovimiento","Entro en la deteccion");
         isDetect = detectionData.isDetected();
+        /*if(detectionData.isDetected()){
+            Intent inesperado = new Intent(main,Help_Inesperada.class);
+            main.startActivity(inesperado);
+        }else{
+            Intent Main = new Intent(main,MainActivity.class);
+            main.startActivity(Main);
+        }*/
     }
 }
