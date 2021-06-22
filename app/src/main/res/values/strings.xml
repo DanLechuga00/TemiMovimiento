@@ -1,16 +1,13 @@
-<resources>
-    <string name="app_name">Make.it</string>
-    <string name="txt_bnv">Esta pantalla no se ve</string>
-    <string name="txt_location">Ingresa la ubicacion</string>
-    <string name="btn_ubicacion">Ir a la ubicacion</string>
-    <string name="txv_oido">Puedes oprimir si no escuchas</string>
-    <string name="contentDescrp"></string>
-    <string name="Area_bebes">Bebes</string>
-    <string name="Area_familiar">Para toda la familia</string>
-    <string name="Area_Cereales">Cereales</string>
-    <string name="Area_Chocolate">Chocolate</string>
-    <string name="Area_Coffe">Nescafe</string>
-    <string name="Area_Nutricion">Nutricion</string>
+package com.temi.app2;
 
+    import android.content.Intent;import android.util.Log;
 
-</resources>
+    import androidx.appcompat.app.AppCompatActivity;
+
+    import com.robotemi.sdk.Robot;import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;import com.robotemi.sdk.model.DetectionData;
+
+    import org.jetbrains.annotations.NotNull;
+
+    import java.util.List;
+
+    public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener, OnDetectionDataChangedListener, OnUserInteractionChangedListener {private final Robot robot;priva
