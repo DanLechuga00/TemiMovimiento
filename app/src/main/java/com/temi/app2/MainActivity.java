@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         super.onStart();
         Log.d("Main_Activity","OnStart_Main");
         secuenciaDeMovimiento.addListener();
+        deteccionPersonas.addListenerUser(this);
     }
 
     @Override
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         super.onStop();
         Log.d("Main_Activity","OnStop_Main");
         secuenciaDeMovimiento.removeListener();
+        deteccionPersonas.addListenerUser(this);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
+import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
 
 import kotlin.jvm.Throws;
 
@@ -55,6 +56,12 @@ public class DeteccionPersonas {
         Log.d("DeteccionDePersonas","RemoveListener");
         if(dataChangedListener != null)robot.removeOnDetectionDataChangedListener(dataChangedListener);
         robot.removeOnDetectionStateChangedListener(stateChangedListener);
+    }
+    public  void addListenerUser(OnUserInteractionChangedListener onUserInteractionChangedListener){
+        robot.addOnUserInteractionChangedListener(onUserInteractionChangedListener);
+    }
+    public  void removeListenerUser(OnUserInteractionChangedListener onUserInteractionChangedListener){
+        robot.removeOnUserInteractionChangedListener(onUserInteractionChangedListener);
     }
 
 
