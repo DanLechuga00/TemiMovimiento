@@ -3,7 +3,6 @@ package com.temi.app2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -30,7 +29,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("Onstart_Busqueda");
+        Log.d("BusquedaArticulos","Onstart_Busqueda");
         deteccionPersonas.addListener(this,this);
         movimiento.addListener();
     }
@@ -103,7 +102,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     Log.d("onDetectionStateChanged","onDetectionStateChanged : state::"+state);
     if(OnDetectionStateChangedListener.IDLE == state){
         ttsManager.initQueue("Esta bien que tenga un gran día");
-        Intent regresar = new Intent(BusquedaArticulos.this, MainActivity.class);
+        Intent regresar = new Intent(BusquedaArticulos.this, VideosActivity.class);
         startActivity(regresar);
     }
     }
@@ -111,6 +110,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d("BusquedaArticulos","OnStop_Busqueda");
         deteccionPersonas.removeListener(this,this);
         movimiento.removeListener();
     }
