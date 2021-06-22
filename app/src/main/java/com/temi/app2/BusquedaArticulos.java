@@ -3,6 +3,7 @@ package com.temi.app2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -102,7 +103,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     Log.d("onDetectionStateChanged","onDetectionStateChanged : state::"+state);
     if(OnDetectionStateChangedListener.IDLE == state){
         ttsManager.initQueue("Esta bien que tenga un gran día");
-        Intent regresar = new Intent(BusquedaArticulos.this, VideosActivity.class);
+        Intent regresar = new Intent(BusquedaArticulos.this, MainActivity.class);
         startActivity(regresar);
     }
     }

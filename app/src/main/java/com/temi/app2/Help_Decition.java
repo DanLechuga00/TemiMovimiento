@@ -49,7 +49,7 @@ private final String TAG = "Help";
 
         btnNo.setOnClickListener(v -> {
             ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
-            Intent back = new Intent(Help_Decition.this, VideosActivity.class);
+            Intent back = new Intent(Help_Decition.this, MainActivity.class);
             startActivity(back);
         });
     }
@@ -65,7 +65,7 @@ private final String TAG = "Help";
         if (OnDetectionStateChangedListener.IDLE == state) {
             deteccionPersonas.DetenerMovimiento();
             ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
-            Intent back = new Intent(Help_Decition.this, VideosActivity.class);
+            Intent back = new Intent(Help_Decition.this, MainActivity.class);
             startActivity(back);
         }
     }

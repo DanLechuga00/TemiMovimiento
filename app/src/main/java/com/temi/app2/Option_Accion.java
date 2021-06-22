@@ -3,11 +3,16 @@ package com.temi.app2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
+import com.robotemi.sdk.model.DetectionData;
+
+import org.jetbrains.annotations.NotNull;
 
 public class Option_Accion extends AppCompatActivity implements OnDetectionStateChangedListener {
 
@@ -57,7 +62,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
 
             btnHome.setOnClickListener(v -> {
                 ttsManager.initQueue("Recuerde que estoy a su servicio en cualquier momento");
-                Intent home = new Intent(Option_Accion.this, VideosActivity.class);
+                Intent home = new Intent(Option_Accion.this, MainActivity.class);
                 startActivity(home);
             });
 
@@ -82,7 +87,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
             }
             deteccionPersonas.DetenerMovimiento();
             ttsManager.initQueue("Esta bien que tenga un excelente día; hasta luego");
-            Intent main = new Intent(Option_Accion.this, VideosActivity.class);
+            Intent main = new Intent(Option_Accion.this,MainActivity.class);
             startActivity(main);
         }
 

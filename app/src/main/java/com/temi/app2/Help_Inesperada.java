@@ -9,7 +9,11 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
+import com.robotemi.sdk.model.DetectionData;
+
+import org.jetbrains.annotations.NotNull;
 
 public class Help_Inesperada extends AppCompatActivity implements OnDetectionStateChangedListener{
 private String TAG = "Help_Inesperado";
@@ -38,7 +42,7 @@ private DeteccionPersonas deteccionPersonas = null;
 
         btnNo.setOnClickListener(v ->{
             ttsManager.initQueue("Esta bien; Recuerde estoy para servirle");
-            Intent option = new Intent(this, VideosActivity.class);
+            Intent option = new Intent(this,MainActivity.class);
             startActivity(option);
         });
 
@@ -57,7 +61,7 @@ private DeteccionPersonas deteccionPersonas = null;
         } else if (OnDetectionStateChangedListener.IDLE == state) {
             deteccionPersonas.DetenerMovimiento();
             ttsManager.initQueue("Bueno esta bien; soy su robot asistente personal");
-            Intent main = new Intent(this, VideosActivity.class);
+            Intent main = new Intent(this,MainActivity.class);
             startActivity(main);
         }
     }
