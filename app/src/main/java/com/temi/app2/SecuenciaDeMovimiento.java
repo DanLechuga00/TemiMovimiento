@@ -8,13 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
+import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
 import com.robotemi.sdk.model.DetectionData;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener, OnDetectionDataChangedListener {
+public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener {
     private final Robot robot;
     private String PositionActual = "";
     private int ContadorPositiones = 0;
@@ -47,7 +48,9 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 if(descriptionId == 2002 || descriptionId == 2001 && isDetect ){
                 Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
                 robot.stopMovement();
-            }
+                }else{
+                    ttsManager.initQueue("Ups; Permiso; Le agradezco");
+                }
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 Log.d(TAG,"Contador:"+ContadorPositiones);
@@ -83,25 +86,16 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     public void addListener(){
         Log.d("SecuenciaMovimiento","AddListener");
         robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
-        robot.addOnDetectionDataChangedListener(SecuenciaDeMovimiento.this);
+
     }
     public  void removeListener(){
         Log.d("SecuenciaMovimiento","removeListener");
         robot.removeOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
-        robot.removeOnDetectionDataChangedListener(SecuenciaDeMovimiento.this);
+
 
     }
 
-    @Override
-    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
-        Log.d("SecuenciaMovimiento","Entro en la deteccion");
-        isDetect = detectionData.isDetected();
-        /*if(detectionData.isDetected()){
-            Intent inesperado = new Intent(main,Help_Inesperada.class);
-            main.startActivity(inesperado);
-        }else{
-            Intent Main = new Intent(main,MainActivity.class);
-            main.startActivity(Main);
-        }*/
-    }
+
+
+
 }

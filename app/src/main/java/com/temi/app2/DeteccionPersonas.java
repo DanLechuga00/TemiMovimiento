@@ -19,7 +19,7 @@ public class DeteccionPersonas {
 
     public void startDetectionModeWithDistance() {
         try {
-            String distanceString = "0.8";
+            String distanceString = "2.0";
             float distance = Float.parseFloat(distanceString);
             robot.setDetectionModeOn(true, distance);
             Log.d("Detection", "Deteccion habilitada");
@@ -28,6 +28,13 @@ public class DeteccionPersonas {
             Log.w("Detection", "Error: " + e.getMessage());
             System.out.println(e.getMessage());
         }
+    }
+    public  boolean IsDetectionModeOn(){
+        boolean result = false;
+        Log.d("Detection","Modo de Detection habititado");
+        result = robot.isDetectionModeOn();
+        Log.d("Detection","Modo de Detection habititado"+result);
+        return  result;
     }
 
     public void ConstanteJuntoAMi() {

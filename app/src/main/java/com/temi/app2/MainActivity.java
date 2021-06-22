@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
+import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
 import com.robotemi.sdk.model.DetectionData;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnDetectionStateChangedListener, OnDetectionDataChangedListener {
+public class MainActivity extends AppCompatActivity implements OnUserInteractionChangedListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager,this,bateria);
         deteccionPersonas = new DeteccionPersonas();
         if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
-        deteccionPersonas.startDetectionModeWithDistance();
+       if(deteccionPersonas.IsDetectionModeOn()) deteccionPersonas.startDetectionModeWithDistance();
         btnHelp = findViewById(R.id.btnHelp);
         vV = findViewById(R.id.vV);
         videos = RecolectorDeVideos();
@@ -171,29 +172,14 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
         }
     }
 
-    @Override
-    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
-    System.out.println("onDetectionDataChanged : Detection"+detectionData.toString());
-    Log.d("onDetectionDataChanged","onDetectionDataChanged: state : "+detectionData.toString());
-    }
 
-    @Override
-    public void onDetectionStateChanged(int state) {
-        System.out.println("onDetectionStateChanged : state " + state);
-        if (state == OnDetectionStateChangedListener.DETECTED) {
-            deteccionPersonas.ConstanteJuntoAMi();
-            ttsManager.initQueue("Soy su robot asistente personal");
-            ttsManager.initQueue("¿En qué le puedo ayudar?");
-            Intent sig = new Intent(MainActivity.this, Option_Accion.class);
-            startActivity(sig);
-        }
-    }
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d("Main_Activity","OnStart_Main");
-        deteccionPersonas.addListener(MainActivity.this, MainActivity.this);
         secuenciaDeMovimiento.addListener();
     }
 
@@ -201,7 +187,18 @@ public class MainActivity extends AppCompatActivity implements OnDetectionStateC
     protected void onStop() {
         super.onStop();
         Log.d("Main_Activity","OnStop_Main");
-        deteccionPersonas.removeListener(MainActivity.this,MainActivity.this);
         secuenciaDeMovimiento.removeListener();
+    }
+
+    @Override
+    public void onUserInteraction(boolean isInteracting) {
+        Log.d("Main_Activity","Detecion de usuario cerca de temi");
+        if(isInteracting){
+            ttsManager.initQueue("Bienvenido soy su robot asistente");
+            ttsManager.initQueue("Puedes llamarme Jarvis");
+            Intent option = new Intent(this,Option_Accion.class);
+            startActivity(option);
+        }
+
     }
 }
