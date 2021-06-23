@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     public void onUserInteraction(boolean isInteracting) {
         Log.d("Main_Activity","Detecion de usuario cerca de temi");
         if(isInteracting){
-            ttsManager.initQueue("Bienvenido soy su robot asistente");
-            ttsManager.initQueue("Puedes llamarme Jarvis");
+            //ttsManager.initQueue("Bienvenido soy su robot asistente");
+            //ttsManager.initQueue("Puedes llamarme Jarvis");
             Intent option = new Intent(this,Option_Accion.class);
             startActivity(option);
         }
