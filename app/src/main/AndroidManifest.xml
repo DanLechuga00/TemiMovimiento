@@ -16,6 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity"></activity>
 
+
         <meta-data
             android:name="com.robotemi.sdk.metadata.SKILL"
             android:value="@string/app_name" />
