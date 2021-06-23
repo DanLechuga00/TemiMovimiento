@@ -52,7 +52,7 @@
         android:tint="@color/black" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnMicrofono"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_below="@+id/sordera"
