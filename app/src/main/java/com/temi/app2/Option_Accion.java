@@ -5,18 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
-import com.robotemi.sdk.model.DetectionData;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -69,13 +64,13 @@ public class Option_Accion<onAc> extends AppCompatActivity implements OnDetectio
 
             btnRecomendacion.setOnClickListener(v -> {
                 ttsManager.initQueue("Escoja para que tipo de eventos busca");
-                Intent recomendation = new Intent(Option_Accion.this, Option_Recomendation.class);
+                Intent recomendation = new Intent(Option_Accion.this, Option_Accion.class);
                 startActivity(recomendation);
             });
 
             btnHome.setOnClickListener(v -> {
                 ttsManager.initQueue("Recuerde que estoy a su servicio en cualquier momento");
-                Intent home = new Intent(Option_Accion.this, MainActivity.class);
+                Intent home = new Intent(Option_Accion.this, VideosActivity.class);
                 startActivity(home);
             });
 
@@ -104,7 +99,7 @@ public class Option_Accion<onAc> extends AppCompatActivity implements OnDetectio
             }
             deteccionPersonas.DetenerMovimiento();
             ttsManager.initQueue("Esta bien que tenga un excelente día; hasta luego");
-            Intent main = new Intent(Option_Accion.this,MainActivity.class);
+            Intent main = new Intent(Option_Accion.this, VideosActivity.class);
             startActivity(main);
         }
 
