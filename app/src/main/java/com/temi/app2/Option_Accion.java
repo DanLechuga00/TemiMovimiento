@@ -1,39 +1,27 @@
 package com.temi.app2;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Locale;
+public class Option_Accion extends AppCompatActivity implements OnDetectionStateChangedListener {
 
-public class Option_Accion<onAc> extends AppCompatActivity implements OnDetectionStateChangedListener {
-
-    private static final int REQUEST_CODE_SPEECH_INPUT = 100;
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
     Bateria bateria = null;
     DeteccionPersonas deteccionPersonas = null;
-    private static final int REQ_CODE_SPEECH_INPUT = 100;
 
-    private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto, btnmicrofono;
+    private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_accion);
-
-
 
         ttsManager = new TTSManager();
         ttsManager.init(this);
@@ -43,7 +31,6 @@ public class Option_Accion<onAc> extends AppCompatActivity implements OnDetectio
         btnRecomendacion = findViewById(R.id.btnRecomendacion);
         btnHome = findViewById(R.id.btnHome);
         btnCosto = findViewById(R.id.btnCosto);
-        btnmicrofono = findViewById(R.id.microfono);
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
 
@@ -74,10 +61,6 @@ public class Option_Accion<onAc> extends AppCompatActivity implements OnDetectio
                 startActivity(home);
             });
 
-            btnmicrofono.setOnClickListener(v -> {
-                ttsManager.initQueue("En que te puedo ayudar");
-                iniciarEntradaVoz();
-            });
 
     }
 
@@ -119,47 +102,5 @@ public class Option_Accion<onAc> extends AppCompatActivity implements OnDetectio
         super.onStop();
         Log.d("OptionAccion","OnStop_Option");
         deteccionPersonas.removeListener(null,Option_Accion.this);
-    }
-
-    private void iniciarEntradaVoz() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hola dime lo que sea");
-        try {
-            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
-        }catch (ActivityNotFoundException e){
-            Toast.makeText(this, ""+ e, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode){
-            case REQUEST_CODE_SPEECH_INPUT:{
-                if (resultCode == RESULT_OK && null != data){
-                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    //Toast.makeText(this, "Tu dijiste: " + result.get(0), Toast.LENGTH_LONG).show();
-                    String peticion = result.get(0);
-                    Toast.makeText(this, "Tu dijiste: " + peticion, Toast.LENGTH_LONG).show();
-                    if (peticion.equals("Llévame al pasillo de cereales")){
-                        movimiento.goTo("cereales");
-                    }
-                    if (peticion.equals("Llévame al pasillo de café")){
-                        movimiento.goTo("nescafe");
-                    }
-                    if (peticion.equals("Llévame al pasillo de nutrición")){
-                        movimiento.goTo("nutricion");
-                    }
-                    if (peticion.equals("Llévame al pasillo de chocolates")){
-                        movimiento.goTo("chocolates");
-                    }
-                }
-                break;
-            }
-        }
     }
 }
