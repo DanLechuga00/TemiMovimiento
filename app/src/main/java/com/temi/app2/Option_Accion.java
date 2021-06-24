@@ -7,16 +7,21 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.robotemi.sdk.NlpResult;
+import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
-public class Option_Accion extends AppCompatActivity implements OnDetectionStateChangedListener {
+import org.jetbrains.annotations.NotNull;
+
+public class Option_Accion extends AppCompatActivity implements OnDetectionStateChangedListener, Robot.AsrListener,Robot.WakeupWordListener,Robot.NlpListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
     Bateria bateria = null;
     DeteccionPersonas deteccionPersonas = null;
 
-    private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto;
+
+    private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto,micro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +34,12 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         bateria = new Bateria(movimiento, this, Option_Accion.this);
         btnDonde = findViewById(R.id.btnDonde);
         btnRecomendacion = findViewById(R.id.btnRecomendacion);
+        micro = findViewById(R.id.micro);
         btnHome = findViewById(R.id.btnHome);
         btnCosto = findViewById(R.id.btnCosto);
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
+
 
             btnDonde.setOnClickListener(v -> {
                 ttsManager.initQueue("¿Qué articulo deseas encontrar?");
@@ -61,7 +68,11 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
                 startActivity(home);
             });
 
-
+micro.setOnClickListener(v ->{
+    ttsManager.initQueue("Me puedes decir que necesitas; a veces no escucho bien, habla claro por favor");
+    Robot.getInstance().askQuestion("");
+});
+onWakeupWord(Robot.getInstance().getWakeupWord(),0);
     }
 
     @Override
@@ -95,6 +106,9 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         super.onStart();
         Log.d("OptionAccion","OnStart_Option");
         deteccionPersonas.addListener(null,Option_Accion.this);
+        Robot.getInstance().addAsrListener(this);
+        Robot.getInstance().addWakeupWordListener(this);
+        Robot.getInstance().addNlpListener(this);
     }
 
     @Override
@@ -102,5 +116,28 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         super.onStop();
         Log.d("OptionAccion","OnStop_Option");
         deteccionPersonas.removeListener(null,Option_Accion.this);
+    Robot.getInstance().removeAsrListener(this);
+    Robot.getInstance().removeNlpListener(this);
+    Robot.getInstance().removeWakeupWordListener(this);
+    }
+
+    @Override
+    public void onWakeupWord(@NotNull String wakeupWord, int direction) {
+
+    }
+
+    @Override
+    public void onAsrResult(@NotNull String asrResult) {
+if(asrResult.contains("¿Quién eres tú?")){
+    ttsManager.initQueue("Hola yo soy tu asistente robot; me puedes llamar jarvis");
+}else if(asrResult.equalsIgnoreCase("Hola")){
+    ttsManager.initQueue("Hola como estas");
+
+}
+    }
+
+    @Override
+    public void onNlpCompleted(@NotNull NlpResult nlpResult) {
+
     }
 }

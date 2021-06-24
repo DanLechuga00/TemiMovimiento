@@ -20,6 +20,9 @@
         <meta-data
             android:name="com.robotemi.sdk.metadata.SKILL"
             android:value="@string/app_name" />
+        <meta-data android:name="@string/metadata_override_nlu" android:value="true" />
+        <meta-data android:name="@string/metadata_override_stt" android:value="true" />
+
 
         <activity android:name=".Help_Decition" />
         <activity android:name=".Help_Inesperada" />
