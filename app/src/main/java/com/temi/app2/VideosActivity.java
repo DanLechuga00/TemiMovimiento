@@ -193,12 +193,12 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         Robot.getInstance().removeOnDetectionStateChangedListener(this);
         Robot.getInstance().removeOnUserInteractionChangedListener(this);
     }
-private boolean isDetect = false;
+
     @Override
     public void onUserInteraction(boolean isInteracting) {
         Log.d(TAG,"Usuario de Detecion:"+isInteracting);
         if(isInteracting){
-            isDetect = isInteracting;
+
         }
 
     }
@@ -206,15 +206,15 @@ private boolean isDetect = false;
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
         Log.d(TAG,"DetectionData: "+detectionData.toString());
-        if(detectionData.isDetected() && isDetect){
-            isDetect = detectionData.isDetected();
+        if(detectionData.isDetected()){
+
         }
     }
 
     @Override
     public void onDetectionStateChanged(int state) {
         Log.d(TAG,"DetectionState: "+state);
-if(state == OnDetectionStateChangedListener.DETECTED && isDetect){
+if(state == OnDetectionStateChangedListener.DETECTED ){
     ttsManager.initQueue("Bienvenido soy su robot asistente");
     Intent option = new Intent(this,Option_Accion.class);
     startActivity(option);

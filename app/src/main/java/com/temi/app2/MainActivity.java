@@ -199,12 +199,12 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         Robot.getInstance().removeOnDetectionStateChangedListener(this);
         Robot.getInstance().removeOnUserInteractionChangedListener(this);
     }
-private boolean isdetect = false;
+
     @Override
     public void onUserInteraction(boolean isInteracting) {
         Log.d(TAG,"Usuario de interacion : "+isInteracting);
         if(isInteracting){
-            isdetect = isInteracting;
+
 
         }
 
@@ -213,8 +213,8 @@ private boolean isdetect = false;
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
         Log.d(TAG,"DataChanged: "+ detectionData.toString());
-        if(detectionData.isDetected() && isdetect){
-            isdetect = detectionData.isDetected();
+        if(detectionData.isDetected() ){
+
 
         }
     }
@@ -222,7 +222,7 @@ private boolean isdetect = false;
     @Override
     public void onDetectionStateChanged(int state) {
         Log.d(TAG, "StateChanged"+state);
-if(state == OnDetectionStateChangedListener.DETECTED && isdetect){
+if(state == OnDetectionStateChangedListener.DETECTED){
     ttsManager.initQueue("Bienvenido soy su robot asistente");
     Intent option = new Intent(this,Option_Accion.class);
     startActivity(option);
