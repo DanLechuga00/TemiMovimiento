@@ -1,27 +1,31 @@
 package com.temi.app2;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.robotemi.sdk.NlpResult;
-import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
+import java.util.Locale;
 
-public class Option_Accion extends AppCompatActivity implements OnDetectionStateChangedListener, Robot.AsrListener,Robot.WakeupWordListener,Robot.NlpListener {
+public class Option_Accion extends AppCompatActivity implements OnDetectionStateChangedListener {
 
+    private static final int REQUEST_CODE_SPEECH_INPUT = 100;
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
     Bateria bateria = null;
     DeteccionPersonas deteccionPersonas = null;
 
-
-    private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto,micro;
+    private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto, btnMicrofono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +38,11 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         bateria = new Bateria(movimiento, this, Option_Accion.this);
         btnDonde = findViewById(R.id.btnDonde);
         btnRecomendacion = findViewById(R.id.btnRecomendacion);
-        micro = findViewById(R.id.micro);
         btnHome = findViewById(R.id.btnHome);
         btnCosto = findViewById(R.id.btnCosto);
+        btnMicrofono = findViewById(R.id.btnMicrofono);
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
-
 
             btnDonde.setOnClickListener(v -> {
                 ttsManager.initQueue("¿Qué articulo deseas encontrar?");
@@ -68,11 +71,12 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
                 startActivity(home);
             });
 
-micro.setOnClickListener(v ->{
-    ttsManager.initQueue("Me puedes decir que necesitas; a veces no escucho bien, habla claro por favor");
-    Robot.getInstance().askQuestion("");
-});
-onWakeupWord(Robot.getInstance().getWakeupWord(),0);
+            btnMicrofono.setOnClickListener(v -> {
+                ttsManager.initQueue("En que le puedo ayudar");
+                iniciarEntradaVoz();
+            });
+
+
     }
 
     @Override
@@ -106,9 +110,6 @@ onWakeupWord(Robot.getInstance().getWakeupWord(),0);
         super.onStart();
         Log.d("OptionAccion","OnStart_Option");
         deteccionPersonas.addListener(null,Option_Accion.this);
-        Robot.getInstance().addAsrListener(this);
-        Robot.getInstance().addWakeupWordListener(this);
-        Robot.getInstance().addNlpListener(this);
     }
 
     @Override
@@ -116,28 +117,47 @@ onWakeupWord(Robot.getInstance().getWakeupWord(),0);
         super.onStop();
         Log.d("OptionAccion","OnStop_Option");
         deteccionPersonas.removeListener(null,Option_Accion.this);
-    Robot.getInstance().removeAsrListener(this);
-    Robot.getInstance().removeNlpListener(this);
-    Robot.getInstance().removeWakeupWordListener(this);
+    }
+
+    private void iniciarEntradaVoz() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hola dime lo que sea");
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+        }catch (ActivityNotFoundException e){
+            Toast.makeText(this, ""+ e, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
-    public void onWakeupWord(@NotNull String wakeupWord, int direction) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    }
-
-    @Override
-    public void onAsrResult(@NotNull String asrResult) {
-if(asrResult.contains("¿Quién eres tú?")){
-    ttsManager.initQueue("Hola yo soy tu asistente robot; me puedes llamar jarvis");
-}else if(asrResult.equalsIgnoreCase("Hola")){
-    ttsManager.initQueue("Hola como estas");
-
-}
-    }
-
-    @Override
-    public void onNlpCompleted(@NotNull NlpResult nlpResult) {
-
+        switch (requestCode){
+            case REQUEST_CODE_SPEECH_INPUT:{
+                if (resultCode == RESULT_OK && null != data){
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    //Toast.makeText(this, "Tu dijiste: " + result.get(0), Toast.LENGTH_LONG).show();
+                    String peticion = result.get(0);
+                    Toast.makeText(this, "Tu dijiste: " + peticion, Toast.LENGTH_LONG).show();
+                    if (peticion.equals("Llévame al pasillo de cereales")){
+                        movimiento.goTo("cereales");
+                    }
+                    if (peticion.equals("Llévame al pasillo de café")){
+                        movimiento.goTo("nescafe");
+                    }
+                    if (peticion.equals("Llévame al pasillo de nutrición")){
+                        movimiento.goTo("nutricion");
+                    }
+                    if (peticion.equals("Llévame al pasillo de chocolates")){
+                        movimiento.goTo("chocolates");
+                    }
+                }
+                break;
+            }
+        }
     }
 }
