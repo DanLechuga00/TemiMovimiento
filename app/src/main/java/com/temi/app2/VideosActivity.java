@@ -15,12 +15,17 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
+import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
+import com.robotemi.sdk.model.DetectionData;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideosActivity extends AppCompatActivity implements OnUserInteractionChangedListener {
+public class VideosActivity extends AppCompatActivity implements OnUserInteractionChangedListener, OnDetectionDataChangedListener, OnDetectionStateChangedListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
@@ -180,16 +185,29 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         secuenciaDeMovimiento.removeListener();
         deteccionPersonas.addListenerUser(this);
     }
-
+private boolean isDetect = false;
     @Override
     public void onUserInteraction(boolean isInteracting) {
         Log.d("Main_Activity","Detecion de usuario cerca de temi");
         if(isInteracting){
-            ttsManager.initQueue("Bienvenido soy su robot asistente");
-            ttsManager.initQueue("Puedes llamarme Jarvis");
-            Intent option = new Intent(this,Option_Accion.class);
-            startActivity(option);
+            isDetect = isInteracting;
         }
 
+    }
+
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        if(detectionData.isDetected() && isDetect){
+            isDetect = detectionData.isDetected();
+        }
+    }
+
+    @Override
+    public void onDetectionStateChanged(int state) {
+if(state == OnDetectionStateChangedListener.DETECTED && isDetect){
+    ttsManager.initQueue("Bienvenido soy su robot asistente");
+    Intent option = new Intent(this,Option_Accion.class);
+    startActivity(option);
+}
     }
 }

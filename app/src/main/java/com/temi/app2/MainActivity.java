@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnUserInteractionChangedListener {
+public class MainActivity extends AppCompatActivity implements OnUserInteractionChangedListener,OnDetectionStateChangedListener,OnDetectionDataChangedListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         verifyStoragePermissions(this);
         ttsManager = new TTSManager();
         ttsManager.init(this);
-        if(ttsManager.isSpeach()) ttsManager.shutDown();
+        if(ttsManager.isSpeach()) ttsManager.shutDown(); ttsManager.Stop();
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
         secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager,this,bateria);
@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
         if(!bateria.EsBateriaBaja()&&!bateria.EstaCargando()&&bateria.EsBateriaCompleta()){
             vV.stopPlayback();
-            //Log.d("Movimiento_next","Aqui sigue la secuencia");
-            //secuenciaDeMovimiento.Secuencia();
+            Log.d("Movimiento_next","Aqui sigue la secuencia");
+            secuenciaDeMovimiento.Secuencia();
             if(contador == 0) throw  new Exception("contador de videos vacio");
             if(contador == i){
                 i = 0;
@@ -191,16 +191,31 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         secuenciaDeMovimiento.removeListener();
         deteccionPersonas.addListenerUser(this);
     }
-
+private boolean isdetect = false;
     @Override
     public void onUserInteraction(boolean isInteracting) {
         Log.d("Main_Activity","Detecion de usuario cerca de temi");
         if(isInteracting){
-            ttsManager.initQueue("Bienvenido soy su robot asistente");
-            ttsManager.initQueue("Puedes llamarme Jarvis");
-            Intent option = new Intent(this,Option_Accion.class);
-            startActivity(option);
+            isdetect = isInteracting;
+
         }
 
+    }
+
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        if(detectionData.isDetected() && isdetect){
+            isdetect = detectionData.isDetected();
+
+        }
+    }
+
+    @Override
+    public void onDetectionStateChanged(int state) {
+if(state == OnDetectionStateChangedListener.DETECTED && isdetect){
+    ttsManager.initQueue("Bienvenido soy su robot asistente");
+    Intent option = new Intent(this,Option_Accion.class);
+    startActivity(option);
+}
     }
 }

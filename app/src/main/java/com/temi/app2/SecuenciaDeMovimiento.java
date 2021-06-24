@@ -61,7 +61,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 else{
                     ContadorPositiones++;
                 }
-                if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando())Secuencia();
+                //if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando())Secuencia();
                 break;
         }
     }
