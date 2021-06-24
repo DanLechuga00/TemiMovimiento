@@ -36,8 +36,8 @@ private final String TAG = "Help";
         secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager,this,bateria);
         movimiento = new Movimiento(this,this,ttsManager);
 
-                btnSi = findViewById(R.id.btnSi_h);
-        btnNo = findViewById(R.id.btnNo_h);
+        btnSi = findViewById(R.id.btnSi);
+        btnNo = findViewById(R.id.btnNo);
 
 
 
