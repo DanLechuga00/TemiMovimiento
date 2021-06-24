@@ -15,6 +15,7 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
@@ -35,6 +36,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     private int contadorActual = 0;
     private int i = 1;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
+    private final static  String TAG = "Main_Activity";
 
 
     //private ImageButton btnHelp;
@@ -173,9 +175,12 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("Main_Activity","OnStart_Main");
+        Log.d(TAG,"OnStart_Main");
         secuenciaDeMovimiento.addListener();
         deteccionPersonas.addListenerUser(this);
+        Robot.getInstance().addOnDetectionDataChangedListener(this);
+        Robot.getInstance().addOnDetectionStateChangedListener(this);
+        Robot.getInstance().addOnUserInteractionChangedListener(this);
     }
 
     @Override
@@ -184,11 +189,14 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         Log.d("Main_Activity","OnStop_Main");
         secuenciaDeMovimiento.removeListener();
         deteccionPersonas.addListenerUser(this);
+        Robot.getInstance().removeOnDetectionDataChangedListener(this);
+        Robot.getInstance().removeOnDetectionStateChangedListener(this);
+        Robot.getInstance().removeOnUserInteractionChangedListener(this);
     }
 private boolean isDetect = false;
     @Override
     public void onUserInteraction(boolean isInteracting) {
-        Log.d("Main_Activity","Detecion de usuario cerca de temi");
+        Log.d(TAG,"Usuario de Detecion:"+isInteracting);
         if(isInteracting){
             isDetect = isInteracting;
         }
@@ -197,6 +205,7 @@ private boolean isDetect = false;
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        Log.d(TAG,"DetectionData: "+detectionData.toString());
         if(detectionData.isDetected() && isDetect){
             isDetect = detectionData.isDetected();
         }
@@ -204,6 +213,7 @@ private boolean isDetect = false;
 
     @Override
     public void onDetectionStateChanged(int state) {
+        Log.d(TAG,"DetectionState: "+state);
 if(state == OnDetectionStateChangedListener.DETECTED && isDetect){
     ttsManager.initQueue("Bienvenido soy su robot asistente");
     Intent option = new Intent(this,Option_Accion.class);

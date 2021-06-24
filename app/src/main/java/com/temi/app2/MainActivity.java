@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     private int contadorActual = 0;
     private int i = 1;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
+    private final static  String TAG = "Main_Activity";
 
 
     //private ImageButton btnHelp;
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
 
             try {
                 startVideo(vV,videos);
-                Log.d("Movimiento","Aqui inicia la secuencia");
+                Log.d(TAG,"Aqui inicia la secuencia");
                 secuenciaDeMovimiento.Secuencia();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
         if(!bateria.EsBateriaBaja()&&!bateria.EstaCargando()&&bateria.EsBateriaCompleta()){
             vV.stopPlayback();
-            Log.d("Movimiento_next","Aqui sigue la secuencia");
+            Log.d(TAG,"Aqui sigue la secuencia");
             secuenciaDeMovimiento.Secuencia();
             if(contador == 0) throw  new Exception("contador de videos vacio");
             if(contador == i){
@@ -179,22 +181,28 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("Main_Activity","OnStart_Main");
+        Log.d(TAG,"OnStart_Main");
         secuenciaDeMovimiento.addListener();
         deteccionPersonas.addListenerUser(this);
+        Robot.getInstance().addOnDetectionDataChangedListener(this);
+        Robot.getInstance().addOnDetectionStateChangedListener(this);
+        Robot.getInstance().addOnUserInteractionChangedListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("Main_Activity","OnStop_Main");
+        Log.d(TAG,"OnStop_Main");
         secuenciaDeMovimiento.removeListener();
         deteccionPersonas.addListenerUser(this);
+        Robot.getInstance().removeOnDetectionDataChangedListener(this);
+        Robot.getInstance().removeOnDetectionStateChangedListener(this);
+        Robot.getInstance().removeOnUserInteractionChangedListener(this);
     }
 private boolean isdetect = false;
     @Override
     public void onUserInteraction(boolean isInteracting) {
-        Log.d("Main_Activity","Detecion de usuario cerca de temi");
+        Log.d(TAG,"Usuario de interacion : "+isInteracting);
         if(isInteracting){
             isdetect = isInteracting;
 
@@ -204,6 +212,7 @@ private boolean isdetect = false;
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        Log.d(TAG,"DataChanged: "+ detectionData.toString());
         if(detectionData.isDetected() && isdetect){
             isdetect = detectionData.isDetected();
 
@@ -212,6 +221,7 @@ private boolean isdetect = false;
 
     @Override
     public void onDetectionStateChanged(int state) {
+        Log.d(TAG, "StateChanged"+state);
 if(state == OnDetectionStateChangedListener.DETECTED && isdetect){
     ttsManager.initQueue("Bienvenido soy su robot asistente");
     Intent option = new Intent(this,Option_Accion.class);
