@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     }
 
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
-        if(!bateria.EsBateriaBaja()&&!bateria.EstaCargando()&&bateria.EsBateriaCompleta()){
+        if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando()){
             vV.stopPlayback();
             Log.d(TAG,"Aqui sigue la secuencia");
             secuenciaDeMovimiento.Secuencia();
