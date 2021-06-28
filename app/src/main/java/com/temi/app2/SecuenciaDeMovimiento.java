@@ -42,7 +42,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
             case OnGoToLocationStatusChangedListener.START:
                 this.PositionActual = location;
                 robot.setGoToSpeed(SpeedLevel.MEDIUM);
-                robot.setVolume(6);
+                robot.setVolume(4);
                 break;
             case OnGoToLocationStatusChangedListener.REPOSING:
                 ttsManager.initQueue("Analizando el entorno");
@@ -57,6 +57,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 }else
                     if(descriptionId == 2003 || descriptionId == 2007){
                     ttsManager.initQueue("Eh detectado algo espero no chocar con el");
+                        ContadorPositiones--;
                         robot.stopMovement();
                         Secuencia();
                 }else{
