@@ -64,6 +64,7 @@ public  final class Movimiento  implements
                 //ttsManager.addQueue("Calculando");
                 break;
             case OnGoToLocationStatusChangedListener.GOING:
+                robot.setGoToSpeed(SpeedLevel.MEDIUM);
                 //ttsManager.addQueue("Caminando");
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
