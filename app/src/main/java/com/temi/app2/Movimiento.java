@@ -56,7 +56,7 @@ public  final class Movimiento  implements
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
                 robot.setGoToSpeed(SpeedLevel.MEDIUM);
-                robot.setVolume(6);
+                robot.setVolume(4);
 
                 //ttsManager.addQueue("Iniciando");
                 break;
@@ -85,30 +85,32 @@ public  final class Movimiento  implements
 
     @Override
     public void onLocationsUpdated(@NotNull List<String> locations) {
-
+    Log.d("onLocationsUpdated","Locatios: "+locations.toString());
         //    Toast.makeText(this, "Locations updated :\n" + locations, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onLoadMapStatusChanged(int status) {
+        Log.d("onLoadMapStatusChanged","Status Map:"+status);
         //  Toast.makeText(this,"load map status: "+status,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCurrentPositionChanged(@NotNull Position position) {
+        Log.d("onCurrentPosition","Position: "+position.toString());
         //Toast.makeText(this,"onCurrentPositionChanged"+position.toString(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDistanceToLocationChanged(@NotNull Map<String, Float> distances) {
-      /*  for (String location : distances.keySet()) {
-            Toast.makeText(this, "onDistanceToLocation" + location + "location" + distances.get(location), Toast.LENGTH_SHORT).show();
-        }*/
+       for (String location : distances.keySet()) {
+            Log.d("onDistanceTo","ToLocations: "+location);
+        }
     }
 
     @Override
     public void onReposeStatusChanged(int status, @NotNull String description) {
-        // Toast.makeText(this, "repose status: " + status + "Description:" + description, Toast.LENGTH_SHORT).show();
+       Log.d("onReposeStatus","Status: "+status+"\n"+"Description: "+description);
     }
 
     @Override
