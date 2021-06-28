@@ -60,6 +60,12 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                         ttsManager.initQueue("Ups; Permiso; Le agradezco");
                     }
                 break;
+            case  OnGoToLocationStatusChangedListener.ABORT:
+                robot.stopMovement();
+                ttsManager.initQueue("Pensando");
+                ContadorPositiones--;
+                Secuencia();
+                break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 Log.d(TAG,"Contador:"+ContadorPositiones);
                 Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
