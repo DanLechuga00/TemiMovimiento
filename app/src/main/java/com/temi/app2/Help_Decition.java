@@ -30,6 +30,10 @@ private final String TAG = "Help";
 
         ttsManager = new TTSManager();
         ttsManager.init(this);
+        if(ttsManager.isSpeach()){
+            ttsManager.shutDown();
+            ttsManager.Stop();
+        }
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
         bateria = new Bateria(movimiento,this,Help_Decition.this);

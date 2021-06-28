@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener {
+public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener , OnDetectionDataChangedListener{
     private final Robot robot;
     private String PositionActual = "";
     private int ContadorPositiones = 0;
@@ -24,7 +24,6 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     private TTSManager ttsManager;
     private AppCompatActivity main;
     private Bateria bateria;
-    private  boolean isDetect = false;
 
 
     public SecuenciaDeMovimiento(TTSManager ttsManager, AppCompatActivity main, Bateria bateria) {
@@ -42,10 +41,14 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
             case OnGoToLocationStatusChangedListener.START:
                 this.PositionActual = location;
                 break;
-
+            case OnGoToLocationStatusChangedListener.REPOSING:
+                ttsManager.initQueue("Analizando el entorno");
+                break;
+            case OnGoToLocationStatusChangedListener.CALCULATING:
+                ttsManager.initQueue("Creo que por aqui podira irme");
+                break;
             case "obstacle detected":
-
-                if(descriptionId == 2002 || descriptionId == 2001 && isDetect ){
+                if(descriptionId == 2002 || descriptionId == 2001 ){
                 Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
                 robot.stopMovement();
                 }else{
@@ -96,6 +99,13 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     }
 
 
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+    if(detectionData.isDetected()){
+        Intent inseperada = new Intent(main,Help_Inesperada.class);
+        main.startActivity(inseperada);
+    }else
+        ttsManager.initQueue("Disculpe si cheque, estoy aprendiendo a caminar ");
 
-
+    }
 }

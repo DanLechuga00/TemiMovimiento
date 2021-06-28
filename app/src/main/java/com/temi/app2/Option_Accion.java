@@ -34,6 +34,10 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
 
         ttsManager = new TTSManager();
         ttsManager.init(this);
+        if(ttsManager.isSpeach()){
+            ttsManager.shutDown();
+            ttsManager.Stop();
+        }
         movimiento = new Movimiento(this, Option_Accion.this, ttsManager);
         bateria = new Bateria(movimiento, this, Option_Accion.this);
         btnDonde = findViewById(R.id.btnDonde);

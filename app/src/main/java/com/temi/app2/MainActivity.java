@@ -64,7 +64,10 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         verifyStoragePermissions(this);
         ttsManager = new TTSManager();
         ttsManager.init(this);
-        if(ttsManager.isSpeach()) ttsManager.shutDown(); ttsManager.Stop();
+        if(ttsManager.isSpeach()){
+            ttsManager.shutDown();
+            ttsManager.Stop();
+        }
         movimiento = new Movimiento(this,MainActivity.this,ttsManager);
         bateria = new Bateria(movimiento,this,MainActivity.this);
         secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager,this,bateria);
@@ -204,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     public void onUserInteraction(boolean isInteracting) {
         Log.d(TAG,"Usuario de interacion : "+isInteracting);
         if(isInteracting){
-
+Intent intent = new Intent(this, Option_Accion.class);
+startActivity(intent);
 
         }
 
@@ -212,20 +216,18 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
-        Log.d(TAG,"DataChanged: "+ detectionData.toString());
-        if(detectionData.isDetected() ){
-
-
-        }
+if(!(detectionData.getDistance() < 0.0) && !(detectionData.getAngle() < 0.0)){
+    ttsManager.initQueue("Escaneando objeto y buscando rostro");
+}
     }
 
     @Override
     public void onDetectionStateChanged(int state) {
         Log.d(TAG, "StateChanged"+state);
-if(state == OnDetectionStateChangedListener.DETECTED){
-    ttsManager.initQueue("Bienvenido soy su robot asistente");
-    Intent option = new Intent(this,Option_Accion.class);
-    startActivity(option);
-}
+        if(state == OnDetectionStateChangedListener.LOST){
+            ttsManager.initQueue("Permiteme reconocerte");
+        }else if(state == OnDetectionStateChangedListener.DETECTED){
+            ttsManager.initQueue("Bienvenido a la tienda, es un placer apoyarte");
+        }
     }
 }

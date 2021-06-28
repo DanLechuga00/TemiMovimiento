@@ -42,6 +42,10 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
 
         ttsManager = new TTSManager();
         ttsManager.init(this);
+        if(ttsManager.isSpeach()){
+            ttsManager.shutDown();
+            ttsManager.Stop();
+        }
 
         movimiento = new Movimiento(this, BusquedaArticulos.this,ttsManager);
 

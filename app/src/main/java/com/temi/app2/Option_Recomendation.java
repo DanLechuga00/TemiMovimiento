@@ -20,7 +20,10 @@ public class Option_Recomendation extends AppCompatActivity {
 
         ttsManager = new TTSManager();
         ttsManager.init(this);
-
+        if(ttsManager.isSpeach()){
+            ttsManager.shutDown();
+            ttsManager.Stop();
+        }
 
         btnPareja = findViewById(R.id.button1);
         btnAmigos = findViewById(R.id.button2);

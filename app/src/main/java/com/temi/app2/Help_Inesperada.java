@@ -26,6 +26,10 @@ private DeteccionPersonas deteccionPersonas = null;
         ImageButton btnNo = findViewById(R.id.btnNo_h);
         ttsManager = new TTSManager();
         ttsManager.init(this);
+        if(ttsManager.isSpeach()){
+            ttsManager.shutDown();
+            ttsManager.Stop();
+        }
         robot = Robot.getInstance();
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.ConstanteJuntoAMi();
@@ -56,7 +60,7 @@ private DeteccionPersonas deteccionPersonas = null;
             ttsManager.addQueue("Te puedo apoyar en algo");
         } else if (OnDetectionStateChangedListener.IDLE == state) {
             deteccionPersonas.DetenerMovimiento();
-            ttsManager.initQueue("Bueno esta bien; soy su robot asistente personal");
+            ttsManager.initQueue("Hasta luego que tenga un gran día");
             Intent main = new Intent(this, VideosActivity.class);
             startActivity(main);
         }
