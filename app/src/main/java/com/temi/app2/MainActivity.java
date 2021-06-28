@@ -6,17 +6,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.MediaController;
 import android.widget.VideoView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -30,9 +25,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnUserInteractionChangedListener,OnDetectionStateChangedListener,OnDetectionDataChangedListener {
+public class MainActivity extends AppCompatActivity implements OnUserInteractionChangedListener, OnDetectionStateChangedListener, OnDetectionDataChangedListener {
 
     TTSManager ttsManager = null;
     Movimiento movimiento = null;
@@ -42,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     private int contadorActual = 0;
     private int i = 1;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
-    private final static  String TAG = "Main_Activity";
+    private final static String TAG = "Main_Activity";
 
 
     //private ImageButton btnHelp;
@@ -64,28 +58,29 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         verifyStoragePermissions(this);
         ttsManager = new TTSManager();
         ttsManager.init(this);
-        if(ttsManager.isSpeach()){
+        if (ttsManager.isSpeach()) {
             ttsManager.shutDown();
             ttsManager.Stop();
         }
-        movimiento = new Movimiento(this,MainActivity.this,ttsManager);
-        bateria = new Bateria(movimiento,this,MainActivity.this);
-        secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager,this,bateria);
+        movimiento = new Movimiento(this, MainActivity.this, ttsManager);
+        bateria = new Bateria(movimiento, this, MainActivity.this);
+        secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager, this, bateria);
         deteccionPersonas = new DeteccionPersonas();
-        if(!bateria.EsBateriaBaja()||!bateria.EstaCargando()||bateria.EsBateriaCompleta()){
-       if(deteccionPersonas.IsDetectionModeOn()) deteccionPersonas.startDetectionModeWithDistance();
-        btnHelp = findViewById(R.id.btnHelp);
-        vV = findViewById(R.id.vV);
-        videos = RecolectorDeVideos();
+        if (!bateria.EsBateriaBaja() || !bateria.EstaCargando() || bateria.EsBateriaCompleta()) {
+            if (deteccionPersonas.IsDetectionModeOn())
+                deteccionPersonas.startDetectionModeWithDistance();
+            btnHelp = findViewById(R.id.btnHelp);
+            vV = findViewById(R.id.vV);
+            videos = RecolectorDeVideos();
 
 
             try {
-                startVideo(vV,videos);
-                Log.d(TAG,"Aqui inicia la secuencia");
+                startVideo(vV, videos);
+                Log.d(TAG, "Aqui inicia la secuencia");
                 secuenciaDeMovimiento.Secuencia();
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.w("Error",e.getMessage());
+                Log.w("Error", e.getMessage());
             }
 
         }
@@ -94,25 +89,25 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
 
     private List<String> RecolectorDeVideos() {
         videos = new ArrayList<>();
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.familia_nestle);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.ahorra);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.cereales);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.coffee_mate);
-        videos.add("android.resource://" + getPackageName() + "/" +R.raw.nido_etapas);
-        return  videos;
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.familia_nestle);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.ahorra);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.cereales);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.coffee_mate);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.nido_etapas);
+        return videos;
     }
 
     private void startVideo(VideoView video, List<String> listaVideos) throws Exception {
-        if(listaVideos.isEmpty()) throw new Exception("No contiene videos a reproducir");
+        if (listaVideos.isEmpty()) throw new Exception("No contiene videos a reproducir");
         contador = listaVideos.size();
         video.setVideoPath(listaVideos.get(0));
         video.start();
         video.setOnCompletionListener(mp -> {
             try {
-                startNextVideo(contador,listaVideos);
+                startNextVideo(contador, listaVideos);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.w("Videos_onPrepared","Error:"+e.getMessage());
+                Log.w("Videos_onPrepared", "Error:" + e.getMessage());
             }
         });
 
@@ -120,17 +115,17 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     }
 
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
-        if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando()){
+        if (!bateria.EsBateriaBaja() && bateria.EsBateriaCompleta() && !bateria.EstaCargando()) {
             vV.stopPlayback();
-            Log.d(TAG,"Aqui sigue la secuencia");
+            Log.d(TAG, "Aqui sigue la secuencia");
             secuenciaDeMovimiento.Secuencia();
-            if(contador == 0) throw  new Exception("contador de videos vacio");
-            if(contador == i){
+            if (contador == 0) throw new Exception("contador de videos vacio");
+            if (contador == i) {
                 i = 0;
                 contadorActual = 0;
             }
 
-            while (i<= contador) {
+            while (i <= contador) {
                 if (contadorActual == 0) {
                     vV.setVideoPath(listaVideos.get(i));
                     vV.start();
@@ -143,16 +138,16 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
                 i++;
                 break;
             }
-        }else{
+        } else {
             vV.stopPlayback();
-            Log.d("Movimiento_next","Aqui sigue la secuencia de videos pero temi esta cargando");
-            if(contador == 0) throw  new Exception("contador de videos vacio");
-            if(contador == i){
+            Log.d("Movimiento_next", "Aqui sigue la secuencia de videos pero temi esta cargando");
+            if (contador == 0) throw new Exception("contador de videos vacio");
+            if (contador == i) {
                 i = 0;
                 contadorActual = 0;
             }
 
-            while (i<= contador) {
+            while (i <= contador) {
                 if (contadorActual == 0) {
                     vV.setVideoPath(listaVideos.get(i));
                     vV.start();
@@ -178,13 +173,10 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     }
 
 
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG,"OnStart_Main");
+        Log.d(TAG, "OnStart_Main");
         secuenciaDeMovimiento.addListener();
         deteccionPersonas.addListenerUser(this);
         Robot.getInstance().addOnDetectionDataChangedListener(this);
@@ -195,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG,"OnStop_Main");
+        Log.d(TAG, "OnStop_Main");
         secuenciaDeMovimiento.removeListener();
         deteccionPersonas.addListenerUser(this);
         Robot.getInstance().removeOnDetectionDataChangedListener(this);
@@ -205,10 +197,10 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
 
     @Override
     public void onUserInteraction(boolean isInteracting) {
-        Log.d(TAG,"Usuario de interacion : "+isInteracting);
-        if(isInteracting){
-Intent intent = new Intent(this, Option_Accion.class);
-startActivity(intent);
+        Log.d(TAG, "Usuario de interacion : " + isInteracting);
+        if (isInteracting) {
+            Intent intent = new Intent(this, Option_Accion.class);
+            startActivity(intent);
 
         }
 
@@ -216,17 +208,17 @@ startActivity(intent);
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
-if(!(detectionData.getDistance() < 0.0) && !(detectionData.getAngle() < 0.0)){
-    ttsManager.initQueue("Escaneando objeto y buscando rostro");
-}
+        if (!(detectionData.getDistance() < 0.0) && !(detectionData.getAngle() < 0.0)) {
+            ttsManager.initQueue("Escaneando objeto y buscando rostro");
+        }
     }
 
     @Override
     public void onDetectionStateChanged(int state) {
-        Log.d(TAG, "StateChanged"+state);
-        if(state == OnDetectionStateChangedListener.LOST){
+        Log.d(TAG, "StateChanged" + state);
+        if (state == OnDetectionStateChangedListener.LOST) {
             ttsManager.initQueue("Permiteme reconocerte");
-        }else if(state == OnDetectionStateChangedListener.DETECTED){
+        } else if (state == OnDetectionStateChangedListener.DETECTED) {
             ttsManager.initQueue("Bienvenido a la tienda, es un placer apoyarte");
         }
     }

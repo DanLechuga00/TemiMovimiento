@@ -52,11 +52,13 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
                 robot.stopMovement();
                 }else
-                    if(descriptionId == 2003){
-                    ttsManager.initQueue("Ups; Permiso; Le agradezco");
+                    if(descriptionId == 2003 || descriptionId == 2007){
+                    ttsManager.initQueue("Eh detectado algo espero no chocar con el");
                         robot.stopMovement();
                         Secuencia();
-                }
+                }else{
+                        ttsManager.initQueue("Ups; Permiso; Le agradezco");
+                    }
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 Log.d(TAG,"Contador:"+ContadorPositiones);

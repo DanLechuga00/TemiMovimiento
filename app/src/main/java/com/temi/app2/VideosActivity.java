@@ -113,8 +113,8 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
         if(!bateria.EsBateriaBaja()&&!bateria.EstaCargando()&&bateria.EsBateriaCompleta()){
             vV.stopPlayback();
-            //Log.d("Movimiento_next","Aqui sigue la secuencia");
-            //secuenciaDeMovimiento.Secuencia();
+            Log.d("Movimiento_next","Aqui sigue la secuencia");
+            secuenciaDeMovimiento.Secuencia();
             if(contador == 0) throw  new Exception("contador de videos vacio");
             if(contador == i){
                 i = 0;
