@@ -155,6 +155,7 @@ public  void LevantaCabeza(){
     }
     public void NombreRobot (){
         Log.d("Info_Robot","Nombre del robot:"+robot.getNickName()+"\n"+"Numero de serie del robot:"+robot.getSerialNumber()+"\n"+"Version de robox:"+robot.getRoboxVersion()+"\n"+"Version del Launcher:"+robot.getLauncherVersion());
+
     }
 
 }
