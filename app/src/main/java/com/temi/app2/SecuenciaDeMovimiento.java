@@ -10,6 +10,7 @@ import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
 import com.robotemi.sdk.model.DetectionData;
+import com.robotemi.sdk.navigation.model.SpeedLevel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +41,8 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
                 this.PositionActual = location;
+                robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                robot.setVolume(6);
                 break;
             case OnGoToLocationStatusChangedListener.REPOSING:
                 ttsManager.initQueue("Analizando el entorno");
@@ -67,6 +70,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 Secuencia();
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
+                ttsManager.initQueue("Llegando al pasillo : "+location);
                 Log.d(TAG,"Contador:"+ContadorPositiones);
                 Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
                 if(ContadorPositiones >= ContadorPositionesTotales) {
