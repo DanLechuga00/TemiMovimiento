@@ -71,6 +71,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 ttsManager.initQueue("Llegando al pasillo : "+location);
+                robot.setVolume(2);
                 Log.d(TAG,"Contador:"+ContadorPositiones);
                 Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
                 if(ContadorPositiones >= ContadorPositionesTotales) {
