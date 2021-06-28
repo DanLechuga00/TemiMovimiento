@@ -55,6 +55,9 @@ public  final class Movimiento  implements
         System.out.println(description);
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
+                robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                robot.setVolume(6);
+
                 //ttsManager.addQueue("Iniciando");
                 break;
             case OnGoToLocationStatusChangedListener.CALCULATING:
@@ -64,6 +67,8 @@ public  final class Movimiento  implements
                 //ttsManager.addQueue("Caminando");
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
+                robot.setVolume(3);
+
                 ttsManager.initQueue("En este pasillo se encuentra su artículo");
                 ttsManager.initQueue("¿Le puedo ayudar en algo más?");
                 if(ttsManager.isSpeach()){
