@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.model.DetectionData;
@@ -22,6 +23,8 @@ private final String TAG = "Help";
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
     Movimiento movimiento = null;
     Bateria bateria = null;
+    private final BaseDeDatos baseDeDatos = new BaseDeDatos();
+    private final String TAGBase = "ContnuarInteractuando";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +45,18 @@ private final String TAG = "Help";
 
         btnSi = findViewById(R.id.btnSi);
         btnNo = findViewById(R.id.btnNo);
-
+        baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
 
 
         btnSi.setOnClickListener(v -> {
+            baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
             ttsManager.initQueue("Indícame en que te puedo ayudar");
             Intent sig = new Intent(Help_Decition.this, Option_Accion.class);
             startActivity(sig);
         });
 
         btnNo.setOnClickListener(v -> {
+            baseDeDatos.CrearBitacoraDeRegistros(17,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
             ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
             Intent back = new Intent(Help_Decition.this, VideosActivity.class);
             startActivity(back);
@@ -60,6 +65,13 @@ private final String TAG = "Help";
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+      if(!detectionData.isDetected()){
+          baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+          deteccionPersonas.DetenerMovimiento();
+          ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
+          Intent back = new Intent(Help_Decition.this, VideosActivity.class);
+          startActivity(back);
+      }
         Log.d(TAG,"onDetectionDataChanged:DetectionData"+detectionData.toString());
     }
 
@@ -67,6 +79,7 @@ private final String TAG = "Help";
     public void onDetectionStateChanged(int state) {
 
         if (OnDetectionStateChangedListener.IDLE == state) {
+            baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
             deteccionPersonas.DetenerMovimiento();
             ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
             Intent back = new Intent(Help_Decition.this, VideosActivity.class);

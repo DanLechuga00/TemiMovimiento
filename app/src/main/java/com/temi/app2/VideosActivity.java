@@ -37,6 +37,8 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     private int i = 1;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
     private final static String TAG = "Main_Activity";
+    private final static  String TAGBase = "Videos";
+   private final BaseDeDatos baseDeDatos = new BaseDeDatos();
 
 
     //private ImageButton btnHelp;
@@ -70,7 +72,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
             vV = findViewById(R.id.vV);
             videos = RecolectorDeVideos();
 
-
+            baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
             try {
                 startVideo(vV, videos);
                 Log.d("Movimiento", "Aqui inicia la secuencia");
@@ -101,6 +103,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         video.start();
         video.setOnCompletionListener(mp -> {
             try {
+                baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 startNextVideo(contador, listaVideos);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -213,6 +216,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     public void onDetectionStateChanged(int state) {
         Log.d(TAG, "DetectionState: " + state);
         if (state == OnDetectionStateChangedListener.DETECTED) {
+            baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
             ttsManager.initQueue("Bienvenido soy su robot asistente");
             Intent option = new Intent(this, Option_Accion.class);
             startActivity(option);

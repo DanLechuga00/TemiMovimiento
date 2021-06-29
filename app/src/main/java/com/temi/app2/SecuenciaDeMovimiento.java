@@ -25,12 +25,15 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     private TTSManager ttsManager;
     private AppCompatActivity main;
     private Bateria bateria;
+    private final BaseDeDatos  baseDeDatos = new BaseDeDatos();
+    private final static String TAGBase ="RobotTemiAutonomia";
 
 
     public SecuenciaDeMovimiento(TTSManager ttsManager, AppCompatActivity main, Bateria bateria) {
         this.robot = Robot.getInstance(); this.ttsManager = ttsManager;
         this.main = main;
         this.bateria = bateria;
+
     }
 
 
@@ -40,6 +43,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
         //TODO: Agregar Actividad inesperada, mas tiempo de espera
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
+                baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                 this.PositionActual = location;
                 robot.setGoToSpeed(SpeedLevel.MEDIUM);
                 robot.setVolume(4);
@@ -52,11 +56,13 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 break;
             case "obstacle detected":
                 if(descriptionId == 2002 || descriptionId == 2001 ){
-                Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
+                    baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                    Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
                 robot.stopMovement();
                 }else
                     if(descriptionId == 2003 || descriptionId == 2007){
-                    ttsManager.initQueue("Eh detectado algo espero no chocar con el");
+                        baseDeDatos.CrearBitacoraDeRegistros(14,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                        ttsManager.initQueue("Eh detectado algo espero no chocar con el");
                         ContadorPositiones--;
                         robot.stopMovement();
                         Secuencia();
@@ -65,12 +71,14 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                     }
                 break;
             case  OnGoToLocationStatusChangedListener.ABORT:
+                baseDeDatos.CrearBitacoraDeRegistros(15,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                 robot.stopMovement();
                 ttsManager.initQueue("Pensando");
                 ContadorPositiones--;
                 Secuencia();
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
+                baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                 ttsManager.initQueue("Llegando al pasillo : "+location);
                 robot.setVolume(2);
                 Log.d(TAG,"Contador:"+ContadorPositiones);
@@ -91,6 +99,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     }
 
     public void Secuencia() {
+        baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
         List<String> ubicaciones = getLocations();
         if(!ubicaciones.isEmpty()){
             ubicaciones.remove("home base".toLowerCase());
@@ -118,6 +127,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
     if(detectionData.isDetected()){
         Intent inseperada = new Intent(main,Help_Inesperada.class);
         main.startActivity(inseperada);

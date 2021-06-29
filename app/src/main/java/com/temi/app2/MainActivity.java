@@ -33,11 +33,13 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     Movimiento movimiento = null;
     Bateria bateria = null;
     DeteccionPersonas deteccionPersonas = null;
+    BaseDeDatos baseDeDatos = null;
     private int contador = 0;
     private int contadorActual = 0;
     private int i = 1;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
     private final static String TAG = "Main_Activity";
+    private final  static  String TAGBase = "Usuario";
 
 
     //private ImageButton btnHelp;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
             ttsManager.shutDown();
             ttsManager.Stop();
         }
+        baseDeDatos = new BaseDeDatos();
         movimiento = new Movimiento(this, MainActivity.this, ttsManager);
         bateria = new Bateria(movimiento, this, MainActivity.this);
         secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager, this, bateria);
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
             try {
                 startVideo(vV, videos);
                 Log.d(TAG, "Aqui inicia la secuencia");
+                String bi = "1";
+
+                baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                 secuenciaDeMovimiento.Secuencia();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         if (!bateria.EsBateriaBaja() && bateria.EsBateriaCompleta() && !bateria.EstaCargando()) {
             vV.stopPlayback();
             Log.d(TAG, "Aqui sigue la secuencia");
+            baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
             secuenciaDeMovimiento.Secuencia();
             if (contador == 0) throw new Exception("contador de videos vacio");
             if (contador == i) {
@@ -199,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     @Override
     public void onUserInteraction(boolean isInteracting) {
         Log.d(TAG, "Usuario de interacion : " + isInteracting);
+        baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
         if (isInteracting) {
             Intent intent = new Intent(this, Option_Accion.class);
             startActivity(intent);
@@ -209,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
         if (!(detectionData.getDistance() < 0.0) && !(detectionData.getAngle() < 0.0)) {
             ttsManager.initQueue("Escaneando objeto y buscando rostro");
         }
@@ -217,10 +226,12 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     @Override
     public void onDetectionStateChanged(int state) {
         Log.d(TAG, "StateChanged" + state);
+
         if (state == OnDetectionStateChangedListener.LOST) {
             ttsManager.initQueue("Permiteme reconocerte");
         } else if (state == OnDetectionStateChangedListener.DETECTED) {
             ttsManager.initQueue("Bienvenido a la tienda, es un placer apoyarte");
+            baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
         }
     }
 }

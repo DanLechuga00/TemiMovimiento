@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
     Movimiento movimiento = null;
     Bateria bateria = null;
     DeteccionPersonas deteccionPersonas = null;
+    BaseDeDatos baseDeDatos = null;
+    private final  static  String TAGBase = "Usuario";
 
     private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto, btnMicrofono;
 
@@ -38,6 +41,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
             ttsManager.shutDown();
             ttsManager.Stop();
         }
+        baseDeDatos = new BaseDeDatos();
         movimiento = new Movimiento(this, Option_Accion.this, ttsManager);
         bateria = new Bateria(movimiento, this, Option_Accion.this);
         btnDonde = findViewById(R.id.btnDonde);
@@ -47,14 +51,17 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         btnMicrofono = findViewById(R.id.btnMicrofono);
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
+        baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
 
             btnDonde.setOnClickListener(v -> {
+                baseDeDatos.CrearBitacoraDeRegistros(1,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
                 ttsManager.initQueue("¿Qué articulo deseas encontrar?");
                 Intent search = new Intent(Option_Accion.this, BusquedaArticulos.class);
                 startActivity(search);
             });
 
             btnCosto.setOnClickListener(v -> {
+                baseDeDatos.CrearBitacoraDeRegistros(3,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
                 ttsManager.initQueue("Necesito tu apoyo por favor; Me puedes permitir el codigo de barras del producto");
                 deteccionPersonas.DetenerMovimiento();
                 Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.elbyte.development.retailme");
@@ -64,18 +71,21 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
             });
 
             btnRecomendacion.setOnClickListener(v -> {
+                baseDeDatos.CrearBitacoraDeRegistros(2,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 ttsManager.initQueue("Escoja para que tipo de eventos busca");
                 Intent recomendation = new Intent(Option_Accion.this, Option_Accion.class);
                 startActivity(recomendation);
             });
 
             btnHome.setOnClickListener(v -> {
+                baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 ttsManager.initQueue("Recuerde que estoy a su servicio en cualquier momento");
                 Intent home = new Intent(Option_Accion.this, VideosActivity.class);
                 startActivity(home);
             });
 
             btnMicrofono.setOnClickListener(v -> {
+                baseDeDatos.CrearBitacoraDeRegistros(10,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 ttsManager.initQueue("En que le puedo ayudar");
                 iniciarEntradaVoz();
             });
