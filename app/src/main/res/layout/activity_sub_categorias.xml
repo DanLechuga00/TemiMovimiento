@@ -28,7 +28,7 @@
         android:background="@mipmap/jhonniewalker" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/btnJD"
         android:layout_width="177dp"
         android:layout_height="267dp"
         android:layout_alignParentTop="true"
@@ -36,4 +36,13 @@
         android:layout_marginTop="317dp"
         android:layout_toEndOf="@+id/btnJW"
         android:background="@mipmap/jd" />
+
+    <ImageButton
+        android:id="@+id/btnRegreso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="6dp"
+        android:background="@mipmap/logo_regreso"
+        android:backgroundTint="@color/white" />
 </RelativeLayout>

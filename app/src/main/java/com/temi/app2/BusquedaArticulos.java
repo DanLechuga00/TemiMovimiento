@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.VideoView;
 
@@ -24,7 +25,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     DeteccionPersonas deteccionPersonas = null;
     private final BaseDeDatos baseDeDatos = new BaseDeDatos();
 
-    private ImageButton btn1A, btn2A, btn3A, btnBack1, btn4A;
+    private ImageButton btnBack1, btnWhisky;
     private VideoView videoBusqueda;
     private final String TAGBase = "Ir a un pasillo";
 
@@ -52,10 +53,11 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
 
         movimiento = new Movimiento(this, BusquedaArticulos.this,ttsManager);
 
-        btn1A = findViewById(R.id.button1A);
+        /*btn1A = findViewById(R.id.button1A);
         btn2A = findViewById(R.id.button2A);
         btn3A = findViewById(R.id.button3A);
-        btn4A = findViewById(R.id.button4A);
+        btn4A = findViewById(R.id.button4A);*/
+        btnWhisky = findViewById(R.id.btnWhisky);
         videoBusqueda = findViewById(R.id.VideoBusqueda);
         btnBack1 = findViewById(R.id.btnBack1);
         deteccionPersonas = new DeteccionPersonas();
@@ -69,10 +71,10 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
         videoBusqueda.start();
         System.out.println("OnCreate_Busqueda");
 
-        btn1A.setOnClickListener(v -> {
+        /*btn1A.setOnClickListener(v -> {
             baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-            /*Intent video = new Intent(this,VideosActivity.class);
-            startActivity(video);*/
+            *//*Intent video = new Intent(this,VideosActivity.class);
+            startActivity(video);*//*
 
             videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.carlos_v);
             videoBusqueda.start();
@@ -106,6 +108,12 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
             ttsManager.initQueue("Sígame y le muestro su ubicación;Algo rico y nutritivo;¿Buscabas algó en especial?;");
             movimiento.goTo("nutricion");
 
+        });*/
+
+        btnWhisky.setOnClickListener(v -> {
+            ttsManager.initQueue("Me podría indicar que Whisky desea encontrar");
+            Intent sig = new Intent(this, SubCategorias.class);
+            startActivity(sig);
         });
 
         btnBack1.setOnClickListener(v -> {
