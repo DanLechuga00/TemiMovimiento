@@ -112,7 +112,11 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
         });*/
 
         btnWhisky.setOnClickListener(v -> {
-            baseDeDatos.CrearBitacoraDeRegistros(1,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+            try {
+                baseDeDatos.CrearBitacoraDeRegistros(1,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+            } catch (Exception e) {
+                Log.e(TAGError,"Error:"+e.getMessage());
+            }
             ttsManager.initQueue("Me podría indicar que Whisky desea encontrar");
             Intent sig = new Intent(this, SubCategorias.class);
             startActivity(sig);
