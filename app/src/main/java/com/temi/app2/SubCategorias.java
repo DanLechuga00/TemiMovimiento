@@ -1,23 +1,25 @@
 package com.temi.app2;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.robotemi.sdk.Robot;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class SubCategorias extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_SPEECH_INPUT = 100;
     private ImageButton btnRegreso, btnByW, btnJW, btnJD;
     TTSManager ttsManager = new TTSManager();
     Movimiento movimiento = null;
-    private final static  String TAGError = "Exception";
-    private final static String TAGBase = "Usuario";
-    private final static  BaseDeDatos baseDeDatos = new BaseDeDatos();
 
     @Override
     protected void onStart() {
@@ -40,14 +42,8 @@ public class SubCategorias extends AppCompatActivity {
         btnJD =  findViewById(R.id.btnJD);
 
         btnRegreso.setOnClickListener(v -> {
-            try {
-                baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)1,(byte)0,(byte)1,TAGBase, Robot.getInstance().getNickName());
-                Intent regreso =  new Intent(SubCategorias.this, BusquedaArticulos.class);
-                startActivity(regreso);
-            }catch (Exception e){
-                Log.e(TAGError,"Error:"+e.getMessage());
-            }
-
+            Intent regreso =  new Intent(SubCategorias.this, BusquedaArticulos.class);
+            startActivity(regreso);
         });
 
         btnByW.setOnClickListener(v -> {
@@ -70,5 +66,45 @@ public class SubCategorias extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         movimiento.removeListener();
+    }
+
+
+    private void iniciarEntradaVoz() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hola dime lo que sea");
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+        }catch (ActivityNotFoundException e){
+            Toast.makeText(this, ""+ e, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case REQUEST_CODE_SPEECH_INPUT:{
+                if (resultCode == RESULT_OK && null != data){
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    //Toast.makeText(this, "Tu dijiste: " + result.get(0), Toast.LENGTH_LONG).show();
+                    String peticion = result.get(0);
+                    Toast.makeText(this, "Tu dijiste: " + peticion, Toast.LENGTH_LONG).show();
+                    if (peticion.equals("Llévame al pasillo del Black and White")){
+                        movimiento.goTo("whisky");
+                    }
+                    if (peticion.equals("Llévame al pasillo del Jhonnie Walker")){
+                        movimiento.goTo("whisky");
+                    }
+                    if (peticion.equals("Llévame al pasillo del Jack Daniels")){
+                        movimiento.goTo("whisky");
+                    }
+                }
+                break;
+            }
+        }
     }
 }
