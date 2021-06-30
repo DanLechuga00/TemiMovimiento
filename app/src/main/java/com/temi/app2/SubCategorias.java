@@ -93,14 +93,14 @@ public class SubCategorias extends AppCompatActivity {
                     //Toast.makeText(this, "Tu dijiste: " + result.get(0), Toast.LENGTH_LONG).show();
                     String peticion = result.get(0);
                     Toast.makeText(this, "Tu dijiste: " + peticion, Toast.LENGTH_LONG).show();
-                    if (peticion.equals("Llévame al pasillo del whisky")){
+                    if (peticion.equals("Llévame al pasillo del Black and White")){
                         movimiento.goTo("whisky");
                     }
-                    if (peticion.equals("Llévame al pasillo del mezcal")){
-                        movimiento.goTo("mezcal");
+                    if (peticion.equals("Llévame al pasillo del Jhonnie Walker")){
+                        movimiento.goTo("whisky");
                     }
-                    if (peticion.equals("Llévame al pasillo del tequila")){
-                        movimiento.goTo("tequila");
+                    if (peticion.equals("Llévame al pasillo del Jack Daniels")){
+                        movimiento.goTo("whisky");
                     }
                 }
                 break;
