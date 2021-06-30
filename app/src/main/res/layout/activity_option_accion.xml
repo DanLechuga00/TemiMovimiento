@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_nestle"
+    android:background="@mipmap/bg_temi"
     tools:context=".Option_Accion">
 
     <ImageButton
@@ -13,7 +13,8 @@
         android:layout_height="106dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="92dp"
-        android:background="@mipmap/logo_inicio" />
+        android:background="@mipmap/logo_inicio"
+        android:backgroundTint="@color/white" />
 
     <ImageButton
         android:id="@+id/btnDonde"
@@ -24,7 +25,7 @@
         android:layout_marginStart="221dp"
         android:layout_marginTop="289dp"
         android:background="@mipmap/donde_out"
-        android:backgroundTint="#573005"
+        android:backgroundTint="@color/white"
         android:tint="@color/black" />
 
     <ImageButton
@@ -36,7 +37,7 @@
         android:layout_marginTop="294dp"
         android:layout_toEndOf="@+id/btnDonde"
         android:background="@mipmap/precio_out"
-        android:backgroundTint="#573005"
+        android:backgroundTint="@color/white"
         android:tint="@color/black" />
 
     <ImageButton
@@ -48,7 +49,7 @@
         android:layout_marginTop="141dp"
         android:layout_marginEnd="379dp"
         android:background="@mipmap/recom_out"
-        android:backgroundTint="#573005"
+        android:backgroundTint="@color/white"
         android:tint="@color/black" />
 
     <ImageButton
@@ -60,7 +61,7 @@
         android:layout_marginStart="39dp"
         android:layout_marginTop="65dp"
         android:background="@mipmap/micro"
-        android:backgroundTint="#573005" />
+        android:backgroundTint="@color/white" />
 
     <ImageView
         android:id="@+id/sordera"
@@ -71,6 +72,6 @@
         android:layout_marginStart="37dp"
         android:layout_marginTop="379dp"
         android:background="@mipmap/sordera"
-        android:backgroundTint="#573005" />
+        android:backgroundTint="@color/white" />
 
 </RelativeLayout>
