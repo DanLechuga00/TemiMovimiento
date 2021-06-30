@@ -96,11 +96,11 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
 
     private List<String> RecolectorDeVideos() {
         videos = new ArrayList<>();
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.familia_nestle);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.ahorra);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.cereales);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.coffee_mate);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.nido_etapas);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie1);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie2);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie3);
+        //videos.add("android.resource://" + getPackageName() + "/" + R.raw.coffee_mate);
+        //videos.add("android.resource://" + getPackageName() + "/" + R.raw.nido_etapas);
         return videos;
     }
 

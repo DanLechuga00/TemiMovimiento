@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_nestle"
+    android:background="@mipmap/bg_temi"
     tools:context=".Help_Inesperada">
 
     <ImageButton
@@ -16,7 +16,7 @@
         android:layout_marginStart="345dp"
         android:layout_marginBottom="348dp"
         android:background="@mipmap/si_out"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/white"
         android:contentDescription="TODO" />
 
     <ImageButton
@@ -28,7 +28,7 @@
         android:layout_marginBottom="347dp"
         android:layout_toEndOf="@+id/btnSi_h"
         android:background="@mipmap/no_out"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/white"
         android:contentDescription="TODO" />
 
 </RelativeLayout>

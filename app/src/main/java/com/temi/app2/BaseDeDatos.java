@@ -15,7 +15,7 @@ public class BaseDeDatos {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection("jdbc: jtds:sqlserver://108.175.10.228;databaseName = Temi; user=temi; password = Ard4byT3cTem1.;");
+            connection = DriverManager.getConnection("jdbc:jtds:sqlserver://108.175.10.228;databaseName = Temi; user=temi; password = Ard4byT3cTem1.;");
         }catch (Exception e){
             Log.w("Exception","Error: "+e.getMessage());
         }

@@ -52,7 +52,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 ttsManager.initQueue("Analizando el entorno");
                 break;
             case OnGoToLocationStatusChangedListener.CALCULATING:
-                ttsManager.initQueue("Creo que por aqui podira irme");
+                //ttsManager.initQueue("Creo que por aqui podira irme");
                 break;
             case "obstacle detected":
                 if(descriptionId == 2002 || descriptionId == 2001 ){
@@ -73,9 +73,9 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
             case  OnGoToLocationStatusChangedListener.ABORT:
                 baseDeDatos.CrearBitacoraDeRegistros(15,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                 robot.stopMovement();
-                ttsManager.initQueue("Pensando");
-                ContadorPositiones--;
-                Secuencia();
+                //ttsManager.initQueue("Pensando");
+                //ContadorPositiones--;
+                //Secuencia();
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
