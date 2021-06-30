@@ -31,7 +31,7 @@ public class Option_Recomendation extends AppCompatActivity {
             ttsManager.Stop();
         }
         try {
-            baseDeDatos.CrearBitacoraDeRegistros(2,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+           // baseDeDatos.CrearBitacoraDeRegistros(2,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
         } catch (Exception e) {
 
             Log.e(TAGError,"Error:"+e.getMessage());
@@ -43,7 +43,7 @@ public class Option_Recomendation extends AppCompatActivity {
 
         btnPareja.setOnClickListener(v -> {
             try {
-                baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+               // baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 ttsManager.initQueue("Buscamos leche para nido");
                 ttsManager.initQueue("Puedo apoyarlo en algo más");
                 Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
@@ -55,7 +55,7 @@ public class Option_Recomendation extends AppCompatActivity {
 
         btnAmigos.setOnClickListener(v -> {
             try {
-                baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+              //  baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 ttsManager.initQueue("Un buen cereal siempre es algo que tu y los tuyos disfrutan");
                 ttsManager.initQueue("Le puedo ayudar en algo más");
                 Intent opcion = new Intent(Option_Recomendation.this, Help_Decition.class);
@@ -67,7 +67,7 @@ public class Option_Recomendation extends AppCompatActivity {
 
         btnBack2.setOnClickListener(v -> {
             try {
-                baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+               // baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 Intent regresar = new Intent(Option_Recomendation.this, Option_Accion.class);
                 startActivity(regresar);} catch (Exception e) {
                 Log.e(TAGError,"Error:"+e.getMessage());

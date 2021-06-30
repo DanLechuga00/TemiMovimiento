@@ -47,7 +47,7 @@ private final String TAG = "Help";
         btnSi = findViewById(R.id.btnSi);
         btnNo = findViewById(R.id.btnNo);
        try {
-           baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+        //   baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
        }catch (Exception ex){
            Log.e(TAGError,"Error: "+ex.getMessage());
        }
@@ -56,7 +56,7 @@ private final String TAG = "Help";
 
         btnSi.setOnClickListener(v -> {
           try {
-              baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+           //   baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
               ttsManager.initQueue("Indícame en que te puedo ayudar");
               Intent sig = new Intent(Help_Decition.this, Option_Accion.class);
               startActivity(sig);
@@ -68,7 +68,7 @@ private final String TAG = "Help";
 
         btnNo.setOnClickListener(v -> {
            try {
-               baseDeDatos.CrearBitacoraDeRegistros(17,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+             //  baseDeDatos.CrearBitacoraDeRegistros(17,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
                Intent back = new Intent(Help_Decition.this, VideosActivity.class);
                startActivity(back);
@@ -83,7 +83,7 @@ private final String TAG = "Help";
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
       if(!detectionData.isDetected()){
          try {
-             baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+             //baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
              deteccionPersonas.DetenerMovimiento();
              ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
              Intent back = new Intent(Help_Decition.this, VideosActivity.class);
@@ -101,7 +101,7 @@ private final String TAG = "Help";
 
         if (OnDetectionStateChangedListener.IDLE == state) {
            try {
-               baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+               //baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                deteccionPersonas.DetenerMovimiento();
                ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
                Intent back = new Intent(Help_Decition.this, VideosActivity.class);

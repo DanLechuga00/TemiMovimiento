@@ -75,7 +75,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
 
 
             try {
-                baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+               // baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 startVideo(vV, videos);
                 Log.d("Movimiento", "Aqui inicia la secuencia");
                 secuenciaDeMovimiento.Secuencia();
@@ -109,7 +109,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         video.start();
         video.setOnCompletionListener(mp -> {
             try {
-                baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                //baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 startNextVideo(contador, listaVideos);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -123,8 +123,8 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     private void startNextVideo(int contador, List<String> listaVideos) throws Exception {
         if (!bateria.EsBateriaBaja() && !bateria.EstaCargando() && bateria.EsBateriaCompleta()) {
             vV.stopPlayback();
-            Log.d("Movimiento_next", "Aqui sigue la secuencia");
-            secuenciaDeMovimiento.Secuencia();
+            //Log.d("Movimiento_next", "Aqui sigue la secuencia");
+            //secuenciaDeMovimiento.Secuencia();
             if (contador == 0) throw new Exception("contador de videos vacio");
             if (contador == i) {
                 i = 0;
@@ -223,8 +223,8 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         Log.d(TAG, "DetectionState: " + state);
         if (state == OnDetectionStateChangedListener.DETECTED) {
             try {
-                baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-                ttsManager.initQueue("Bienvenido soy su robot asistente");
+               // baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                ttsManager.initQueue("Bienvenido a Bodegas Alizanza; soy Temi; Te puedo apoyar en algo");
                 Intent option = new Intent(this, Option_Accion.class);
                 startActivity(option);
             } catch (Exception e) {

@@ -58,10 +58,11 @@ public  final class Movimiento  implements
         System.out.println(description);
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
-                robot.setGoToSpeed(SpeedLevel.MEDIUM);
-                robot.setVolume(4);
+
                 try {
-                    baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                    robot.setVolume(4);
+                 //   baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 } catch (Exception e) {
                     Log.e(TAGError,"Error:"+e.getMessage());
                 }
@@ -72,7 +73,7 @@ public  final class Movimiento  implements
                 break;
             case OnGoToLocationStatusChangedListener.GOING:
                 try {
-                    baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                     robot.setGoToSpeed(SpeedLevel.MEDIUM);
                 } catch (Exception e) {
                     Log.e(TAGError,"Error:"+e.getMessage());
@@ -82,7 +83,7 @@ public  final class Movimiento  implements
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 try {
-                    baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                   // baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                     robot.setVolume(3);
                     ttsManager.initQueue("En este pasillo se encuentra su artículo");
                     ttsManager.initQueue("¿Le puedo ayudar en algo más?");
@@ -146,7 +147,7 @@ public  final class Movimiento  implements
     }
     public  void goTo(String location){
         try {
-            baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+          //  baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
         } catch (Exception e) {
             Log.e(TAGError,"Error: "+e.getMessage());
         }

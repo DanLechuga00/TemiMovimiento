@@ -113,18 +113,19 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
 
         btnWhisky.setOnClickListener(v -> {
             try {
-                baseDeDatos.CrearBitacoraDeRegistros(1,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+ //               baseDeDatos.CrearBitacoraDeRegistros(1,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                ttsManager.initQueue("Me podría indicar que Whisky desea encontrar");
+                Intent sig = new Intent(this, SubCategorias.class);
+                startActivity(sig);
             } catch (Exception e) {
                 Log.e(TAGError,"Error:"+e.getMessage());
             }
-            ttsManager.initQueue("Me podría indicar que Whisky desea encontrar");
-            Intent sig = new Intent(this, SubCategorias.class);
-            startActivity(sig);
+
         });
 
         btnBack1.setOnClickListener(v -> {
            try {
-               baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+               //baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                Intent regresar = new Intent(BusquedaArticulos.this, Option_Accion.class);
                startActivity(regresar);
            }catch (Exception ex){

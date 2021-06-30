@@ -73,8 +73,8 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                         try {
                             baseDeDatos.CrearBitacoraDeRegistros(14,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                             ttsManager.initQueue("Eh detectado algo espero no chocar con el");
-                            ContadorPositiones--;
-                            robot.stopMovement();
+                           // ContadorPositiones--;
+                            //robot.stopMovement();
                             Secuencia();
                         } catch (Exception e) {
                             Log.e(TAGError,"Error: "+e.getMessage());
@@ -88,8 +88,8 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 try {
                     baseDeDatos.CrearBitacoraDeRegistros(15,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                     ttsManager.initQueue("Pensando");
-                    ContadorPositiones--;
-                    Secuencia();
+                    //ContadorPositiones--;
+                    //Secuencia();
                 } catch (Exception e) {
                     Log.e(TAGError,"Exception: "+e.getMessage());
                 }
@@ -113,7 +113,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                     Log.e(TAGError,"Error: "+e.getMessage());
                 }
 
-                //if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando())Secuencia();
+                if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando())Secuencia();
                 break;
         }
     }
@@ -124,12 +124,12 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
 
     public void Secuencia() {
         try {
-            baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+            //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
             List<String> ubicaciones = getLocations();
             if(!ubicaciones.isEmpty()){
                 ubicaciones.remove("home base".toLowerCase());
                 System.out.println("Ubicacion:"+PositionActual);
-                if(ContadorPositiones >= ContadorPositionesTotales || ContadorPositiones<0) ContadorPositiones = 0;
+                if(ContadorPositiones >= ContadorPositionesTotales) ContadorPositiones = 0;
                 while (ContadorPositiones <= ContadorPositionesTotales) {
                     robot.goTo(ubicaciones.get(ContadorPositiones));
                     break;
@@ -157,7 +157,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
         try {
-            baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+           // baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
             if(detectionData.isDetected()){
                 Intent inseperada = new Intent(main,Help_Inesperada.class);
                 main.startActivity(inseperada);

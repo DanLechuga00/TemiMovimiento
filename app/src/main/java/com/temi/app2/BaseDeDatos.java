@@ -16,7 +16,7 @@ public class BaseDeDatos   {
             StrictMode.setThreadPolicy(policy);
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Log.d("ConexionBase","El driver funciona correctamente");
-            String conectionurl = "jdbc:jtds:sqlserver://108.175.10.228; database=Temi; user=temi; password = Ard4byT3cTem1.;";
+            String conectionurl = "jdbc:sqlserver://108.175.10.228; database=Temi; user=temi; password = Ard4byT3cTem1.;";
             //"jdbc:jtds:sqlserver://108.175.10.228;databaseName = Temi; user=temi; password = Ard4byT3cTem1.;"
             connection = DriverManager.getConnection(conectionurl);
             Log.d("ConexionBase","Conectado");

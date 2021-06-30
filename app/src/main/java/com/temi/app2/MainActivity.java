@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     public void onUserInteraction(boolean isInteracting) {
         Log.d(TAG, "Usuario de interacion : " + isInteracting);
         try {
-            baseDeDatos.CrearBitacoraDeRegistros(4, (byte) 1, (byte) 1, (byte) 0, (byte) 0, (byte) 0, TAGBase, Robot.getInstance().getNickName());
+            //baseDeDatos.CrearBitacoraDeRegistros(4, (byte) 1, (byte) 1, (byte) 0, (byte) 0, (byte) 0, TAGBase, Robot.getInstance().getNickName());
             if (isInteracting) {
                 Intent intent = new Intent(this, Option_Accion.class);
                 startActivity(intent);
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
        try {
-           baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+           //baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
            if (!(detectionData.getDistance() < 0.0) && !(detectionData.getAngle() < 0.0)) {
                ttsManager.initQueue("Escaneando objeto y buscando rostro");
            }
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         } else if (state == OnDetectionStateChangedListener.DETECTED) {
             try {
                 ttsManager.initQueue("Bienvenido a la tienda, es un placer apoyarte");
-                baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+              //  baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
             }catch (Exception ex){
                 Log.e(TAGError,"Error: "+ ex.getMessage());
             }
