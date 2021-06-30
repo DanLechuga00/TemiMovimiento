@@ -141,6 +141,12 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
         }
 
     }
+    public void IraBaseDos(){
+        String base2 = "Base Dos";
+        Log.d("Secuencia","Estoy en la entrada");
+        robot.goTo(base2);
+
+    }
     public void addListener(){
         Log.d("SecuenciaMovimiento","AddListener");
         robot.addOnGoToLocationStatusChangedListener(SecuenciaDeMovimiento.this);
