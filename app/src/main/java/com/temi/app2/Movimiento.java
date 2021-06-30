@@ -41,6 +41,7 @@ public  final class Movimiento  implements
     public  AppCompatActivity main;
     private final BaseDeDatos baseDeDatos = new BaseDeDatos();
     private final String TAGBase = "Ir al pasillo";
+    private final static String TAGError = "Exception";
 
     public  Movimiento(Context context, AppCompatActivity main , TTSManager ttsManager){
         this.context = context;
@@ -59,27 +60,41 @@ public  final class Movimiento  implements
             case OnGoToLocationStatusChangedListener.START:
                 robot.setGoToSpeed(SpeedLevel.MEDIUM);
                 robot.setVolume(4);
-                baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                try {
+                    baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
+                }
                 //ttsManager.addQueue("Iniciando");
                 break;
             case OnGoToLocationStatusChangedListener.CALCULATING:
                 //ttsManager.addQueue("Calculando");
                 break;
             case OnGoToLocationStatusChangedListener.GOING:
-                baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-                robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                try {
+                    baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
+                }
+
                 //ttsManager.addQueue("Caminando");
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
-                baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-                robot.setVolume(3);
-                ttsManager.initQueue("En este pasillo se encuentra su artículo");
-                ttsManager.initQueue("¿Le puedo ayudar en algo más?");
-                if(ttsManager.isSpeach()){
-                    ttsManager.Stop();
+                try {
+                    baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    robot.setVolume(3);
+                    ttsManager.initQueue("En este pasillo se encuentra su artículo");
+                    ttsManager.initQueue("¿Le puedo ayudar en algo más?");
+                    if(ttsManager.isSpeach()){
+                        ttsManager.Stop();
+                    }
+                    Intent help = new Intent(main, Help_Decition.class);
+                    main.startActivity(help);
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
                 }
-                Intent help = new Intent(main, Help_Decition.class);
-                main.startActivity(help);
+
                 break;
             case OnGoToLocationStatusChangedListener.ABORT:
                 //ttsManager.addQueue("Abortando");
@@ -130,7 +145,11 @@ public  final class Movimiento  implements
         }
     }
     public  void goTo(String location){
-        baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+        try {
+            baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+        } catch (Exception e) {
+            Log.e(TAGError,"Error: "+e.getMessage());
+        }
         for (String ubicacion : robot.getLocations()){
             if(ubicacion.equals(location.toLowerCase().trim())){
                 robot.goTo(location.toLowerCase().trim());
