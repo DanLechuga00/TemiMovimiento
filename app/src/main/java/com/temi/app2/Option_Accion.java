@@ -180,17 +180,14 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
                     //Toast.makeText(this, "Tu dijiste: " + result.get(0), Toast.LENGTH_LONG).show();
                     String peticion = result.get(0);
                     Toast.makeText(this, "Tu dijiste: " + peticion, Toast.LENGTH_LONG).show();
-                    if (peticion.equals("Llévame al pasillo de cereales")){
-                        movimiento.goTo("cereales");
+                    if (peticion.equals("Llévame al pasillo del whisky")){
+                        movimiento.goTo("whisky");
                     }
-                    if (peticion.equals("Llévame al pasillo de café")){
-                        movimiento.goTo("nescafe");
+                    if (peticion.equals("Llévame al pasillo del mezcal")){
+                        movimiento.goTo("mezcal");
                     }
-                    if (peticion.equals("Llévame al pasillo de nutrición")){
-                        movimiento.goTo("nutricion");
-                    }
-                    if (peticion.equals("Llévame al pasillo de chocolates")){
-                        movimiento.goTo("chocolates");
+                    if (peticion.equals("Llévame al pasillo del tequila")){
+                        movimiento.goTo("tequila");
                     }
                 }
                 break;
