@@ -4,14 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.robotemi.sdk.Robot;
 
 public class SubCategorias extends AppCompatActivity {
 
     private ImageButton btnRegreso, btnByW, btnJW, btnJD;
     TTSManager ttsManager = new TTSManager();
     Movimiento movimiento = null;
+    private final static  String TAGError = "Exception";
+    private final static String TAGBase = "Usuario";
+    private final static  BaseDeDatos baseDeDatos = new BaseDeDatos();
 
     @Override
     protected void onStart() {
@@ -34,8 +40,14 @@ public class SubCategorias extends AppCompatActivity {
         btnJD =  findViewById(R.id.btnJD);
 
         btnRegreso.setOnClickListener(v -> {
-            Intent regreso =  new Intent(SubCategorias.this, BusquedaArticulos.class);
-            startActivity(regreso);
+            try {
+                baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)1,(byte)0,(byte)1,TAGBase, Robot.getInstance().getNickName());
+                Intent regreso =  new Intent(SubCategorias.this, BusquedaArticulos.class);
+                startActivity(regreso);
+            }catch (Exception e){
+                Log.e(TAGError,"Error:"+e.getMessage());
+            }
+
         });
 
         btnByW.setOnClickListener(v -> {

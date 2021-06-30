@@ -13,6 +13,7 @@ import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
 public class Help_Inesperada extends AppCompatActivity implements OnDetectionStateChangedListener{
 private String TAG = "Help_Inesperado";
+private final String TAGError = "Exception";
 private final String TAGBase = "En frente del robot";
 private TTSManager ttsManager;
 private Robot robot;
@@ -36,20 +37,35 @@ private final BaseDeDatos baseDeDatos = new BaseDeDatos();
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.ConstanteJuntoAMi();
         Log.d(TAG,"OnCreate");
-        baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+        try {
+            baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+
+        }catch (Exception ex){
+            Log.e(TAGError,"Error: "+ex.getMessage());
+        }
 
         btnSi.setOnClickListener(v ->{
-            baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-            ttsManager.initQueue("Me puedes indicar en que te puedo apoyar");
-            Intent option = new Intent(this,Option_Accion.class);
-            startActivity(option);
+            try {
+                baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                ttsManager.initQueue("Me puedes indicar en que te puedo apoyar");
+                Intent option = new Intent(this,Option_Accion.class);
+                startActivity(option);
+            }catch (Exception ex){
+                Log.e(TAGError,"Error: "+ex.getMessage());
+            }
+
         });
 
         btnNo.setOnClickListener(v ->{
-            baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-            ttsManager.initQueue("Esta bien; Recuerde estoy para servirle");
-            Intent option = new Intent(this, VideosActivity.class);
-            startActivity(option);
+          try {
+              baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+              ttsManager.initQueue("Esta bien; Recuerde estoy para servirle");
+              Intent option = new Intent(this, VideosActivity.class);
+              startActivity(option);
+          }catch (Exception ex){
+              Log.e(TAGError,"Error: "+ex.getMessage());
+          }
+
         });
 
     }
@@ -58,19 +74,30 @@ private final BaseDeDatos baseDeDatos = new BaseDeDatos();
     public void onDetectionStateChanged(int state) {
         Log.d(TAG,"onDetectionStateChanged: state"+state);
         if (OnDetectionStateChangedListener.DETECTED == state) {
-            if (ttsManager.isSpeach()){
-                ttsManager.shutDown();
-                ttsManager.Stop();
-            }
-            deteccionPersonas.ConstanteJuntoAMi();
-            ttsManager.addQueue("Te puedo apoyar en algo");
-            baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+           try {
+               if (ttsManager.isSpeach()){
+                   ttsManager.shutDown();
+                   ttsManager.Stop();
+               }
+               deteccionPersonas.ConstanteJuntoAMi();
+               ttsManager.addQueue("Te puedo apoyar en algo");
+               baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+           }catch (Exception ex){
+            Log.e(TAGError,"Error:"+ ex.getMessage());
+           }
+
+
         } else if (OnDetectionStateChangedListener.IDLE == state) {
-            baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-            deteccionPersonas.DetenerMovimiento();
-            ttsManager.initQueue("Hasta luego que tenga un gran día");
-            Intent main = new Intent(this, VideosActivity.class);
-            startActivity(main);
+            try {
+                baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                deteccionPersonas.DetenerMovimiento();
+                ttsManager.initQueue("Hasta luego que tenga un gran día");
+                Intent main = new Intent(this, VideosActivity.class);
+                startActivity(main);
+            }catch (Exception ex){
+                Log.e(TAGError,"Error :"+ex.getMessage());
+            }
+
         }
     }
 

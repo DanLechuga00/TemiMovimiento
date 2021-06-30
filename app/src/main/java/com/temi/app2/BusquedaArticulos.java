@@ -28,6 +28,7 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
     private ImageButton btnBack1, btnWhisky;
     private VideoView videoBusqueda;
     private final String TAGBase = "Ir a un pasillo";
+    private final String TAGError = "Exception";
 
 //TODO: REvisar el oyente en cambio canstante de actividad
     @Override
@@ -117,9 +118,13 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
         });
 
         btnBack1.setOnClickListener(v -> {
-            baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-            Intent regresar = new Intent(BusquedaArticulos.this, Option_Accion.class);
-            startActivity(regresar);
+           try {
+               baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+               Intent regresar = new Intent(BusquedaArticulos.this, Option_Accion.class);
+               startActivity(regresar);
+           }catch (Exception ex){
+              Log.e("TAGError","Error: "+ex.getMessage());
+           }
         });
     }
 

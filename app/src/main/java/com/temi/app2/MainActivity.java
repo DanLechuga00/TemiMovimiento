@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
@@ -40,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
     private final static String TAG = "Main_Activity";
     private final  static  String TAGBase = "Usuario";
+    private final static  String TAGError = "Execption";
 
 
     //private ImageButton btnHelp;
@@ -96,11 +96,15 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
 
     private List<String> RecolectorDeVideos() {
         videos = new ArrayList<>();
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie1);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie2);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie3);
-        //videos.add("android.resource://" + getPackageName() + "/" + R.raw.coffee_mate);
-        //videos.add("android.resource://" + getPackageName() + "/" + R.raw.nido_etapas);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo01);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo02);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo03);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo04);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo05);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo06);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo07);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo08);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo09);
         return videos;
     }
 
@@ -206,21 +210,30 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     @Override
     public void onUserInteraction(boolean isInteracting) {
         Log.d(TAG, "Usuario de interacion : " + isInteracting);
-        baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
-        if (isInteracting) {
-            Intent intent = new Intent(this, Option_Accion.class);
-            startActivity(intent);
+        try {
+            baseDeDatos.CrearBitacoraDeRegistros(4, (byte) 1, (byte) 1, (byte) 0, (byte) 0, (byte) 0, TAGBase, Robot.getInstance().getNickName());
+            if (isInteracting) {
+                Intent intent = new Intent(this, Option_Accion.class);
+                startActivity(intent);
+            }
 
+        } catch (Exception ex) {
+            Log.e(TAGError, "Error: " + ex.getMessage());
         }
 
     }
 
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
-        baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
-        if (!(detectionData.getDistance() < 0.0) && !(detectionData.getAngle() < 0.0)) {
-            ttsManager.initQueue("Escaneando objeto y buscando rostro");
-        }
+       try {
+           baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+           if (!(detectionData.getDistance() < 0.0) && !(detectionData.getAngle() < 0.0)) {
+               ttsManager.initQueue("Escaneando objeto y buscando rostro");
+           }
+       }catch (Exception ex){
+           Log.e(TAGError,"Error:"+ ex.getMessage());
+       }
+
     }
 
     @Override
@@ -230,8 +243,13 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         if (state == OnDetectionStateChangedListener.LOST) {
             ttsManager.initQueue("Permiteme reconocerte");
         } else if (state == OnDetectionStateChangedListener.DETECTED) {
-            ttsManager.initQueue("Bienvenido a la tienda, es un placer apoyarte");
-            baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+            try {
+                ttsManager.initQueue("Bienvenido a la tienda, es un placer apoyarte");
+                baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+            }catch (Exception ex){
+                Log.e(TAGError,"Error: "+ ex.getMessage());
+            }
+
         }
     }
 }

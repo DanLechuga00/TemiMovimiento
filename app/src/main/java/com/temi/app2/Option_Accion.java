@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -27,6 +26,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
     DeteccionPersonas deteccionPersonas = null;
     BaseDeDatos baseDeDatos = null;
     private final  static  String TAGBase = "Usuario";
+    private final static String TAGError = "Exception";
 
     private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto, btnMicrofono;
 
@@ -51,43 +51,66 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         btnMicrofono = findViewById(R.id.btnMicrofono);
         deteccionPersonas = new DeteccionPersonas();
         deteccionPersonas.DetenerMovimiento();
-        baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
+        try {
+            baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
+        } catch (Exception e) {
+            Log.e(TAGError,"Error:"+e.getMessage());
+        }
 
-            btnDonde.setOnClickListener(v -> {
-                baseDeDatos.CrearBitacoraDeRegistros(1,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
+        btnDonde.setOnClickListener(v -> {
+            try {
+                baseDeDatos.CrearBitacoraDeRegistros(1, (byte) 1, (byte) 1, (byte) 0, (byte) 0, (byte) 0, TAGBase, Robot.getInstance().getNickName());
                 ttsManager.initQueue("¿Qué articulo deseas encontrar?");
                 Intent search = new Intent(Option_Accion.this, BusquedaArticulos.class);
                 startActivity(search);
-            });
+            } catch (Exception e) {
+                Log.e(TAGError, "Error:" + e.getMessage());
+            }
+        });
 
             btnCosto.setOnClickListener(v -> {
-                baseDeDatos.CrearBitacoraDeRegistros(3,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
-                ttsManager.initQueue("Necesito tu apoyo por favor; Me puedes permitir el codigo de barras del producto");
-                deteccionPersonas.DetenerMovimiento();
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.elbyte.development.retailme");
-                if (launchIntent != null) {
-                    startActivity(launchIntent);//null pointer check in case package name was not found
+                try {
+                    baseDeDatos.CrearBitacoraDeRegistros(3,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.getInstance().getNickName());
+                    ttsManager.initQueue("Necesito tu apoyo por favor; Me puedes permitir el codigo de barras del producto");
+                    deteccionPersonas.DetenerMovimiento();
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.elbyte.development.retailme");
+                    if (launchIntent != null) {
+                        startActivity(launchIntent);//null pointer check in case package name was not found
+                    } } catch (Exception e) {
+                Log.e(TAGError,"Error:"+e.getMessage());
                 }
             });
 
             btnRecomendacion.setOnClickListener(v -> {
-                baseDeDatos.CrearBitacoraDeRegistros(2,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-                ttsManager.initQueue("Escoja para que tipo de eventos busca");
-                Intent recomendation = new Intent(Option_Accion.this, Option_Accion.class);
-                startActivity(recomendation);
+                try {
+                    baseDeDatos.CrearBitacoraDeRegistros(2,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    ttsManager.initQueue("Escoja para que tipo de eventos busca");
+                    Intent recomendation = new Intent(Option_Accion.this, Option_Accion.class);
+                    startActivity(recomendation);} catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
+                }
+
             });
 
             btnHome.setOnClickListener(v -> {
-                baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-                ttsManager.initQueue("Recuerde que estoy a su servicio en cualquier momento");
-                Intent home = new Intent(Option_Accion.this, VideosActivity.class);
-                startActivity(home);
+                try {
+                    baseDeDatos.CrearBitacoraDeRegistros(9,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    ttsManager.initQueue("Recuerde que estoy a su servicio en cualquier momento");
+                    Intent home = new Intent(Option_Accion.this, VideosActivity.class);
+                    startActivity(home);} catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
+                }
+
             });
 
             btnMicrofono.setOnClickListener(v -> {
-                baseDeDatos.CrearBitacoraDeRegistros(10,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-                ttsManager.initQueue("En que le puedo ayudar");
-                iniciarEntradaVoz();
+                try {
+                    baseDeDatos.CrearBitacoraDeRegistros(10,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    ttsManager.initQueue("En que le puedo ayudar");
+                    iniciarEntradaVoz(); } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
+                }
+
             });
 
 

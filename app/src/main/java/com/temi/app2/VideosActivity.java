@@ -72,14 +72,16 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
             vV = findViewById(R.id.vV);
             videos = RecolectorDeVideos();
 
-            baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+
+
             try {
+                baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 startVideo(vV, videos);
                 Log.d("Movimiento", "Aqui inicia la secuencia");
                 secuenciaDeMovimiento.Secuencia();
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.w("Error", e.getMessage());
+                Log.e("Error", e.getMessage());
             }
 
         }
@@ -88,11 +90,15 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
 
     private List<String> RecolectorDeVideos() {
         videos = new ArrayList<>();
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie1);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie2);
-        videos.add("android.resource://" + getPackageName() + "/" + R.raw.johnnie3);
-        //videos.add("android.resource://" + getPackageName() + "/" + R.raw.coffee_mate);
-        //videos.add("android.resource://" + getPackageName() + "/" + R.raw.nido_etapas);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo01);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo02);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo03);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo04);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo05);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo06);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo07);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo08);
+        videos.add("android.resource://" + getPackageName() + "/" + R.raw.videodiageo09);
         return videos;
     }
 
@@ -216,10 +222,15 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     public void onDetectionStateChanged(int state) {
         Log.d(TAG, "DetectionState: " + state);
         if (state == OnDetectionStateChangedListener.DETECTED) {
-            baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-            ttsManager.initQueue("Bienvenido soy su robot asistente");
-            Intent option = new Intent(this, Option_Accion.class);
-            startActivity(option);
+            try {
+                baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                ttsManager.initQueue("Bienvenido soy su robot asistente");
+                Intent option = new Intent(this, Option_Accion.class);
+                startActivity(option);
+            } catch (Exception e) {
+                Log.e("Error","Error: "+e.getMessage());
+            }
+
         }
     }
 }
