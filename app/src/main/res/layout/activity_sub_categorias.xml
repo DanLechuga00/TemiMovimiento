@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_temi"
+    tools:context=".SubCategorias">
+
+    <ImageButton
+        android:id="@+id/btnByW"
+        android:layout_width="180dp"
+        android:layout_height="242dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="317dp"
+        android:background="@mipmap/byw2" />
+
+    <ImageButton
+        android:id="@+id/btnJW"
+        android:layout_width="182dp"
+        android:layout_height="262dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="317dp"
+        android:layout_toEndOf="@+id/btnByW"
+        android:background="@mipmap/jhonniewalker" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="177dp"
+        android:layout_height="267dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="317dp"
+        android:layout_toEndOf="@+id/btnJW"
+        android:background="@mipmap/jd" />
+</RelativeLayout>
