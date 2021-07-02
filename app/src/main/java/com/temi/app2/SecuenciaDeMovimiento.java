@@ -86,7 +86,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 break;
             case  OnGoToLocationStatusChangedListener.ABORT:
                 try {
-                    baseDeDatos.CrearBitacoraDeRegistros(15,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                    //baseDeDatos.CrearBitacoraDeRegistros(15,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                     ttsManager.initQueue("Pensando");
                     //ContadorPositiones--;
                     //Secuencia();
@@ -142,9 +142,18 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
 
     }
     public void IraBaseDos(){
-        String base2 = "Base Dos";
-        Log.d("Secuencia","Estoy en la entrada");
-        robot.goTo(base2);
+        String ubicaciondos = "";
+        List<String> ubicaciones = getLocations();
+        for(String ubicacion : ubicaciones){
+            if(ubicacion.contains("Base Dos")) {
+                ubicaciondos = ubicacion;
+            break;
+            }
+        }
+        if(!ubicaciondos.equals("")){
+            robot.goTo(ubicaciondos);
+        }
+
 
     }
     public void addListener(){

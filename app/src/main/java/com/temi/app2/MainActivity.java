@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
                 Log.d(TAG, "Aqui inicia la secuencia");
                 String bi = "1";
 
-                baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                //baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                 secuenciaDeMovimiento.Secuencia();
             } catch (Exception e) {
                 e.printStackTrace();
