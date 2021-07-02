@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         if (!bateria.EsBateriaBaja() && bateria.EsBateriaCompleta() && !bateria.EstaCargando()) {
             vV.stopPlayback();
             Log.d(TAG, "Aqui sigue la secuencia");
-            baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
-            secuenciaDeMovimiento.Secuencia();
+            //baseDeDatos.CrearBitacoraDeRegistros(8,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+            //secuenciaDeMovimiento.Secuencia();
             if (contador == 0) throw new Exception("contador de videos vacio");
             if (contador == i) {
                 i = 0;

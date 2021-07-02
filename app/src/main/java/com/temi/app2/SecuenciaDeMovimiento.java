@@ -45,9 +45,9 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
                 try {
-                    baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                    //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                     this.PositionActual = location;
-                    robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                    robot.setGoToSpeed(SpeedLevel.SLOW);
                     robot.setVolume(4);
                 } catch (Exception e) {
                     Log.e(TAGError,"Error:"+e.getMessage());
@@ -62,7 +62,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
             case "obstacle detected":
                 if(descriptionId == 2002 || descriptionId == 2001 ){
                     try {
-                        baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                        //baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                         robot.stopMovement();
                     } catch (Exception e) {
                         Log.e(TAGError,"Error:"+e.getMessage());
@@ -71,7 +71,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 }else
                     if(descriptionId == 2003 || descriptionId == 2007){
                         try {
-                            baseDeDatos.CrearBitacoraDeRegistros(14,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                          //  baseDeDatos.CrearBitacoraDeRegistros(14,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                             ttsManager.initQueue("Eh detectado algo espero no chocar con el");
                            // ContadorPositiones--;
                             //robot.stopMovement();
@@ -98,7 +98,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 try {
-                    baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                   //baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                     ttsManager.initQueue("Mira llegue al pasillo: "+location+ "que tendra de nuevo");
                     robot.setVolume(2);
                     Log.d(TAG,"Contador:"+ContadorPositiones);

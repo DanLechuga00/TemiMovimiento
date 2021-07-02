@@ -110,6 +110,14 @@ private final String TAG = "Help";
                Log.e(TAGError,"Error: "+ex.getMessage());
            }
 
+        }else if(OnDetectionStateChangedListener.LOST == state){
+            try {
+                deteccionPersonas.ConstanteJuntoAMi();
+                ttsManager.initQueue("Te gustaria otra cosa");
+
+            }catch (Exception e){
+                Log.e(TAGError,"Error: "+e.getMessage());
+            }
         }
     }
 

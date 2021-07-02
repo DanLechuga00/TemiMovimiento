@@ -41,10 +41,10 @@ public class DeteccionPersonas {
     public void ConstanteJuntoAMi() {
         robot.constraintBeWith();
     }
-
-    public void DetenerMovimiento() {
+    public  void DetenerMovimiento(){
         robot.stopMovement();
     }
+
 
     public void addListener(OnDetectionDataChangedListener dataChangedListener, OnDetectionStateChangedListener stateChangedListener) {
         Log.d("DeteccionPersonas","AddListener");

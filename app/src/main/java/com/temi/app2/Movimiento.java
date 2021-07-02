@@ -40,6 +40,7 @@ public  final class Movimiento  implements
     public  Context context;
     public  AppCompatActivity main;
     private final BaseDeDatos baseDeDatos = new BaseDeDatos();
+    private  MusicaEnAccion musica ;
     private final String TAGBase = "Ir al pasillo";
     private final static String TAGError = "Exception";
 
@@ -49,6 +50,7 @@ public  final class Movimiento  implements
         robot = Robot.getInstance();
         this.ttsManager = ttsManager;
        	robot.addOnLoadMapStatusChangedListener(this);
+       	musica = new MusicaEnAccion();
     }
 
 
@@ -58,11 +60,11 @@ public  final class Movimiento  implements
         System.out.println(description);
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
-
                 try {
                     robot.setGoToSpeed(SpeedLevel.MEDIUM);
                     robot.setVolume(4);
-                 //   baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    musica.Start();
+                    //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                 } catch (Exception e) {
                     Log.e(TAGError,"Error:"+e.getMessage());
                 }
@@ -84,12 +86,15 @@ public  final class Movimiento  implements
             case OnGoToLocationStatusChangedListener.COMPLETE:
                 try {
                    // baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    if(ttsManager.isSpeach()){
+                        ttsManager.shutDown();
+                        ttsManager.Stop();
+                    }
+                    musica.Stop();
                     robot.setVolume(3);
                     ttsManager.initQueue("En este pasillo se encuentra su artículo");
                     ttsManager.initQueue("¿Le puedo ayudar en algo más?");
-                    if(ttsManager.isSpeach()){
-                        ttsManager.Stop();
-                    }
+
                     Intent help = new Intent(main, Help_Decition.class);
                     main.startActivity(help);
                 } catch (Exception e) {
@@ -99,6 +104,7 @@ public  final class Movimiento  implements
                 break;
             case OnGoToLocationStatusChangedListener.ABORT:
                 //ttsManager.addQueue("Abortando");
+                musica.Pause();
                 break;
         }
     }
