@@ -50,7 +50,7 @@ public  final class Movimiento  implements
         robot = Robot.getInstance();
         this.ttsManager = ttsManager;
        	robot.addOnLoadMapStatusChangedListener(this);
-       	musica = new MusicaEnAccion();
+       	musica = new MusicaEnAccion(context);
     }
 
 

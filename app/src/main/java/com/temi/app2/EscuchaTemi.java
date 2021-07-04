@@ -1,5 +1,6 @@
 package com.temi.app2;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.robotemi.sdk.NlpResult;
@@ -7,13 +8,15 @@ import com.robotemi.sdk.Robot;
 
 import org.jetbrains.annotations.NotNull;
 
-public class EscuchaTemi extends MainActivity implements Robot.NlpListener,Robot.AsrListener,Robot.WakeupWordListener {
+public class EscuchaTemi implements Robot.NlpListener,Robot.AsrListener,Robot.WakeupWordListener {
 private static final String TAG = "EscuchaTeemi";
 private  final Robot robot;
 private final TTSManager ttsManager = null;
-private EscuchaTemi(){
+private final Context context;
+public EscuchaTemi(Context context){
+    this.context = context;
     robot = Robot.getInstance();
-    ttsManager.init(this);
+    ttsManager.init(this.context);
     if(ttsManager.isSpeach()){
         ttsManager.Stop();
         ttsManager.shutDown();
@@ -46,19 +49,16 @@ if(asrResult.contains("Hola")) {
     nlpResult.resolvedQuery = "Hola";
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public void addListener(){
         robot.addWakeupWordListener(this);
         robot.addNlpListener(this);
         robot.addAsrListener(this);
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    }
+    public  void  removeListener(){
         robot.removeWakeupWordListener(this);
         robot.removeAsrListener(this);
         robot.removeNlpListener(this);
     }
+
 }

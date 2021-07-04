@@ -1,12 +1,14 @@
 package com.temi.app2;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 
-public class MusicaEnAccion extends MainActivity
+public class MusicaEnAccion
 {
     private MediaPlayer mediaPlayer;
-    public MusicaEnAccion(){
-        mediaPlayer = MediaPlayer.create(this,R.raw.musica);
+    private Context context;
+    public MusicaEnAccion(Context context){
+        mediaPlayer = MediaPlayer.create(context,R.raw.musica);
         mediaPlayer.setLooping(true);
     }
     public  void Pause(){

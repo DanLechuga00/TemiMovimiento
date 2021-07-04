@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
     private int contador = 0;
     private int contadorActual = 0;
     private int i = 1;
+    EscuchaTemi escuchaTemi;
     SecuenciaDeMovimiento secuenciaDeMovimiento = null;
     private final static String TAG = "Main_Activity";
     private final  static  String TAGBase = "Usuario";
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
             ttsManager.shutDown();
             ttsManager.Stop();
         }
+        escuchaTemi = new EscuchaTemi(MainActivity.this.getBaseContext());
         baseDeDatos = new BaseDeDatos();
         movimiento = new Movimiento(this, MainActivity.this, ttsManager);
         bateria = new Bateria(movimiento, this, MainActivity.this);
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         Robot.getInstance().addOnDetectionDataChangedListener(this);
         Robot.getInstance().addOnDetectionStateChangedListener(this);
         Robot.getInstance().addOnUserInteractionChangedListener(this);
+        escuchaTemi.addListener();
     }
 
     @Override
@@ -205,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
         Robot.getInstance().removeOnDetectionDataChangedListener(this);
         Robot.getInstance().removeOnDetectionStateChangedListener(this);
         Robot.getInstance().removeOnUserInteractionChangedListener(this);
+        escuchaTemi.removeListener();
     }
 
     @Override
