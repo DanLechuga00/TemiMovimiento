@@ -10,12 +10,13 @@ import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener;
 import com.robotemi.sdk.model.DetectionData;
+import com.robotemi.sdk.navigation.model.SpeedLevel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener {
+public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListener , OnDetectionDataChangedListener{
     private final Robot robot;
     private String PositionActual = "";
     private int ContadorPositiones = 0;
@@ -24,13 +25,16 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     private TTSManager ttsManager;
     private AppCompatActivity main;
     private Bateria bateria;
-    private  boolean isDetect = false;
+    private final BaseDeDatos  baseDeDatos = new BaseDeDatos();
+    private final static String TAGBase ="RobotTemiAutonomia";
+    private final static  String TAGError = "Exception";
 
 
     public SecuenciaDeMovimiento(TTSManager ttsManager, AppCompatActivity main, Bateria bateria) {
         this.robot = Robot.getInstance(); this.ttsManager = ttsManager;
         this.main = main;
         this.bateria = bateria;
+
     }
 
 
@@ -40,27 +44,75 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
         //TODO: Agregar Actividad inesperada, mas tiempo de espera
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
-                this.PositionActual = location;
-                break;
-
-            case "obstacle detected":
-
-                if(descriptionId == 2002 || descriptionId == 2001 && isDetect ){
-                Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
-                robot.stopMovement();
-                }else{
-                    ttsManager.initQueue("Ups; Permiso; Le agradezco");
+                try {
+                    //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                    this.PositionActual = location;
+                    robot.setGoToSpeed(SpeedLevel.SLOW);
+                    robot.setVolume(4);
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
                 }
+                break;
+            case OnGoToLocationStatusChangedListener.REPOSING:
+                ttsManager.initQueue("Analizando el entorno");
+                break;
+            case OnGoToLocationStatusChangedListener.CALCULATING:
+                //ttsManager.initQueue("Creo que por aqui podira irme");
+                break;
+            case "obstacle detected":
+                if(descriptionId == 2002 || descriptionId == 2001 ){
+                    try {
+                        //baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                        robot.stopMovement();
+                    } catch (Exception e) {
+                        Log.e(TAGError,"Error:"+e.getMessage());
+                    }
+                    Log.d("SecuenciaMovimiento","Se encontro un obstaculo");
+                }else
+                    if(descriptionId == 2003 || descriptionId == 2007){
+                        try {
+                          //  baseDeDatos.CrearBitacoraDeRegistros(14,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                            ttsManager.initQueue("Eh detectado algo espero no chocar con el");
+                           // ContadorPositiones--;
+                            //robot.stopMovement();
+                            Secuencia();
+                        } catch (Exception e) {
+                            Log.e(TAGError,"Error: "+e.getMessage());
+                        }
+
+                }else{
+                        ttsManager.initQueue("Ups; Permiso; Le agradezco");
+                    }
+                break;
+            case  OnGoToLocationStatusChangedListener.ABORT:
+                try {
+                    //baseDeDatos.CrearBitacoraDeRegistros(15,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                    ttsManager.initQueue("Cual sera mi siguiente ubicacion");
+                    //ContadorPositiones--;
+                    Secuencia();
+                } catch (Exception e) {
+                    Log.e(TAGError,"Exception: "+e.getMessage());
+                }
+                robot.stopMovement();
+
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
-                Log.d(TAG,"Contador:"+ContadorPositiones);
-                Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
-                if(ContadorPositiones >= ContadorPositionesTotales) {
-                    ContadorPositiones = 0;
+                try {
+                   //baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+                    ttsManager.initQueue("Mira llegue al pasillo: "+location+ "que tendra de nuevo");
+                    robot.setVolume(2);
+                    Log.d(TAG,"Contador:"+ContadorPositiones);
+                    Log.d(TAG,"ContadorTotal: "+ContadorPositionesTotales);
+                    if(ContadorPositiones >= ContadorPositionesTotales) {
+                        ContadorPositiones = 0;
+                    }
+                    else{
+                        ContadorPositiones++;
+                    }
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error: "+e.getMessage());
                 }
-                else{
-                    ContadorPositiones++;
-                }
+
                 if(!bateria.EsBateriaBaja()&& bateria.EsBateriaCompleta()&&!bateria.EstaCargando())Secuencia();
                 break;
         }
@@ -71,17 +123,42 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     }
 
     public void Secuencia() {
-        List<String> ubicaciones = getLocations();
-        if(!ubicaciones.isEmpty()){
-            ubicaciones.remove("home base".toLowerCase());
+        try {
+            //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+            List<String> ubicaciones = getLocations();
+            if(!ubicaciones.isEmpty()){
+                ubicaciones.remove("home base".toLowerCase());
                 System.out.println("Ubicacion:"+PositionActual);
                 if(ContadorPositiones >= ContadorPositionesTotales) ContadorPositiones = 0;
                 while (ContadorPositiones <= ContadorPositionesTotales) {
+                    if(ubicaciones.get(ContadorPositiones).contains("Base dos")){
+                        ttsManager.initQueue("Estáre en la entrada por si me necesitan");
+                    }else
+                    ttsManager.initQueue("Vamos a donde esta."+ubicaciones.get(ContadorPositiones));
                     robot.goTo(ubicaciones.get(ContadorPositiones));
                     break;
                 }
 
+            }
+        } catch (Exception e) {
+            Log.e(TAGError,"Error:" +e.getMessage());
         }
+
+    }
+    public void IraBaseDos(){
+        String ubicaciondos = "";
+        List<String> ubicaciones = getLocations();
+        for(String ubicacion : ubicaciones){
+            if(ubicacion.contains("Base Dos")) {
+                ubicaciondos = ubicacion;
+            break;
+            }
+        }
+        if(!ubicaciondos.equals("")){
+            robot.goTo(ubicaciondos);
+        }
+
+
     }
     public void addListener(){
         Log.d("SecuenciaMovimiento","AddListener");
@@ -96,6 +173,19 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     }
 
 
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        try {
+           // baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
+            if(detectionData.isDetected()){
+                Intent inseperada = new Intent(main,Help_Inesperada.class);
+                main.startActivity(inseperada);
+            }else
+                ttsManager.initQueue("Disculpe si cheque, estoy aprendiendo a caminar ");
 
+        }catch (Exception e) {
+            Log.e(TAGError,"Error:"+e.getMessage());
+        }
+        }
 
 }

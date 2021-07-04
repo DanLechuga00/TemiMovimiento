@@ -39,6 +39,10 @@ public  final class Movimiento  implements
     public  TTSManager ttsManager;
     public  Context context;
     public  AppCompatActivity main;
+    private final BaseDeDatos baseDeDatos = new BaseDeDatos();
+    private  MusicaEnAccion musica ;
+    private final String TAGBase = "Ir al pasillo";
+    private final static String TAGError = "Exception";
 
     public  Movimiento(Context context, AppCompatActivity main , TTSManager ttsManager){
         this.context = context;
@@ -46,6 +50,7 @@ public  final class Movimiento  implements
         robot = Robot.getInstance();
         this.ttsManager = ttsManager;
        	robot.addOnLoadMapStatusChangedListener(this);
+       	musica = new MusicaEnAccion(context);
     }
 
 
@@ -55,55 +60,83 @@ public  final class Movimiento  implements
         System.out.println(description);
         switch (status) {
             case OnGoToLocationStatusChangedListener.START:
+                try {
+                    robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                    robot.setVolume(4);
+                    musica.Start();
+                    //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
+                }
                 //ttsManager.addQueue("Iniciando");
                 break;
             case OnGoToLocationStatusChangedListener.CALCULATING:
                 //ttsManager.addQueue("Calculando");
                 break;
             case OnGoToLocationStatusChangedListener.GOING:
+                try {
+                    //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    robot.setGoToSpeed(SpeedLevel.MEDIUM);
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
+                }
+
                 //ttsManager.addQueue("Caminando");
                 break;
             case OnGoToLocationStatusChangedListener.COMPLETE:
-                ttsManager.initQueue("En este pasillo se encuentra su artículo");
-                ttsManager.initQueue("¿Le puedo ayudar en algo más?");
-                if(ttsManager.isSpeach()){
-                    ttsManager.Stop();
+                try {
+                   // baseDeDatos.CrearBitacoraDeRegistros(16,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+                    if(ttsManager.isSpeach()){
+                        ttsManager.shutDown();
+                        ttsManager.Stop();
+                    }
+                    musica.Stop();
+                    robot.setVolume(3);
+                    ttsManager.initQueue("En este pasillo se encuentra su artículo");
+                    ttsManager.initQueue("¿Le puedo ayudar en algo más?");
+
+                    Intent help = new Intent(main, Help_Decition.class);
+                    main.startActivity(help);
+                } catch (Exception e) {
+                    Log.e(TAGError,"Error:"+e.getMessage());
                 }
-                Intent help = new Intent(main, Help_Decition.class);
-                main.startActivity(help);
+
                 break;
             case OnGoToLocationStatusChangedListener.ABORT:
                 //ttsManager.addQueue("Abortando");
+                musica.Pause();
                 break;
         }
     }
 
     @Override
     public void onLocationsUpdated(@NotNull List<String> locations) {
-
+    Log.d("onLocationsUpdated","Locatios: "+locations.toString());
         //    Toast.makeText(this, "Locations updated :\n" + locations, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onLoadMapStatusChanged(int status) {
+        Log.d("onLoadMapStatusChanged","Status Map:"+status);
         //  Toast.makeText(this,"load map status: "+status,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCurrentPositionChanged(@NotNull Position position) {
+        Log.d("onCurrentPosition","Position: "+position.toString());
         //Toast.makeText(this,"onCurrentPositionChanged"+position.toString(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDistanceToLocationChanged(@NotNull Map<String, Float> distances) {
-      /*  for (String location : distances.keySet()) {
-            Toast.makeText(this, "onDistanceToLocation" + location + "location" + distances.get(location), Toast.LENGTH_SHORT).show();
-        }*/
+       for (String location : distances.keySet()) {
+            Log.d("onDistanceTo","ToLocations: "+location);
+        }
     }
 
     @Override
     public void onReposeStatusChanged(int status, @NotNull String description) {
-        // Toast.makeText(this, "repose status: " + status + "Description:" + description, Toast.LENGTH_SHORT).show();
+       Log.d("onReposeStatus","Status: "+status+"\n"+"Description: "+description);
     }
 
     @Override
@@ -119,6 +152,11 @@ public  final class Movimiento  implements
         }
     }
     public  void goTo(String location){
+        try {
+          //  baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+        } catch (Exception e) {
+            Log.e(TAGError,"Error: "+e.getMessage());
+        }
         for (String ubicacion : robot.getLocations()){
             if(ubicacion.equals(location.toLowerCase().trim())){
                 robot.goTo(location.toLowerCase().trim());
@@ -155,6 +193,7 @@ public  void LevantaCabeza(){
     }
     public void NombreRobot (){
         Log.d("Info_Robot","Nombre del robot:"+robot.getNickName()+"\n"+"Numero de serie del robot:"+robot.getSerialNumber()+"\n"+"Version de robox:"+robot.getRoboxVersion()+"\n"+"Version del Launcher:"+robot.getLauncherVersion());
+
     }
 
 }

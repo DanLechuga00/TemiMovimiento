@@ -20,7 +20,7 @@ public class DeteccionPersonas {
 
     public void startDetectionModeWithDistance() {
         try {
-            String distanceString = "2.0";
+            String distanceString = "0.5";
             float distance = Float.parseFloat(distanceString);
             robot.setDetectionModeOn(true, distance);
             Log.d("Detection", "Deteccion habilitada");
@@ -41,10 +41,10 @@ public class DeteccionPersonas {
     public void ConstanteJuntoAMi() {
         robot.constraintBeWith();
     }
-
-    public void DetenerMovimiento() {
+    public  void DetenerMovimiento(){
         robot.stopMovement();
     }
+
 
     public void addListener(OnDetectionDataChangedListener dataChangedListener, OnDetectionStateChangedListener stateChangedListener) {
         Log.d("DeteccionPersonas","AddListener");

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_nestle"
+    android:background="@mipmap/bg_temi"
     tools:context=".Option_Recomendation">
 
     <ImageButton
@@ -14,8 +14,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="92dp"
         android:background="@mipmap/logo_regreso"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/white"
         android:tint="@color/black" />
+
     <ImageButton
         android:id="@+id/button2"
         android:layout_width="294dp"
@@ -36,6 +37,7 @@
         android:layout_marginTop="250dp"
         android:layout_marginEnd="433dp"
         android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/white"
         android:text="@string/Area_bebes"
         android:textSize="42dp"
         tools:ignore="SpUsage" />
@@ -60,6 +62,7 @@
         android:layout_marginTop="236dp"
         android:layout_marginEnd="683dp"
         android:layout_marginBottom="27dp"
+        android:backgroundTint="@color/white"
         android:text="@string/Area_familiar"
         android:textSize="38dp"
         tools:ignore="SpUsage" />
