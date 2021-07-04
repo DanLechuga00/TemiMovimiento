@@ -18,6 +18,7 @@ public class Option_Recomendation extends AppCompatActivity {
     private ImageButton btnPareja, btnAmigos, btnBack2;
     private final BaseDeDatos baseDeDatos = new BaseDeDatos();
     private final String TAGBase = "Usuario";
+    EscuchaTemi escuchaTemi = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class Option_Recomendation extends AppCompatActivity {
             ttsManager.shutDown();
             ttsManager.Stop();
         }
+        escuchaTemi = new EscuchaTemi(Option_Recomendation.this.getBaseContext());
         try {
            // baseDeDatos.CrearBitacoraDeRegistros(2,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
         } catch (Exception e) {
@@ -74,5 +76,17 @@ public class Option_Recomendation extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        escuchaTemi.addListener();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        escuchaTemi.removeListener();
     }
 }

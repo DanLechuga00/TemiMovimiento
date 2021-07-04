@@ -39,6 +39,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     private final static String TAG = "Main_Activity";
     private final static  String TAGBase = "Videos";
    private final BaseDeDatos baseDeDatos = new BaseDeDatos();
+   EscuchaTemi escuchaTemi = null;
 
 
     //private ImageButton btnHelp;
@@ -60,6 +61,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         verifyStoragePermissions(this);
         ttsManager = new TTSManager();
         ttsManager.init(this);
+        escuchaTemi = new EscuchaTemi(VideosActivity.this.getBaseContext());
         if (ttsManager.isSpeach()) ttsManager.shutDown();
         movimiento = new Movimiento(this, VideosActivity.this, ttsManager);
         bateria = new Bateria(movimiento, this, VideosActivity.this);
@@ -188,6 +190,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         Robot.getInstance().addOnDetectionDataChangedListener(this);
         Robot.getInstance().addOnDetectionStateChangedListener(this);
         Robot.getInstance().addOnUserInteractionChangedListener(this);
+        escuchaTemi.addListener();
     }
 
     @Override
@@ -199,6 +202,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         Robot.getInstance().removeOnDetectionDataChangedListener(this);
         Robot.getInstance().removeOnDetectionStateChangedListener(this);
         Robot.getInstance().removeOnUserInteractionChangedListener(this);
+        escuchaTemi.removeListener();
     }
 
     @Override

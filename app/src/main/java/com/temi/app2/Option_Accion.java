@@ -27,6 +27,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
     BaseDeDatos baseDeDatos = null;
     private final  static  String TAGBase = "Usuario";
     private final static String TAGError = "Exception";
+    EscuchaTemi escuchaTemi = null;
 
     private ImageButton btnDonde, btnRecomendacion, btnHome, btnCosto, btnMicrofono;
 
@@ -41,6 +42,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
             ttsManager.shutDown();
             ttsManager.Stop();
         }
+        escuchaTemi = new EscuchaTemi(Option_Accion.this.getBaseContext());
         baseDeDatos = new BaseDeDatos();
         movimiento = new Movimiento(this, Option_Accion.this, ttsManager);
         bateria = new Bateria(movimiento, this, Option_Accion.this);
@@ -147,6 +149,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         super.onStart();
         Log.d("OptionAccion","OnStart_Option");
         deteccionPersonas.addListener(null,Option_Accion.this);
+        escuchaTemi.addListener();
     }
 
     @Override
@@ -154,6 +157,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
         super.onStop();
         Log.d("OptionAccion","OnStop_Option");
         deteccionPersonas.removeListener(null,Option_Accion.this);
+        escuchaTemi.removeListener();
     }
 
     private void iniciarEntradaVoz() {
