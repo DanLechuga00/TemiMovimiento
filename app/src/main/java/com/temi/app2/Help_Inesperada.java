@@ -42,6 +42,7 @@ private final BaseDeDatos baseDeDatos = new BaseDeDatos();
         deteccionPersonas.ConstanteJuntoAMi();
         Log.d(TAG,"OnCreate");
         try {
+            Log.d(TAG,"Detener");
             robot.stopMovement();
           //  baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
 

@@ -48,17 +48,17 @@ public class SubCategorias extends AppCompatActivity {
 
         btnByW.setOnClickListener(v -> {
             ttsManager.initQueue("Sígame, y le muestro la ubicación del artículo");
-            movimiento.goTo("cereales");
+            movimiento.goTo("whisky");
         });
 
         btnJW.setOnClickListener(v -> {
             ttsManager.initQueue("Sígame, y le muestro la ubicación del artículo");
-            movimiento.goTo("chocolate");
+            movimiento.goTo("tequila");
         });
 
         btnJD.setOnClickListener(v -> {
             ttsManager.initQueue("Sígame, y le muestro la ubicación del artículo");
-            movimiento.goTo("nutricion");
+            movimiento.goTo("ron");
         });
     }
 

@@ -80,11 +80,12 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 }else
                     if(descriptionId == 2003 || descriptionId == 2007){
                         try {
+                            robot.stopMovement();
                           //  baseDeDatos.CrearBitacoraDeRegistros(14,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                             ttsManager.initQueue("Eh detectado algo espero no chocar con el");
                            // ContadorPositiones--;
                             //robot.stopMovement();
-                            Secuencia();
+                            //Secuencia();
                             break;
                         } catch (Exception e) {
                             Log.e(TAGError,"Error: "+e.getMessage());
@@ -104,7 +105,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                     }
                     ttsManager.initQueue("Cual sera mi siguiente ubicacion");
                     //ContadorPositiones--;
-                    Secuencia();
+                    //Secuencia();
                 } catch (Exception e) {
                     Log.e(TAGError,"Exception: "+e.getMessage());
                 }
