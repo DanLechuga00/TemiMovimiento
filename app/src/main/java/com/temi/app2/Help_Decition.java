@@ -47,6 +47,8 @@ private final String TAG = "Help";
         btnSi = findViewById(R.id.btnSi);
         btnNo = findViewById(R.id.btnNo);
        try {
+           movimiento.MediaVuelta();
+           movimiento.LevantaCabeza();
         //   baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
        }catch (Exception ex){
            Log.e(TAGError,"Error: "+ex.getMessage());
@@ -125,8 +127,6 @@ private final String TAG = "Help";
     protected void onStart() {
         super.onStart();
         Log.d("Help_Inseperada","OnStart_help");
-        movimiento.MediaVuelta();
-        movimiento.LevantaCabeza();
         deteccionPersonas.addListener(Help_Decition.this,Help_Decition.this);
         secuenciaDeMovimiento.addListener();
     }

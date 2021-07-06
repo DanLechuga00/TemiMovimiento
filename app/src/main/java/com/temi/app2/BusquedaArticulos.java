@@ -62,10 +62,10 @@ BusquedaArticulos extends AppCompatActivity implements OnDetectionStateChangedLi
         videoBusqueda = findViewById(R.id.VideoBusqueda);
         btnBack1 = findViewById(R.id.btnBack1);
         deteccionPersonas = new DeteccionPersonas();
-        videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.ahorra);
+        videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.videodiageo01);
         videoBusqueda.setOnCompletionListener(mp -> {
             videoBusqueda.stopPlayback();
-            videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.familia_nestle);
+            videoBusqueda.setVideoPath("android.resource://" + getPackageName() + "/" +R.raw.videodiageo02);
             videoBusqueda.start();
         });
         videoBusqueda.stopPlayback();

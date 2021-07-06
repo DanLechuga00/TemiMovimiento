@@ -42,7 +42,7 @@ public class Option_Accion extends AppCompatActivity implements OnDetectionState
             ttsManager.shutDown();
             ttsManager.Stop();
         }
-        escuchaTemi = new EscuchaTemi(Option_Accion.this.getBaseContext());
+        escuchaTemi = new EscuchaTemi(ttsManager);
         baseDeDatos = new BaseDeDatos();
         movimiento = new Movimiento(this, Option_Accion.this, ttsManager);
         bateria = new Bateria(movimiento, this, Option_Accion.this);

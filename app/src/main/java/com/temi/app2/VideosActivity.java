@@ -61,18 +61,21 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         verifyStoragePermissions(this);
         ttsManager = new TTSManager();
         ttsManager.init(this);
-        escuchaTemi = new EscuchaTemi(VideosActivity.this.getBaseContext());
-        if (ttsManager.isSpeach()) ttsManager.shutDown();
+        escuchaTemi = new EscuchaTemi(ttsManager);
+        if (ttsManager.isSpeach()){
+            ttsManager.shutDown();
+            ttsManager.Stop();
+        }
         movimiento = new Movimiento(this, VideosActivity.this, ttsManager);
         bateria = new Bateria(movimiento, this, VideosActivity.this);
         secuenciaDeMovimiento = new SecuenciaDeMovimiento(ttsManager, this, bateria);
         deteccionPersonas = new DeteccionPersonas();
         if (!bateria.EsBateriaBaja() || !bateria.EstaCargando() || bateria.EsBateriaCompleta()) {
-            if (deteccionPersonas.IsDetectionModeOn())
+            if (!deteccionPersonas.IsDetectionModeOn())
                 deteccionPersonas.startDetectionModeWithDistance();
-            btnHelp = findViewById(R.id.btnHelp);
-            vV = findViewById(R.id.vV);
-            videos = RecolectorDeVideos();
+                btnHelp = findViewById(R.id.btnHelp);
+                vV = findViewById(R.id.vV);
+                videos = RecolectorDeVideos();
 
 
 
@@ -208,8 +211,8 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     @Override
     public void onUserInteraction(boolean isInteracting) {
         Log.d(TAG, "Usuario de Detecion:" + isInteracting);
-        if (isInteracting) {
-
+        if (!isInteracting) {
+        ttsManager.initQueue("Aqui puedo hablar");
         }
 
     }
@@ -217,8 +220,8 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
     @Override
     public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
         Log.d(TAG, "DetectionData: " + detectionData.toString());
-        if (detectionData.isDetected()) {
-
+        if (!detectionData.isDetected()) {
+        ttsManager.initQueue("Objeto cercano a mi");
         }
     }
 
@@ -228,7 +231,7 @@ public class VideosActivity extends AppCompatActivity implements OnUserInteracti
         if (state == OnDetectionStateChangedListener.DETECTED) {
             try {
                // baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
-                ttsManager.initQueue("Bienvenido a Bodegas Alizanza; soy Temi; Te puedo apoyar en algo");
+                ttsManager.initQueue("Bienvenido a la tienda; soy Temi; Te puedo apoyar en algo");
                 Intent option = new Intent(this, Option_Accion.class);
                 startActivity(option);
             } catch (Exception e) {

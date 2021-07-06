@@ -31,7 +31,7 @@ public class Option_Recomendation extends AppCompatActivity {
             ttsManager.shutDown();
             ttsManager.Stop();
         }
-        escuchaTemi = new EscuchaTemi(Option_Recomendation.this.getBaseContext());
+        escuchaTemi = new EscuchaTemi(ttsManager);
         try {
            // baseDeDatos.CrearBitacoraDeRegistros(2,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
         } catch (Exception e) {

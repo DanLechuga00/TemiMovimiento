@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInteraction
             ttsManager.shutDown();
             ttsManager.Stop();
         }
-        escuchaTemi = new EscuchaTemi(MainActivity.this.getBaseContext());
+        escuchaTemi = new EscuchaTemi(ttsManager);
         baseDeDatos = new BaseDeDatos();
         movimiento = new Movimiento(this, MainActivity.this, ttsManager);
         bateria = new Bateria(movimiento, this, MainActivity.this);

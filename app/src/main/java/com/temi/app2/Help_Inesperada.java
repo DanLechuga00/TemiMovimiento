@@ -9,9 +9,13 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.listeners.OnDetectionDataChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
+import com.robotemi.sdk.model.DetectionData;
 
-public class Help_Inesperada extends AppCompatActivity implements OnDetectionStateChangedListener{
+import org.jetbrains.annotations.NotNull;
+
+public class Help_Inesperada extends AppCompatActivity implements OnDetectionStateChangedListener, OnDetectionDataChangedListener {
 private String TAG = "Help_Inesperado";
 private final String TAGError = "Exception";
 private final String TAGBase = "En frente del robot";
@@ -38,6 +42,7 @@ private final BaseDeDatos baseDeDatos = new BaseDeDatos();
         deteccionPersonas.ConstanteJuntoAMi();
         Log.d(TAG,"OnCreate");
         try {
+            robot.stopMovement();
           //  baseDeDatos.CrearBitacoraDeRegistros(11,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
 
         }catch (Exception ex){
@@ -104,10 +109,12 @@ private final BaseDeDatos baseDeDatos = new BaseDeDatos();
     public  void addListener(){
         Log.d(TAG,"AddListener");
         robot.addOnDetectionStateChangedListener(this);
+        robot.addOnDetectionDataChangedListener(this);
     }
     public  void removeListener(){
         Log.d(TAG,"RemoveListener");
-     robot.removeOnDetectionStateChangedListener(this);
+        robot.removeOnDetectionStateChangedListener(this);
+        robot.removeOnDetectionDataChangedListener(this);
     }
 
     @Override
@@ -121,5 +128,19 @@ private final BaseDeDatos baseDeDatos = new BaseDeDatos();
         super.onStop();
         Log.d(TAG,"OnStop");
         removeListener();
+    }
+
+    @Override
+    public void onDetectionDataChanged(@NotNull DetectionData detectionData) {
+        if(!detectionData.isDetected()){
+            try {
+                deteccionPersonas.DetenerMovimiento();
+                ttsManager.initQueue("Hasta luego que tenga un gran día");
+                Intent main = new Intent(this, VideosActivity.class);
+                startActivity(main);
+            }catch (Exception e){
+                Log.e(TAGError,"Error:"+e.getMessage());
+            }
+        }
     }
 }
