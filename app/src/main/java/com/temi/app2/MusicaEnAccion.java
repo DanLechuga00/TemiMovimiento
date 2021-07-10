@@ -6,7 +6,6 @@ import android.media.MediaPlayer;
 public class MusicaEnAccion
 {
     private MediaPlayer mediaPlayer;
-    private Context context;
     public MusicaEnAccion(Context context){
         mediaPlayer = MediaPlayer.create(context,R.raw.musica);
         mediaPlayer.setLooping(true);

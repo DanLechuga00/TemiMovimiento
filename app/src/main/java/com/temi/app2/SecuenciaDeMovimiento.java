@@ -2,6 +2,7 @@ package com.temi.app2;
 
 import android.content.Intent;
 import android.nfc.Tag;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,12 +30,15 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
     private final BaseDeDatos  baseDeDatos = new BaseDeDatos();
     private final static String TAGBase ="RobotTemiAutonomia";
     private final static  String TAGError = "Exception";
-
+    private  Handler handler = null;
+    private Runnable run = null;
 
     public SecuenciaDeMovimiento(TTSManager ttsManager, AppCompatActivity main, Bateria bateria) {
         this.robot = Robot.getInstance(); this.ttsManager = ttsManager;
         this.main = main;
         this.bateria = bateria;
+        this.handler = new Handler();
+        this.run = this::Secuencia;
 
     }
 
@@ -49,7 +53,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                     //baseDeDatos.CrearBitacoraDeRegistros(7,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                     this.PositionActual = location;
                     robot.setGoToSpeed(SpeedLevel.SLOW);
-                    robot.setVolume(4);
+                    robot.setVolume(5);
                 } catch (Exception e) {
                     Log.e(TAGError,"Error:"+e.getMessage());
                 }
@@ -67,7 +71,6 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                         robot.stopMovement();
                         Log.d(TAG,"Se detecto una persona u cosa");
                         // baseDeDatos.CrearBitacoraDeRegistros(4,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
-
                             Intent inseperada = new Intent(main,Help_Inesperada.class);
                             main.startActivity(inseperada);
 
@@ -85,7 +88,7 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                             ttsManager.initQueue("Eh detectado algo espero no chocar con el");
                            // ContadorPositiones--;
                             //robot.stopMovement();
-                            //Secuencia();
+                            Secuencia();
                             break;
                         } catch (Exception e) {
                             Log.e(TAGError,"Error: "+e.getMessage());
@@ -97,13 +100,16 @@ public class SecuenciaDeMovimiento implements OnGoToLocationStatusChangedListene
                 break;
             case  OnGoToLocationStatusChangedListener.ABORT:
                 try {
+                    Log.d(TAG,"Se aborto la ubicacion:"+location);
                     robot.stopMovement();
                     //baseDeDatos.CrearBitacoraDeRegistros(15,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase,Robot.getInstance().getNickName());
                     if(ttsManager.isSpeach()){
                         ttsManager.shutDown();
                         ttsManager.Stop();
                     }
-                    ttsManager.initQueue("Cual sera mi siguiente ubicacion");
+                    handler.postDelayed(run,10000);
+
+                    //ttsManager.initQueue("Cual sera mi siguiente ubicacion");
                     //ContadorPositiones--;
                     //Secuencia();
                 } catch (Exception e) {

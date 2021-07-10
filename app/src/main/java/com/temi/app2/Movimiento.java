@@ -91,7 +91,7 @@ public  final class Movimiento  implements
                         ttsManager.Stop();
                     }
                     musica.Stop();
-                    robot.setVolume(3);
+                    robot.setVolume(4);
                     ttsManager.initQueue("En este pasillo se encuentra su artículo");
                     ttsManager.initQueue("¿Le puedo ayudar en algo más?");
 

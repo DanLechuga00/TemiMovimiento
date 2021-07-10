@@ -2,6 +2,7 @@ package com.temi.app2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageButton;
 
@@ -26,12 +27,13 @@ private final String TAG = "Help";
     Bateria bateria = null;
     private final BaseDeDatos baseDeDatos = new BaseDeDatos();
     private final String TAGBase = "ContnuarInteractuando";
-
+    private Handler handler=null;
+    private Runnable run = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_decition);
-
+        handler = new Handler();
         ttsManager = new TTSManager();
         ttsManager.init(this);
         if(ttsManager.isSpeach()){
@@ -47,9 +49,9 @@ private final String TAG = "Help";
         btnSi = findViewById(R.id.btnSi);
         btnNo = findViewById(R.id.btnNo);
        try {
-           movimiento.MediaVuelta();
-           movimiento.LevantaCabeza();
-        //   baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
+          // movimiento.MediaVuelta();
+          // movimiento.LevantaCabeza();
+          //baseDeDatos.CrearBitacoraDeRegistros(6,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
        }catch (Exception ex){
            Log.e(TAGError,"Error: "+ex.getMessage());
        }
@@ -79,6 +81,11 @@ private final String TAG = "Help";
            }
 
         });
+        this.run = () -> {
+            ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
+            Intent back = new Intent(Help_Decition.this, VideosActivity.class);
+            startActivity(back);
+        };
     }
 
     @Override
@@ -87,9 +94,7 @@ private final String TAG = "Help";
          try {
              //baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
              deteccionPersonas.DetenerMovimiento();
-             ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
-             Intent back = new Intent(Help_Decition.this, VideosActivity.class);
-             startActivity(back);
+            handler.postDelayed(run,10000);
          }catch (Exception ex){
              Log.e(TAGError,"Error:"+ex.getMessage());
          }
@@ -105,9 +110,7 @@ private final String TAG = "Help";
            try {
                //baseDeDatos.CrearBitacoraDeRegistros(12,(byte)1,(byte)1,(byte)0,(byte)0,(byte)0,TAGBase, Robot.  getInstance().getNickName());
                deteccionPersonas.DetenerMovimiento();
-               ttsManager.initQueue("Bueno, recuerde que estoy a su servicio en cualquier momento");
-               Intent back = new Intent(Help_Decition.this, VideosActivity.class);
-               startActivity(back);
+               handler.postDelayed(run,10000);
            }catch (Exception ex){
                Log.e(TAGError,"Error: "+ex.getMessage());
            }
@@ -115,7 +118,7 @@ private final String TAG = "Help";
         }else if(OnDetectionStateChangedListener.LOST == state){
             try {
                 deteccionPersonas.ConstanteJuntoAMi();
-                ttsManager.initQueue("Te gustaria otra cosa");
+               // ttsManager.initQueue("Te gustaria otra cosa");
 
             }catch (Exception e){
                 Log.e(TAGError,"Error: "+e.getMessage());
